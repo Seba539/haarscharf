@@ -111,6 +111,16 @@
   .person b { font: 500 22px var(--serif); }
   .person span { color: var(--muted); font-size: 14px; }
 
+  .person p { font-size: 14px; color: var(--muted); max-width: 230px; margin-top: 6px; line-height: 1.5; }
+  /* Kundenstimmen */
+  .stimmen { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 1000px; margin: 22px auto 0; }
+  .stimme { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; display: grid; gap: 10px; align-content: start; }
+  .stimme .st { color: #e3a01b; letter-spacing: .08em; }
+  .stimme q { font: italic 400 17px/1.45 var(--serif); quotes: "„" "“"; }
+  .stimme span { font-size: 13px; color: var(--muted); }
+  .stimmen[hidden] { display: none; }
+  @media (max-width: 760px) { .stimmen { grid-template-columns: 1fr; } }
+
   /* Preislisten */
   .row { display: flex; justify-content: space-between; gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--line); font-size: 16px; }
   .row .p { color: var(--gold); white-space: nowrap; font-variant-numeric: tabular-nums; }
@@ -240,7 +250,7 @@
     h2 { font-size: 32px; }
     .herren-grid, .cards, .info { grid-template-columns: 1fr; gap: 36px; }
     .hero .btns .btn { width: 100%; }
-    .leute { gap: 12px; flex-wrap: nowrap; }
+    .leute { gap: 28px; flex-direction: column; align-items: center; }
     .person { min-width: 0; flex: 1; }
     .kreis { width: 64px; height: 64px; font-size: 28px; }
     .person b { font-size: 19px; }
@@ -272,7 +282,7 @@
     <img src="logo.svg" alt="Haarscharf – Friseur in Solingen">
     <div class="gold"></div>
     <h1>Dein Friseur in der Solinger Innenstadt</h1>
-    <p>Damen, Herren und Kinder · mit und ohne Termin · <span style="white-space:nowrap">Ufergarten 9–11</span></p>
+    <p>Damen, Herren und Kinder · mit und ohne Termin · <span style="white-space:nowrap">Ufergarten 9–11, 42651 Solingen</span></p>
     <div class="btns">
       <a class="btn wa" href="#termin"><svg><use href="#wa"/></svg>Termin anfragen</a>
       <a class="btn" href="tel:+492122260684">0212 2260684</a>
@@ -284,6 +294,11 @@
       <span class="bw-mitte"><span class="bw-sterne">★★★★<span class="halb">★</span></span><b>227 Google-Bewertungen</b><span>Danke an alle, die uns weiterempfehlen!</span></span>
       <span class="bw-link">Bewertungen lesen ›</span>
     </a>
+    <div class="stimmen" hidden><!-- erst zeigen, wenn die drei Kunden zugestimmt haben -->
+      <div class="stimme"><span class="st">★★★★★</span><q>Absolut professionelle Mitarbeiter mit toller Beratung. … Hier wird das Handwerk mit Herz und Seele gelebt.</q><span>Seno P. · Google</span></div>
+      <div class="stimme"><span class="st">★★★★★</span><q>Komme seit Jahren hierher. Freundlich, sauber und machen tolle Arbeit. … Auch mit Kindern zu empfehlen.</q><span>Dennis N. · Google</span></div>
+      <div class="stimme"><span class="st">★★★★★</span><q>Vorab bekam ich eine professionelle Typ-Beratung und es wurde exakt das umgesetzt, was ich wollte.</q><span>Micky S. · Google</span></div>
+    </div>
   </div>
 
   <section class="herren" id="herren">
@@ -329,9 +344,9 @@
       <h2>Wir sind für dich da</h2>
       <p class="lead">Haarscharf ist ein Familiensalon. Bei der Termin-Anfrage kannst du dir aussuchen, zu wem du möchtest.</p>
       <div class="leute">
-        <div class="person"><div class="kreis">H</div><b>Hilda</b><span>Inhaberin</span></div>
-        <div class="person"><div class="kreis">S</div><b>Sebastiano</b><span>Salonleitung</span></div>
-        <div class="person"><div class="kreis">G</div><b>Georgios</b><span>Herren &amp; Barber</span></div>
+        <div class="person"><div class="kreis">H</div><b>Hilda Parisi</b><span>Inhaberin</span><p>Liebt ihren Job und probiert gern Neues aus. Ihr Herz schlägt für Scherenschnitte, Farbe und Dauerwelle.</p></div>
+        <div class="person"><div class="kreis">S</div><b>Sebastiano Parisi</b><span>Kurzhaar &amp; Fades</span><p>Spezialist für Kurzhaarfrisuren mit der Schere und moderne Fades.</p></div>
+        <div class="person"><div class="kreis">G</div><b>Georgios</b><span>Herren &amp; Barber</span><p>Spezialist für Herren: saubere Fades, Bart und klassische Schnitte mit der Schere.</p></div>
       </div>
     </div>
   </section>
