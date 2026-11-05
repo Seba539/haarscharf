@@ -239,8 +239,8 @@
 
   body { background-color: var(--bg); }
   .hero { position: relative; isolation: isolate; }
-  .hero::before { content: ""; position: absolute; inset: 0 calc(50% - 50vw); z-index: -1; background: radial-gradient(ellipse 60% 70% at 50% 45%, rgba(246,241,234,.85) 0%, rgba(246,241,234,.6) 60%, rgba(246,241,234,.35) 100%), linear-gradient(180deg, rgba(246,241,234,0) 70%, var(--bg) 100%), url("hintergrund.jpg") center 60% / cover no-repeat; }
-  @media (max-width: 760px) { .hero::before { background: linear-gradient(rgba(246,241,234,.7), rgba(246,241,234,.7)), linear-gradient(180deg, rgba(246,241,234,0) 70%, var(--bg) 100%), url("hintergrund.jpg") 78% center / cover no-repeat; } }
+  .hero::before { content: ""; position: absolute; inset: 0 calc(50% - 50vw); z-index: -1; background: radial-gradient(ellipse 60% 70% at 50% 45%, rgba(246,241,234,.85) 0%, rgba(246,241,234,.6) 60%, rgba(246,241,234,.35) 100%), linear-gradient(180deg, rgba(246,241,234,0) 70%, var(--bg) 100%), url("hintergrund.jpg?v=3") center 60% / cover no-repeat; }
+  @media (max-width: 760px) { .hero::before { background: linear-gradient(rgba(246,241,234,.7), rgba(246,241,234,.7)), linear-gradient(180deg, rgba(246,241,234,0) 70%, var(--bg) 100%), url("hintergrund.jpg?v=3") 78% center / cover no-repeat; } }
   .termin, .herren { position: relative; }
 
   /* Google-Bewertungen */
