@@ -55,6 +55,8 @@
   .top nav { display: flex; gap: 26px; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; }
   .top nav a { text-decoration: none; }
   .top nav a:hover { color: var(--gold); }
+  .menu-knopf { display: none; place-items: center; width: 44px; height: 44px; margin-right: -10px; background: none; border: 0; cursor: pointer; color: var(--ink); }
+  .menu-knopf svg { width: 26px; height: 26px; }
 
   /* Knöpfe */
   .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 50px; padding: 0 26px; border: 1px solid var(--ink); background: transparent; color: var(--ink); font: 500 14px var(--sans); letter-spacing: .12em; text-transform: uppercase; text-decoration: none; cursor: pointer; border-radius: 2px; }
@@ -250,7 +252,10 @@
   .float svg { width: 30px; height: 30px; }
 
   @media (max-width: 760px) {
-    .top nav { display: none; }
+    .menu-knopf { display: grid; }
+    .top nav { display: none; position: absolute; top: 60px; left: 0; right: 0; flex-direction: column; gap: 0; background: var(--bg); border-bottom: 1px solid var(--line); box-shadow: 0 10px 20px rgba(0,0,0,.08); }
+    .top nav.offen { display: flex; }
+    .top nav a { padding: 16px 20px; border-top: 1px solid var(--line); font-size: 14px; }
     .hero { padding-top: 44px; padding-bottom: 40px; }
     .hero h1 { font-size: 24px; }
     section { padding: 56px 0; }
@@ -274,13 +279,14 @@
 <header class="top">
   <div class="wrap">
     <a href="#start" aria-label="Haarscharf Startseite"><img src="logo.svg" alt="Haarscharf"></a>
-    <nav>
+    <nav id="hauptmenue">
       <a href="#herren">Haarschnitte</a>
       <a href="#team">Team</a>
       <a href="#preise">Preise</a>
       <a href="#termin">Termin</a>
       <a href="#kontakt">Kontakt</a>
     </nav>
+    <button type="button" class="menu-knopf" id="menuKnopf" aria-label="Menü öffnen" aria-expanded="false" aria-controls="hauptmenue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
   </div>
 </header>
 
@@ -885,6 +891,18 @@
     zeigeMonat();
     zeigeSchritt(2);
   });
+</script>
+<script>
+  (function () {
+    var k = document.getElementById("menuKnopf"), m = document.getElementById("hauptmenue");
+    function zu() { m.classList.remove("offen"); k.setAttribute("aria-expanded", "false"); k.setAttribute("aria-label", "Menü öffnen"); }
+    k.addEventListener("click", function () {
+      var auf = m.classList.toggle("offen");
+      k.setAttribute("aria-expanded", auf ? "true" : "false");
+      k.setAttribute("aria-label", auf ? "Menü schließen" : "Menü öffnen");
+    });
+    m.addEventListener("click", function (e) { if (e.target.tagName === "A") zu(); });
+  })();
 </script>
 </body>
 </html>
