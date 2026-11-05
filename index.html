@@ -115,13 +115,17 @@
 
   .person p { font-size: 14px; color: var(--muted); max-width: 230px; margin-top: 6px; line-height: 1.5; }
   /* Kundenstimmen */
-  .stimmen { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 1000px; margin: 22px auto 0; }
-  .stimme { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; display: grid; gap: 10px; align-content: start; }
+  .stimmen { display: flex; gap: 16px; max-width: 1000px; margin: 22px auto 0; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding: 4px 2px 8px; }
+  .stimmen::-webkit-scrollbar { display: none; }
+  .stimme { flex: 0 0 calc((100% - 32px) / 3); scroll-snap-align: start; background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; display: grid; gap: 10px; align-content: start; }
+  .stimmen-punkte { display: flex; justify-content: center; gap: 8px; margin-top: 10px; }
+  .stimmen-punkte button { width: 9px; height: 9px; padding: 0; border: 0; border-radius: 50%; background: #d9cfc0; cursor: pointer; }
+  .stimmen-punkte button.an { background: var(--gold); }
   .stimme .st { color: #e3a01b; letter-spacing: .08em; }
   .stimme q { font: italic 400 17px/1.45 var(--serif); quotes: "„" "“"; }
   .stimme span { font-size: 13px; color: var(--muted); }
   .stimmen[hidden] { display: none; }
-  @media (max-width: 760px) { .stimmen { grid-template-columns: 1fr; } }
+  @media (max-width: 760px) { .stimme { flex-basis: 85%; } }
 
   /* Preislisten */
   .row { display: flex; justify-content: space-between; gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--line); font-size: 16px; }
@@ -302,7 +306,9 @@
       <div class="stimme"><span class="st">★★★★★</span><q>Absolut professionelle Mitarbeiter mit toller Beratung. … Hier wird das Handwerk mit Herz und Seele gelebt.</q><span>Seno P. · Google</span></div>
       <div class="stimme"><span class="st">★★★★★</span><q>Komme seit Jahren hierher. Freundlich, sauber und machen tolle Arbeit. … Auch mit Kindern zu empfehlen.</q><span>Dennis N. · Google</span></div>
       <div class="stimme"><span class="st">★★★★★</span><q>Vorab bekam ich eine professionelle Typ-Beratung und es wurde exakt das umgesetzt, was ich wollte.</q><span>Micky S. · Google</span></div>
+      <!-- Neue Bewertung: einfach eine weitere <div class="stimme"> … </div> hier einfügen (nur mit Erlaubnis) -->
     </div>
+    <div class="stimmen-punkte" id="stimmenPunkte" aria-hidden="true"></div>
   </div>
 
   <section class="herren" id="herren">
@@ -805,6 +811,29 @@
     try { w = window.open(url, "_blank"); } catch (err) {}
     if (!w) { try { window.top.location.href = url; } catch (err) {} }
   });
+
+  // Kundenstimmen: wischen, laufen von selbst weiter, Pause beim Anfassen
+  (function () {
+    var box = document.querySelector(".stimmen"), punkte = document.getElementById("stimmenPunkte");
+    if (!box) return;
+    var karten = box.querySelectorAll(".stimme"), pause = false, i = 0;
+    function proSeite() { return Math.max(1, Math.round(box.clientWidth / karten[0].offsetWidth)); }
+    function seiten() { return Math.max(1, karten.length - proSeite() + 1); }
+    function zeichnen() {
+      punkte.innerHTML = "";
+      for (var k = 0; k < seiten(); k++) { var b = document.createElement("button"); b.className = k === i ? "an" : ""; (function (k) { b.onclick = function () { gehe(k); }; })(k); punkte.appendChild(b); }
+    }
+    function gehe(k) { i = k; box.scrollLeft = karten[k].offsetLeft - karten[0].offsetLeft; zeichnen(); }
+    box.addEventListener("scroll", function () {
+      var w = karten[0].offsetWidth + 16, k = Math.round(box.scrollLeft / w);
+      if (k !== i) { i = Math.min(k, seiten() - 1); zeichnen(); }
+    }, { passive: true });
+    ["mouseenter", "touchstart", "focusin"].forEach(function (e) { box.addEventListener(e, function () { pause = true; }, { passive: true }); });
+    ["mouseleave", "touchend"].forEach(function (e) { box.addEventListener(e, function () { setTimeout(function () { pause = false; }, 4000); }, { passive: true }); });
+    window.addEventListener("resize", zeichnen);
+    zeichnen();
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) setInterval(function () { if (!pause && seiten() > 1) gehe((i + 1) % seiten()); }, 5000);
+  })();
 
   // Ablauf in Schritten
   var schritt = 1;
