@@ -207,6 +207,9 @@
   .social a:hover { border-color: var(--gold); color: var(--gold); }
   .social a[hidden] { display: none; }
   #kontakt .social { justify-content: center; }
+  #kontakt { position: relative; isolation: isolate; }
+  #kontakt::before { content: ""; position: absolute; inset: 0 calc(50% - 50vw); z-index: -1; background: linear-gradient(rgba(246,241,234,.66), rgba(246,241,234,.8)), url("kontakt-hilda.jpg") 60% 25% / cover no-repeat; }
+  @media (max-width: 760px) { #kontakt::before { background: linear-gradient(180deg, rgba(246,241,234,.45) 0, rgba(246,241,234,.72) 170px, var(--bg) 270px), url("kontakt-hilda.jpg") center top / 100% auto no-repeat, var(--bg); } }
   .karte { margin: 32px auto 0; padding: 0; width: 100%; max-width: 560px; height: 260px; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: rgba(255,255,255,.55); }
   .karte iframe { width: 100%; height: 100%; border: 0; display: block; }
   .karte-knopf { width: 100%; height: 100%; display: grid; place-content: center; justify-items: center; gap: 8px; padding: 20px; border: 0; background: none; cursor: pointer; font: inherit; color: var(--ink); text-align: center; }
@@ -336,12 +339,12 @@
   <section class="herren" id="herren">
     <div class="wrap">
       <span class="kicker">Haarschnitte</span>
-      <h2>Echtes Handwerk für Damen und Herren</h2>
-      <p class="lead">Bei uns wird nicht im Akkord geschnitten. Wir nehmen uns Zeit für dich, hören zu und finden gemeinsam den Schnitt, der zu dir passt.</p>
+      <h2>Haarschnitte für Damen und Herren</h2>
+      <p class="lead">Erst reden, dann schneiden. Du sagst uns, was du willst, und wir sagen dir ehrlich, was mit deinen Haaren geht.</p>
       <div class="herren-grid">
         <div class="spalte">
           <h3>Damen</h3>
-          <p class="spalte-text">Ob du etwas ganz Neues willst oder einfach wieder frisch aussehen möchtest: Wir beraten dich ehrlich und schneiden so, dass du dich mit deinen Haaren richtig wohlfühlst.</p>
+          <p class="spalte-text">Nur die Spitzen, ein neuer Schnitt oder richtig kurz: Wir schauen uns deine Haare an und sagen dir, was passt.</p>
           <h4>Haarschnitt</h4>
           <div class="row"><span>kurz</span><span class="p">ab 30 €</span></div>
           <div class="row"><span>mittel</span><span class="p">ab 35 €</span></div>
@@ -354,7 +357,7 @@
         </div>
         <div class="spalte">
           <h3>Herren</h3>
-          <p class="spalte-text">Vom sauberen Fade bis zum klassischen Scherenschnitt: Wir nehmen uns Zeit für deinen Look, ganz ohne Fließband. Und wenn du magst, bringen wir deinen Bart gleich mit in Form, Konturen mit dem Rasiermesser inklusive.</p>
+          <p class="spalte-text">Fade, Scherenschnitt oder einfach kurz. Den Bart machen wir auf Wunsch gleich mit, die Konturen mit dem Rasiermesser.</p>
           <h4>Haarschnitt</h4>
           <div class="row"><span>Haarschnitt (trocken)*</span><span class="p">ab 20 €</span></div>
           <div class="row"><span>Fade Cut (trocken)*</span><span class="p">ab 23 €</span></div>
@@ -365,20 +368,20 @@
           <p class="spalte-knopf"><a class="btn fill" href="#termin" data-leistung="Herren Haarschnitt">Termin für Herren</a></p>
         </div>
       </div>
-      <p class="spontan" style="margin-top:30px">Alle Preise sind Ab-Preise. Der genaue Preis hängt von Haarlänge, Aufwand und Material ab. Keine Sorge: Wir sagen ihn dir, bevor wir loslegen.</p>
-      <p class="spontan" style="margin-top:12px">Dienstag bis Samstag meist ohne lange Wartezeit: komm spontan vorbei oder frag kurz per WhatsApp, ob gerade frei ist.</p>
+      <p class="spontan" style="margin-top:30px">Alle Preise sind Ab-Preise. Der genaue Preis hängt von Haarlänge, Aufwand und Material ab. Wir sagen ihn dir vorher.</p>
+      <p class="spontan" style="margin-top:12px">Dienstag bis Samstag kannst du meistens spontan vorbeikommen. Oder frag kurz per WhatsApp, ob gerade frei ist.</p>
     </div>
   </section>
 
   <section id="team" class="team">
     <div class="wrap">
       <span class="kicker">Team</span>
-      <h2>Wir sind für dich da</h2>
+      <h2>Wer bei uns schneidet</h2>
       <p class="lead">Haarscharf ist ein Familiensalon. Bei der Termin-Anfrage kannst du dir aussuchen, zu wem du möchtest.</p>
       <div class="leute">
-        <div class="person"><div class="kreis foto"><img src="hilda.jpg" alt="Hilda Parisi" width="160" height="160" loading="lazy"></div><b>Hilda Parisi</b><span>Inhaberin</span><p>Seit vielen Jahren mit Herz dabei. Farbe, Schere, Dauerwelle: Hier bist du in guten Händen.</p></div>
-        <div class="person"><div class="kreis foto"><img src="sebastiano.jpg" alt="Sebastiano Parisi" width="160" height="160" loading="lazy"></div><b>Sebastiano Parisi</b><span>Friseur für Herren &amp; Damen-Kurzhaar</span><p>Barber mit Liebe zum Detail: moderne Fades und kurze Haare, präzise mit der Schere.</p></div>
-        <div class="person"><div class="kreis">G</div><b>Georgios</b><span>Friseur für Herren &amp; Damen-Kurzhaar</span><p>Barber durch und durch: Fades, Bart, Rasur und klassische Herrenschnitte.</p></div>
+        <div class="person"><div class="kreis foto"><img src="hilda.jpg" alt="Hilda Parisi" width="160" height="160" loading="lazy"></div><b>Hilda Parisi</b><span>Inhaberin</span><p>Friseurmeisterin und Chefin. Farbe, Scherenschnitt und Dauerwelle sind ihr Ding.</p></div>
+        <div class="person"><div class="kreis foto"><img src="sebastiano.jpg" alt="Sebastiano Parisi" width="160" height="160" loading="lazy"></div><b>Sebastiano Parisi</b><span>Friseur für Herren &amp; Damen-Kurzhaar</span><p>Fades und Kurzhaarschnitte, bei Herren und Damen. Viel mit der Schere.</p></div>
+        <div class="person"><div class="kreis">G</div><b>Georgios</b><span>Friseur für Herren &amp; Damen-Kurzhaar</span><p>Fades, Bart, Nassrasur und klassische Herrenschnitte.</p></div>
       </div>
     </div>
   </section>
@@ -559,7 +562,7 @@
         <div>
           <h3>Kontakt</h3>
           <p>Telefon &amp; WhatsApp<br><a href="tel:+492122260684">0212 2260684</a></p>
-          <div class="social"><a href="https://www.instagram.com/haarscharf.solingen/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg><span>Instagram</span></a><a href="https://www.facebook.com/HaarscharfSolingen/" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M14 8h2.5V4.5H14c-2.5 0-4 1.6-4 4.1V11H7.5v3.5H10V21h3.6v-6.5h2.6l.5-3.5h-3.1V9c0-.6.4-1 1-1z"/></svg><span>Facebook</span></a><a href="https://share.google/feYH5umiyET4nwn2m" target="_blank" rel="noopener" aria-label="Google"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M17.3 6.7A7.5 7.5 0 1 0 19.5 12H12.5"/></svg><span>Google</span></a></div>
+          <div class="social"><a href="https://api.whatsapp.com/send?phone=492122260684" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3.2a8.8 8.8 0 0 0-7.6 13.2L3.2 20.8l4.5-1.2A8.8 8.8 0 1 0 12 3.2z"/><path d="M9 8.2c.3-.4.8-.4 1 0l.8 1.7c.1.3 0 .6-.2.8l-.5.5c.6 1.3 1.6 2.3 2.9 2.9l.5-.5c.2-.2.5-.3.8-.2l1.7.8c.4.2.4.7 0 1-.6.6-1.4.9-2.2.7-2.6-.6-4.6-2.6-5.2-5.2-.2-.8.1-1.6.7-2.2z" fill="currentColor" stroke="none"/></svg><span>WhatsApp</span></a><a href="https://www.instagram.com/haarscharf.solingen/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg><span>Instagram</span></a><a href="https://www.facebook.com/HaarscharfSolingen/" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M14 8h2.5V4.5H14c-2.5 0-4 1.6-4 4.1V11H7.5v3.5H10V21h3.6v-6.5h2.6l.5-3.5h-3.1V9c0-.6.4-1 1-1z"/></svg><span>Facebook</span></a><a href="https://share.google/feYH5umiyET4nwn2m" target="_blank" rel="noopener" aria-label="Google"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M17.3 6.7A7.5 7.5 0 1 0 19.5 12H12.5"/></svg><span>Google</span></a></div>
         </div>
       </div>
       <div class="karte" id="karte">
@@ -576,7 +579,7 @@
 <footer>
   <div class="wrap">
     <span>© Friseur Haarscharf, Solingen</span>
-    <div class="social klein"><a href="https://www.instagram.com/haarscharf.solingen/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg><span>Instagram</span></a><a href="https://www.facebook.com/HaarscharfSolingen/" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M14 8h2.5V4.5H14c-2.5 0-4 1.6-4 4.1V11H7.5v3.5H10V21h3.6v-6.5h2.6l.5-3.5h-3.1V9c0-.6.4-1 1-1z"/></svg><span>Facebook</span></a><a href="https://share.google/feYH5umiyET4nwn2m" target="_blank" rel="noopener" aria-label="Google"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M17.3 6.7A7.5 7.5 0 1 0 19.5 12H12.5"/></svg><span>Google</span></a></div>
+    <div class="social klein"><a href="https://api.whatsapp.com/send?phone=492122260684" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3.2a8.8 8.8 0 0 0-7.6 13.2L3.2 20.8l4.5-1.2A8.8 8.8 0 1 0 12 3.2z"/><path d="M9 8.2c.3-.4.8-.4 1 0l.8 1.7c.1.3 0 .6-.2.8l-.5.5c.6 1.3 1.6 2.3 2.9 2.9l.5-.5c.2-.2.5-.3.8-.2l1.7.8c.4.2.4.7 0 1-.6.6-1.4.9-2.2.7-2.6-.6-4.6-2.6-5.2-5.2-.2-.8.1-1.6.7-2.2z" fill="currentColor" stroke="none"/></svg><span>WhatsApp</span></a><a href="https://www.instagram.com/haarscharf.solingen/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg><span>Instagram</span></a><a href="https://www.facebook.com/HaarscharfSolingen/" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M14 8h2.5V4.5H14c-2.5 0-4 1.6-4 4.1V11H7.5v3.5H10V21h3.6v-6.5h2.6l.5-3.5h-3.1V9c0-.6.4-1 1-1z"/></svg><span>Facebook</span></a><a href="https://share.google/feYH5umiyET4nwn2m" target="_blank" rel="noopener" aria-label="Google"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M17.3 6.7A7.5 7.5 0 1 0 19.5 12H12.5"/></svg><span>Google</span></a></div>
     <span><a href="#impressum" onclick="document.getElementById('impressum').open=true">Impressum</a> · <a href="#datenschutz" onclick="document.getElementById('datenschutz').open=true">Datenschutz</a></span>
 
     <details id="impressum">
@@ -709,14 +712,14 @@
   var LEISTUNGEN = [
     ["Damen", [
       ["Damen Haarschnitt", "Haarschnitt", "ab 30 €", "Dauer je nach Länge", "Erst reden wir kurz, was du dir wünschst, dann wird geschnitten. Der Preis richtet sich nach deiner Haarlänge."],
-      ["Waschen, Schneiden, Föhnen", "Waschen, Schneiden, Föhnen", "ab 37 €", "Dauer je nach Länge", "Waschen, schneiden, schön föhnen: Du gehst frisch gestylt nach Hause. Preis je nach Länge."],
-      ["Färben / Ansatz", "Färben / Ansatz", "ab 32 €", "Dauer je nach Länge", "Neue Farbe oder Ansatz auffrischen? Wir beraten dich vorher, welcher Ton zu dir passt."],
-      ["Strähnen / Balayage", "Strähnen / Balayage", "ab 40 €", "Dauer je nach Länge", "Für mehr Licht im Haar und weiche Übergänge. Wie lange es dauert, besprechen wir vorher mit dir."]
+      ["Waschen, Schneiden, Föhnen", "Waschen, Schneiden, Föhnen", "ab 37 €", "Dauer je nach Länge", "Waschen, schneiden, föhnen. Der Preis richtet sich nach der Haarlänge."],
+      ["Färben / Ansatz", "Färben / Ansatz", "ab 32 €", "Dauer je nach Länge", "Ganz neue Farbe oder nur der Ansatz. Den Ton suchen wir vorher zusammen aus."],
+      ["Strähnen / Balayage", "Strähnen / Balayage", "ab 40 €", "Dauer je nach Länge", "Strähnen oder Balayage. Wie lange es dauert, klären wir vorher mit dir."]
     ]],
     ["Herren", [
-      ["Herren Haarschnitt", "Haarschnitt", "ab 20 €", "ca. 20 Min.", "Der Klassiker: mit Schere und Maschine, saubere Konturen und zum Schluss ein bisschen Styling."],
-      ["Fade Cut", "Fade Cut", "ab 23 €", "ca. 30 Min.", "Weicher Übergang, scharfe Kanten und oben genau so, wie du es magst."],
-      ["Kranzhaarschnitt", "Kranzhaarschnitt", "ab 18 €", "ca. 15 Min.", "Für alle mit Haarkranz: Seiten und Nacken wieder schön ordentlich, schnell und unkompliziert."],
+      ["Herren Haarschnitt", "Haarschnitt", "ab 20 €", "ca. 20 Min.", "Schere und Maschine, saubere Konturen, zum Schluss etwas Styling."],
+      ["Fade Cut", "Fade Cut", "ab 23 €", "ca. 30 Min.", "Unten kurz, nach oben länger, oben so, wie du es willst."],
+      ["Kranzhaarschnitt", "Kranzhaarschnitt", "ab 18 €", "ca. 15 Min.", "Für alle mit Haarkranz: Seiten und Nacken ordentlich nachschneiden, in einer Viertelstunde."],
       ["Full Service: Haarschnitt + Bart", "Full Service", "ab 33 €", "ca. 40 Min.", "Haarschnitt + Bart: Bart trimmen, in Form bringen und die Konturen mit dem Rasiermesser sauber ziehen."],
     ]],
     ["Kinder & mehr", [
