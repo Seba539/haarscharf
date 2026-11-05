@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Friseur Haarscharf Solingen · Damen, Herren, Kinder · Ufergarten</title>
-<meta name="description" content="Friseur Haarscharf in der Solinger Innenstadt, Ufergarten 9–11. Damen, Herren und Kinder, mit und ohne Termin. Herrenhaarschnitt ab 20 €, Fade und Nassrasur. Termin einfach per WhatsApp anfragen.">
+<meta name="description" content="Friseur Haarscharf in der Solinger Innenstadt, Ufergarten 9–11. Damen, Herren und Kinder, mit und ohne Termin. Herrenhaarschnitt ab 20 €, Fade und Bartpflege. Termin einfach per WhatsApp anfragen.">
 <link rel="icon" href="logo.svg" type="image/svg+xml">
 <script type="application/ld+json">
 {
@@ -263,13 +263,13 @@
         </div>
         <div class="spalte">
           <h3>Herren</h3>
-          <p class="spalte-text">Vom sauberen Fade bis zum klassischen Scherenschnitt: Wir nehmen uns Zeit für deinen Look, ganz ohne Fließband. Und wenn du magst, gibt’s die Nassrasur mit dem Rasiermesser gleich dazu.</p>
+          <p class="spalte-text">Vom sauberen Fade bis zum klassischen Scherenschnitt: Wir nehmen uns Zeit für deinen Look, ganz ohne Fließband. Und wenn du magst, bringen wir deinen Bart gleich mit in Form, Konturen mit dem Rasiermesser inklusive.</p>
           <h4>Haarschnitt</h4>
           <div class="row"><span>Haarschnitt (trocken)*</span><span class="p">ab 20 €</span></div>
           <div class="row"><span>Fade Cut (trocken)*</span><span class="p">ab 23 €</span></div>
           <div class="row"><span>Kranzhaarschnitt</span><span class="p">ab 18 €</span></div>
           <h4>Bart</h4>
-          <div class="row"><span>Haarschnitt + Nassrasur</span><span class="p">ab 33 €</span></div>
+          <div class="row"><span>Full Service: Haarschnitt + Bart</span><span class="p">ab 33 €</span></div>
           <p class="fussnote">* Auf Wunsch mit Waschen, zzgl. 3 € · Neuhaarschnitt (viel Länge ab) mit kleinem Aufpreis</p>
           <p class="spalte-knopf"><a class="btn fill" href="#termin" data-leistung="Herren Haarschnitt">Termin für Herren</a></p>
         </div>
@@ -347,7 +347,7 @@
               <option>Herren Haarschnitt</option>
               <option>Fade Cut</option>
               <option>Kranzhaarschnitt</option>
-              <option>Haarschnitt + Nassrasur</option>
+              <option>Full Service: Haarschnitt + Bart</option>
             </optgroup>
             <optgroup label="Damen">
               <option>Damen Haarschnitt</option>
@@ -585,7 +585,7 @@
       ["Herren Haarschnitt", "Haarschnitt", "ab 20 €", "ca. 20 Min.", "Der Klassiker: mit Schere und Maschine, saubere Konturen und zum Schluss ein bisschen Styling."],
       ["Fade Cut", "Fade Cut", "ab 23 €", "ca. 30 Min.", "Weicher Übergang, scharfe Kanten und oben genau so, wie du es magst."],
       ["Kranzhaarschnitt", "Kranzhaarschnitt", "ab 18 €", "ca. 15 Min.", "Für alle mit Haarkranz: Seiten und Nacken wieder schön ordentlich, schnell und unkompliziert."],
-      ["Haarschnitt + Nassrasur", "Haarschnitt + Nassrasur", "ab 33 €", "ca. 40 Min.", "Haarschnitt und Bart in Form gebracht, mit warmem Tuch und Rasiermesser. Ein bisschen Wellness für zwischendurch."]
+      ["Full Service: Haarschnitt + Bart", "Full Service", "ab 33 €", "ca. 40 Min.", "Haarschnitt + Bart: Bart trimmen, in Form bringen und die Konturen mit dem Rasiermesser sauber ziehen."],
     ]],
     ["Kinder & mehr", [
       ["Kinderhaarschnitt", "Kinderhaarschnitt", "ab 15 €", "ca. 20 Min.", "Für Kinder bis 14. Wir haben Geduld, auch wenn mal jemand nicht stillsitzen mag."],
@@ -630,7 +630,7 @@
   }
 
   // ---------- Herren-Optionen ----------
-  var HERREN_SCHNITT = /^(Herren Haarschnitt|Fade Cut|Haarschnitt \+ Nassrasur|Kranzhaarschnitt)/;
+  var HERREN_SCHNITT = /^(Herren Haarschnitt|Fade Cut|Full Service|Kranzhaarschnitt)/;
   function herrenOptionen() {
     var l = document.getElementById("leistung").value;
     var zeigen = HERREN_SCHNITT.test(l);
