@@ -252,7 +252,7 @@
           <div class="row"><span>Bart trimmen</span><span class="p">ab 8 €</span></div>
           <div class="row"><span>Nassrasur</span><span class="p">ab 15 €</span></div>
           <div class="row"><span>Haarschnitt + Nassrasur</span><span class="p">ab 33 €</span></div>
-          <p class="fussnote">* Auf Wunsch mit Waschen, zzgl. 3 € · Neuhaarschnitt (viel Länge ab): zzgl. 5 € ab 5 cm, zzgl. 10 € ab 8 cm</p>
+          <p class="fussnote">* Auf Wunsch mit Waschen, zzgl. 3 € · Neuhaarschnitt (viel Länge ab) mit kleinem Aufpreis</p>
           <div class="karte">
             <b>Neu: Herren-Karte</b>
             <p>4 Haarschnitte in 8 Wochen für 69 € statt 80 €. Auch als Fade-Karte und mit Bartrasur. Frag einfach bei uns im Salon.</p>
@@ -347,9 +347,7 @@
             <input type="checkbox" id="waschen" value="ja"><label for="waschen">Haare waschen (+3 €)</label>
           </div>
           <div class="chips" style="margin-top:10px">
-            <input type="radio" name="neu" id="neu0" value="" checked><label for="neu0">Nur nachschneiden</label>
-            <input type="radio" name="neu" id="neu1" value="Neuhaarschnitt, 5–7 cm ab (+5 €)"><label for="neu1">Neuhaarschnitt 5–7 cm ab (+5 €)</label>
-            <input type="radio" name="neu" id="neu2" value="Neuhaarschnitt, 8 cm und mehr ab (+10 €)"><label for="neu2">Neuhaarschnitt ab 8 cm (+10 €)</label>
+            <input type="checkbox" id="neu" value="ja"><label for="neu">Neuhaarschnitt</label>
           </div>
           <p class="kal-hinweis" style="text-align:left">Neuhaarschnitt = es kommt viel Länge ab, das braucht mehr Zeit.</p>
         </div>
@@ -399,13 +397,6 @@
           <b>Fast geschafft!</b>
           <p>Schick die Nachricht in WhatsApp ab. Wir prüfen dein Wunschdatum in unserem Terminbuch und bestätigen dir den Termin per WhatsApp.</p>
           <p id="waErsatz"></p>
-          <div id="kalEintrag">
-            <p>Termin schon mal vormerken (wir bestätigen ihn noch):</p>
-            <div class="kal-knoepfe">
-              <a class="btn" id="googleKal" target="_blank" rel="noopener">Google Kalender</a>
-              <a class="btn" id="icsKal" download="haarscharf-termin.ics">iPhone / Outlook</a>
-            </div>
-          </div>
         </div>
         <p class="klein"><b>Das ist eine Anfrage.</b> Dein Termin steht erst, wenn wir ihn dir per WhatsApp bestätigt haben.<br>Lieber anrufen? <a href="tel:+492122260684">0212 2260684</a></p>
       </form>
@@ -564,50 +555,19 @@
     var zeigen = HERREN_SCHNITT.test(l);
     document.getElementById("herrenOpt").hidden = !zeigen;
     document.querySelector('label[for="waschen"]').parentNode.hidden = /mit Waschen/.test(l);
-    document.querySelector('label[for="neu0"]').parentNode.hidden = /Maschinenhaarschnitt/.test(l);
+    document.querySelector('label[for="neu"]').parentNode.hidden = /Maschinenhaarschnitt/.test(l);
   }
   document.getElementById("leistung").addEventListener("change", herrenOptionen);
   function leistungText() {
     var t = document.getElementById("leistung").value;
     if (document.getElementById("herrenOpt").hidden) return t;
     var w = document.getElementById("waschen");
-    if (w.checked && !w.parentNode.hidden) t += ", mit Haare waschen (+3 €)";
-    var n = gewaehlt("neu");
-    if (n && !document.querySelector('label[for="neu0"]').parentNode.hidden) t += ", " + n;
+    if (w.checked && !w.parentNode.hidden) t += ", mit Haare waschen";
+    var n = document.getElementById("neu");
+    if (n.checked && !n.parentNode.hidden) t += ", Neuhaarschnitt (viel Länge ab)";
     return t;
   }
   herrenOptionen();
-
-  // ---------- Kalender-Eintrag für den Kunden ----------
-  function dauerMinuten(leistung) {
-    if (/Färben|Strähnen|Balayage/.test(leistung)) return 120;
-    if (/Damen|Föhnen/.test(leistung)) return 60;
-    var m = 30;
-    if (/waschen/i.test(leistung)) m += 10;
-    if (/Neuhaarschnitt/.test(leistung)) m += 15;
-    return m;
-  }
-  function icsDatum(d) {
-    return d.getFullYear() + zweistellig(d.getMonth() + 1) + zweistellig(d.getDate()) + "T" + zweistellig(d.getHours()) + zweistellig(d.getMinutes()) + "00";
-  }
-  function kalenderLinks(start, leistung) {
-    var ende = new Date(start.getTime() + dauerMinuten(leistung) * 60000);
-    var titel = "Friseur Haarscharf: " + leistung + " (angefragt)";
-    var info = "Terminanfrage über die Website. Der Termin gilt erst, wenn Haarscharf ihn per WhatsApp bestätigt hat. Absagen bitte per WhatsApp oder Telefon 0212 2260684.";
-    var ort = "Friseur Haarscharf, Ufergarten 9-11, 42651 Solingen";
-    document.getElementById("googleKal").href = "https://calendar.google.com/calendar/render?action=TEMPLATE" +
-      "&text=" + encodeURIComponent(titel) + "&dates=" + icsDatum(start) + "/" + icsDatum(ende) +
-      "&ctz=Europe/Berlin&details=" + encodeURIComponent(info) + "&location=" + encodeURIComponent(ort);
-    var ics = [
-      "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Haarscharf Solingen//Termin//DE", "BEGIN:VEVENT",
-      "UID:" + Date.now() + "@haarscharf-solingen", "DTSTAMP:" + new Date().toISOString().replace(/[-:]/g, "").slice(0, 15) + "Z",
-      "DTSTART;TZID=Europe/Berlin:" + icsDatum(start), "DTEND;TZID=Europe/Berlin:" + icsDatum(ende),
-      "SUMMARY:" + titel, "LOCATION:" + ort.replace(/,/g, "\\,"), "DESCRIPTION:" + info.replace(/,/g, "\\,"),
-      "BEGIN:VALARM", "TRIGGER:-PT2H", "ACTION:DISPLAY", "DESCRIPTION:Friseurtermin", "END:VALARM",
-      "END:VEVENT", "END:VCALENDAR"
-    ].join("\r\n");
-    document.getElementById("icsKal").href = "data:text/calendar;charset=utf-8," + encodeURIComponent(ics);
-  }
 
   // Klick auf "Termin für Herren anfragen" wählt einen Herrenschnitt vor
   document.querySelectorAll("a[data-leistung]").forEach(function (a) {
@@ -647,13 +607,6 @@
     var url = "https://api.whatsapp.com/send?phone=" + WA_NUMMER + "&text=" + encodeURIComponent(nachricht);
     // Hinweis mit Ersatz-Link und Kalender-Knöpfen zeigen
     document.getElementById("waErsatz").innerHTML = 'WhatsApp nicht aufgegangen? <a href="' + url + '" target="_blank" rel="noopener" style="color:#1f8f4e;font-weight:600">Hier tippen</a>';
-    if (zeitWert !== "egal") {
-      var start = new Date(gewaehlterTag.getFullYear(), gewaehlterTag.getMonth(), gewaehlterTag.getDate(), Math.floor(+zeitWert / 60), +zeitWert % 60);
-      kalenderLinks(start, leistungText());
-      document.getElementById("kalEintrag").hidden = false;
-    } else {
-      document.getElementById("kalEintrag").hidden = true;
-    }
     document.getElementById("gesendet").hidden = false;
     var w = null;
     try { w = window.open(url, "_blank"); } catch (err) {}
