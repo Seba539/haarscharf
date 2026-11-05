@@ -206,11 +206,10 @@
   details h4 { color: var(--ink); margin: 14px 0 4px; }
   .fehlt { background: #fff2b3; color: #5a4a00; padding: 0 4px; }
 
-  /* Hintergrund: feines Muster aus Scheren und Kämmen */
-  body { background-color: var(--bg); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='none' stroke='%239c7a45' stroke-opacity='.13' stroke-width='1.4'%3E%3Ccircle cx='30' cy='44' r='6'/%3E%3Ccircle cx='44' cy='44' r='6'/%3E%3Cpath d='M34 39l24-24M40 39L16 15'/%3E%3Cpath d='M98 112h44v8H98zM102 120v10M108 120v10M114 120v10M120 120v10M126 120v10M132 120v10M138 120v10'/%3E%3C/g%3E%3C/svg%3E"); }
+  body { background-color: var(--bg); }
   .hero { position: relative; isolation: isolate; }
-  .hero::before { content: ""; position: absolute; inset: 0 calc(50% - 50vw); z-index: -1; background: radial-gradient(ellipse 60% 70% at 50% 45%, rgba(246,241,234,.93) 0%, rgba(246,241,234,.72) 60%, rgba(246,241,234,.45) 100%), linear-gradient(180deg, rgba(246,241,234,0) 70%, var(--bg) 100%), url("hintergrund.jpg") center 60% / cover no-repeat; }
-  @media (max-width: 760px) { .hero::before { background: linear-gradient(rgba(246,241,234,.82), rgba(246,241,234,.82)), linear-gradient(180deg, rgba(246,241,234,0) 70%, var(--bg) 100%), url("hintergrund.jpg") 70% center / cover no-repeat; } }
+  .hero::before { content: ""; position: absolute; inset: 0 calc(50% - 50vw); z-index: -1; background: radial-gradient(ellipse 60% 70% at 50% 45%, rgba(246,241,234,.85) 0%, rgba(246,241,234,.6) 60%, rgba(246,241,234,.35) 100%), linear-gradient(180deg, rgba(246,241,234,0) 70%, var(--bg) 100%), url("hintergrund.jpg") center 60% / cover no-repeat; }
+  @media (max-width: 760px) { .hero::before { background: linear-gradient(rgba(246,241,234,.7), rgba(246,241,234,.7)), linear-gradient(180deg, rgba(246,241,234,0) 70%, var(--bg) 100%), url("hintergrund.jpg") 78% center / cover no-repeat; } }
   .termin, .herren { position: relative; }
 
   /* Google-Bewertungen */
