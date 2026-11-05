@@ -654,12 +654,14 @@
     // Zeitfenster statt genauer Uhrzeit: der Salon sucht die passende Zeit selbst aus
     var frei = freieZeiten(tag), ende = OEFFNUNG[tag.getDay()][1] + 30;
     function u(m) { return m % 60 ? zeitText(m) : String(m / 60); }
-    [["Vormittags", 0, 720], ["Mittags", 720, 900], ["Nachmittags", 900, 1440]].forEach(function (f, i) {
-      var von = Math.max(f[1], OEFFNUNG[tag.getDay()][0]), bis = Math.min(f[2], ende);
-      var drin = frei.filter(function (m) { return m >= f[1] && m < f[2]; });
-      if (von >= bis || !drin.length) return;
-      von = Math.max(von, drin[0]);
-      var text = f[0] + " (" + u(von) + "–" + u(bis) + " Uhr)";
+    // Zeiträume im 1,5-Stunden-Takt ab Öffnung, ein kurzer Rest hängt am letzten dran
+    var fenster = [];
+    for (var a = OEFFNUNG[tag.getDay()][0]; a < ende; a += 90) fenster.push([a, Math.min(a + 90, ende)]);
+    if (fenster.length > 1 && fenster[fenster.length - 1][1] - fenster[fenster.length - 1][0] < 60) { fenster[fenster.length - 2][1] = ende; fenster.pop(); }
+    fenster.forEach(function (f, i) {
+      var drin = frei.filter(function (m) { return m >= f[0] && m < f[1]; });
+      if (!drin.length) return;
+      var text = u(drin[0]) + "–" + u(f[1]) + " Uhr";
       box.insertAdjacentHTML("beforeend", '<input type="radio" name="zeit" id="z' + i + '" value="' + text + '"><label for="z' + i + '">' + text + '</label>');
     });
     box.insertAdjacentHTML("beforeend", '<input type="radio" name="zeit" id="zEgal" value="egal"><label for="zEgal">Egal, Hauptsache an dem Tag</label>');
