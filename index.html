@@ -96,6 +96,13 @@
   .herren .row .p { color: #c9a66b; }
   .herren .btn.fill { background: var(--on-dark); color: var(--ink); border-color: var(--on-dark); }
 
+  .spalte h3 { font: 500 30px var(--serif); padding-bottom: 8px; border-bottom: 1px solid #4a4339; }
+  .spalte h4 { font: 600 12px var(--sans); letter-spacing: .16em; text-transform: uppercase; color: #a89c8a; margin: 18px 0 2px; }
+  .spalte-text { color: #cfc6b8; font-size: 15px; margin: 14px 0 6px; }
+  .spalte-knopf { margin-top: 24px; }
+  .fussnote { color: #a89c8a; font-size: 13px; margin-top: 8px; }
+  .spontan { text-align: center; color: #cfc6b8; font-size: 15px; margin-top: 44px; }
+
   /* Team */
   .team { padding-bottom: 0; }
   .leute { display: flex; flex-wrap: wrap; justify-content: center; gap: 28px 56px; margin-top: 40px; }
@@ -107,7 +114,7 @@
   /* Preislisten */
   .row { display: flex; justify-content: space-between; gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--line); font-size: 16px; }
   .row .p { color: var(--gold); white-space: nowrap; font-variant-numeric: tabular-nums; }
-  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; margin-top: 44px; }
+  .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 36px; margin-top: 44px; }
   .card h3 { font: 500 26px var(--serif); padding-bottom: 8px; margin-bottom: 4px; border-bottom: 1px solid var(--ink); }
   .card h4 { font: 600 12px var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin: 18px 0 2px; }
   .hinweis { text-align: center; color: var(--muted); font-size: 14px; margin-top: 30px; }
@@ -193,7 +200,7 @@
   <div class="wrap">
     <a href="#start" aria-label="Haarscharf Startseite"><img src="logo.svg" alt="Haarscharf"></a>
     <nav>
-      <a href="#herren">Herren</a>
+      <a href="#herren">Haarschnitte</a>
       <a href="#team">Team</a>
       <a href="#preise">Preise</a>
       <a href="#termin">Termin</a>
@@ -217,33 +224,44 @@
 
   <section class="herren" id="herren">
     <div class="wrap">
-      <span class="kicker">Herren &amp; Barber</span>
-      <h2>Für Herren</h2>
-      <p class="lead">Klassischer Herrenschnitt, Fade, Bart und Nassrasur. Feste Preise, keine Überraschung an der Kasse.</p>
+      <span class="kicker">Haarschnitte</span>
+      <h2>Echtes Handwerk für Damen und Herren</h2>
+      <p class="lead">Bei uns wird nicht im Akkord geschnitten. Wir nehmen uns Zeit, beraten dich ehrlich und schneiden so, dass es auch nach Wochen noch gut aussieht.</p>
       <div class="herren-grid">
-        <div>
-          <ul class="vorteile">
-            <li><div><b>Dienstag bis Samstag meist ohne Wartezeit</b><span>Komm spontan vorbei oder frag kurz per WhatsApp, ob gerade frei ist.</span></div></li>
-            <li><div><b>Fade, Bart und Nassrasur</b><span>Vom kurzen Maschinenschnitt bis zum Fade mit Bart formen und Rasiermesser.</span></div></li>
-            <li><div><b>Feste Preise</b><span>Jeder im Team kassiert für dieselbe Leistung denselben Preis.</span></div></li>
-          </ul>
-          <div class="karte">
-            <b>Neu: Herren-Karte</b>
-            <p>4 Haarschnitte in 8 Wochen für 69 € statt 80 €. Auch als Fade-Karte und mit Bartrasur. Frag einfach an der Kasse.</p>
-          </div>
+        <div class="spalte">
+          <h3>Damen</h3>
+          <p class="spalte-text">Vom frechen Kurzhaarschnitt über Stufen bis zum Spitzenschneiden: sauber mit der Schere geschnitten, passend zu deinem Typ und deinem Alltag.</p>
+          <h4>Haarschnitt</h4>
+          <div class="row"><span>kurz</span><span class="p">ab 30 €</span></div>
+          <div class="row"><span>mittel</span><span class="p">ab 35 €</span></div>
+          <div class="row"><span>lang</span><span class="p">ab 40 €</span></div>
+          <h4>Waschen, Schneiden, Föhnen</h4>
+          <div class="row"><span>kurz</span><span class="p">ab 37 €</span></div>
+          <div class="row"><span>mittel</span><span class="p">ab 50 €</span></div>
+          <div class="row"><span>lang</span><span class="p">ab 60 €</span></div>
+          <div class="row"><span>Kurzhaarschnitt mit Maschine</span><span class="p">ab 25 €</span></div>
+          <p class="spalte-knopf"><a class="btn fill" href="#termin" data-leistung="Damen Haarschnitt">Termin für Damen</a></p>
         </div>
-        <div>
-          <div class="row"><span>Haarschnitt</span><span class="p">ab 20 €</span></div>
-          <div class="row"><span>Haarschnitt mit Waschen</span><span class="p">ab 23 €</span></div>
-          <div class="row"><span>Fade Cut</span><span class="p">ab 23 €</span></div>
-          <div class="row"><span>Fade Cut mit Waschen</span><span class="p">ab 26 €</span></div>
+        <div class="spalte">
+          <h3>Herren</h3>
+          <p class="spalte-text">Saubere Fades mit weichen Übergängen und klassische Scherenschnitte, mit Zeit statt Fließband. Dazu Bart formen und Nassrasur mit dem Rasiermesser.</p>
+          <h4>Haarschnitt</h4>
+          <div class="row"><span>Haarschnitt (trocken)*</span><span class="p">ab 20 €</span></div>
+          <div class="row"><span>Fade Cut (trocken)*</span><span class="p">ab 23 €</span></div>
           <div class="row"><span>Maschinenhaarschnitt</span><span class="p">ab 16 €</span></div>
+          <h4>Bart</h4>
           <div class="row"><span>Bart trimmen</span><span class="p">ab 8 €</span></div>
           <div class="row"><span>Nassrasur</span><span class="p">ab 15 €</span></div>
           <div class="row"><span>Haarschnitt + Nassrasur</span><span class="p">ab 33 €</span></div>
-          <p style="margin-top:26px"><a class="btn fill" href="#termin" data-herren>Termin für Herren anfragen</a></p>
+          <p class="fussnote">* Auf Wunsch mit Waschen, zzgl. 3 €</p>
+          <div class="karte">
+            <b>Neu: Herren-Karte</b>
+            <p>4 Haarschnitte in 8 Wochen für 69 € statt 80 €. Auch als Fade-Karte und mit Bartrasur. Frag einfach bei uns im Salon.</p>
+          </div>
+          <p class="spalte-knopf"><a class="btn fill" href="#termin" data-leistung="Herren Haarschnitt">Termin für Herren</a></p>
         </div>
       </div>
+      <p class="spontan">Dienstag bis Samstag meist ohne lange Wartezeit: komm spontan vorbei oder frag kurz per WhatsApp, ob gerade frei ist.</p>
     </div>
   </section>
 
@@ -263,20 +281,8 @@
   <section id="preise">
     <div class="wrap">
       <span class="kicker">Preise</span>
-      <h2>Damen, Kinder &amp; Kosmetik</h2>
+      <h2>Farbe, Kinder &amp; Kosmetik</h2>
       <div class="cards">
-        <div class="card">
-          <h3>Damen</h3>
-          <h4>Haarschnitt</h4>
-          <div class="row"><span>kurz</span><span class="p">ab 30 €</span></div>
-          <div class="row"><span>mittel</span><span class="p">ab 35 €</span></div>
-          <div class="row"><span>lang</span><span class="p">ab 40 €</span></div>
-          <h4>Waschen, Schneiden, Föhnen</h4>
-          <div class="row"><span>kurz</span><span class="p">ab 37 €</span></div>
-          <div class="row"><span>mittel</span><span class="p">ab 50 €</span></div>
-          <div class="row"><span>lang</span><span class="p">ab 60 €</span></div>
-          <div class="row"><span>Kurzhaarschnitt mit Maschine</span><span class="p">ab 25 €</span></div>
-        </div>
         <div class="card">
           <h3>Farbe</h3>
           <h4>Komplett färben</h4>
@@ -568,8 +574,8 @@
   }
 
   // Klick auf "Termin für Herren anfragen" wählt einen Herrenschnitt vor
-  document.querySelectorAll("a[data-herren]").forEach(function (a) {
-    a.addEventListener("click", function () { document.getElementById("leistung").value = "Herren Haarschnitt"; });
+  document.querySelectorAll("a[data-leistung]").forEach(function (a) {
+    a.addEventListener("click", function () { document.getElementById("leistung").value = a.getAttribute("data-leistung"); });
   });
 
   function gewaehlt(name) {
