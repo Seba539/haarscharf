@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Friseur Haarscharf Solingen · Damen, Herren, Kinder · Ufergarten</title>
-<meta name="description" content="Friseur Haarscharf in der Solinger Innenstadt, Ufergarten 9–11. Damen, Herren und Kinder, mit und ohne Termin. Herrenhaarschnitt ab 20 €, Fade, Bart und Nassrasur. Termin einfach per WhatsApp anfragen.">
+<meta name="description" content="Friseur Haarscharf in der Solinger Innenstadt, Ufergarten 9–11. Damen, Herren und Kinder, mit und ohne Termin. Herrenhaarschnitt ab 20 €, Fade, Haarschnitt mit Bart und Nassrasur. Termin einfach per WhatsApp anfragen.">
 <link rel="icon" href="logo.svg" type="image/svg+xml">
 <script type="application/ld+json">
 {
@@ -147,6 +147,18 @@
   .kal-tag.aktiv { background: var(--ink); color: var(--on-dark); }
   .kal-hinweis { font-size: 13px; color: var(--muted); margin-top: 6px; text-align: center; }
   #zeit label { padding: 8px 12px; min-height: 40px; font-size: 14px; }
+  .gruppe { font: 600 12px var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin: 14px 0 6px; }
+  .gruppe:first-child { margin-top: 0; }
+  .karten { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .lk { text-align: left; background: #fff; border: 1px solid #cfc3b1; border-radius: 8px; padding: 12px; cursor: pointer; font: inherit; color: var(--ink); display: grid; gap: 4px; align-content: start; }
+  .lk:hover { border-color: var(--gold); }
+  .lk[aria-pressed="true"] { border: 2px solid var(--ink); padding: 11px; background: #fbf8f3; }
+  .lk-kopf { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+  .lk-kopf b { font-size: 15px; }
+  .lk-preis { color: var(--gold); white-space: nowrap; font-size: 14px; font-weight: 600; }
+  .lk-dauer { font-size: 12px; color: var(--muted); }
+  .lk-text { font-size: 13px; color: var(--muted); line-height: 1.4; }
+  @media (max-width: 520px) { .karten { grid-template-columns: 1fr; } }
   .person-zeile { border: 1px solid #cfc3b1; border-radius: 6px; background: #fff; padding: 12px; display: grid; gap: 8px; margin-bottom: 10px; }
   .person-zeile b { font-size: 15px; }
   .gesendet .btn { width: 100%; margin-top: 4px; }
@@ -252,8 +264,7 @@
           <div class="row"><span>Fade Cut (trocken)*</span><span class="p">ab 23 €</span></div>
           <div class="row"><span>Maschinenhaarschnitt</span><span class="p">ab 16 €</span></div>
           <h4>Bart</h4>
-          <div class="row"><span>Bart trimmen</span><span class="p">ab 8 €</span></div>
-          <div class="row"><span>Nassrasur</span><span class="p">ab 15 €</span></div>
+          <div class="row"><span>Haarschnitt + Bart trimmen</span><span class="p">ab 23 €</span></div>
           <div class="row"><span>Haarschnitt + Nassrasur</span><span class="p">ab 33 €</span></div>
           <p class="fussnote">* Auf Wunsch mit Waschen, zzgl. 3 € · Neuhaarschnitt (viel Länge ab) mit kleinem Aufpreis</p>
           <p class="spalte-knopf"><a class="btn fill" href="#termin" data-leistung="Herren Haarschnitt">Termin für Herren</a></p>
@@ -326,15 +337,14 @@
 
         <div>
           <span class="label" id="leistungLabel">Was möchtest du?</span>
-          <select id="leistung" aria-label="Leistung">
+          <div id="karten"></div>
+          <select id="leistung" aria-label="Leistung" hidden>
             <optgroup label="Herren">
               <option>Herren Haarschnitt</option>
-              <option>Herren Haarschnitt mit Waschen</option>
               <option>Fade Cut</option>
-              <option>Haarschnitt + Bart</option>
-              <option>Haarschnitt + Nassrasur</option>
               <option>Maschinenhaarschnitt</option>
-              <option>Nur Bart / Nassrasur</option>
+              <option>Haarschnitt + Bart trimmen</option>
+              <option>Haarschnitt + Nassrasur</option>
             </optgroup>
             <optgroup label="Damen">
               <option>Damen Haarschnitt</option>
@@ -560,13 +570,56 @@
   document.getElementById("kalWeiter").addEventListener("click", function () { ansicht = new Date(ansicht.getFullYear(), ansicht.getMonth() + 1, 1); zeigeMonat(); });
   zeigeMonat();
 
+  // ---------- Leistungs-Karten ----------
+  var LEISTUNGEN = [
+    ["Herren", [
+      ["Herren Haarschnitt", "Haarschnitt", "ab 20 €", "ca. 20 Min.", "Trockenhaarschnitt mit Schere und Maschine, saubere Konturen im Nacken und an den Ohren, Styling zum Schluss."],
+      ["Fade Cut", "Fade Cut", "ab 23 €", "ca. 30 Min.", "Fade mit weichem Übergang, oben nach Wunsch geschnitten, scharfe Konturen."],
+      ["Maschinenhaarschnitt", "Maschinenhaarschnitt", "ab 16 €", "ca. 15 Min.", "Ganzer Kopf mit der Maschine auf eine Länge, mit Konturen."],
+      ["Haarschnitt + Bart trimmen", "Haarschnitt + Bart trimmen", "ab 23 €", "ca. 25 Min.", "Haarschnitt wie oben, dazu Bart auf Länge bringen und Konturen setzen."],
+      ["Haarschnitt + Nassrasur", "Haarschnitt + Nassrasur", "ab 33 €", "ca. 40 Min.", "Haarschnitt, dazu Bart formen mit warmem Tuch und Rasiermesser."]
+    ]],
+    ["Damen", [
+      ["Damen Haarschnitt", "Haarschnitt", "ab 30 €", "Dauer je nach Länge", "Schnitt nach Beratung, passend zu deinem Typ. Preis je nach Länge (kurz, mittel, lang)."],
+      ["Waschen, Schneiden, Föhnen", "Waschen, Schneiden, Föhnen", "ab 37 €", "Dauer je nach Länge", "Haarwäsche, Schnitt und Föhnfrisur. Preis je nach Länge."],
+      ["Färben / Ansatz", "Färben / Ansatz", "ab 32 €", "Dauer je nach Länge", "Ansatz oder komplett färben. Wir beraten dich vorher zur Farbe."],
+      ["Strähnen / Balayage", "Strähnen / Balayage", "ab 40 €", "Dauer je nach Länge", "Strähnen oder Balayage für natürliche Übergänge. Genaue Zeit besprechen wir mit dir."]
+    ]],
+    ["Kinder & mehr", [
+      ["Kinderhaarschnitt", "Kinderhaarschnitt", "ab 15 €", "ca. 20 Min.", "Für Kinder bis 14 Jahre, mit Ruhe und Geduld."],
+      ["Augenbrauen / Wimpern", "Augenbrauen / Wimpern", "ab 10 €", "ca. 15 Min.", "Augenbrauen zupfen oder Brauen und Wimpern färben."],
+      ["Etwas anderes (bitte unten schreiben)", "Etwas anderes", "", "", "Schreib uns unten, was du möchtest."]
+    ]]
+  ];
+  (function () {
+    var box = document.getElementById("karten");
+    LEISTUNGEN.forEach(function (g) {
+      box.insertAdjacentHTML("beforeend", '<div class="gruppe">' + g[0] + '</div><div class="karten"></div>');
+      var raster = box.lastElementChild;
+      g[1].forEach(function (l) {
+        var b = document.createElement("button");
+        b.type = "button"; b.className = "lk"; b.setAttribute("aria-pressed", "false"); b.dataset.wert = l[0];
+        b.innerHTML = '<span class="lk-kopf"><b>' + l[1] + '</b><span class="lk-preis">' + l[2] + '</span></span>' +
+          (l[3] ? '<span class="lk-dauer">' + l[3] + '</span>' : '') + '<span class="lk-text">' + l[4] + '</span>';
+        b.addEventListener("click", function () { waehleLeistung(l[0]); });
+        raster.appendChild(b);
+      });
+    });
+  })();
+  function waehleLeistung(wert) {
+    var sel = document.getElementById("leistung");
+    sel.value = wert;
+    document.querySelectorAll(".lk").forEach(function (k) { k.setAttribute("aria-pressed", k.dataset.wert === wert ? "true" : "false"); });
+    sel.dispatchEvent(new Event("change"));
+  }
+
   // ---------- Herren-Optionen ----------
-  var HERREN_SCHNITT = /^(Herren Haarschnitt|Fade Cut|Haarschnitt \+ Bart|Haarschnitt \+ Nassrasur|Maschinenhaarschnitt)/;
+  var HERREN_SCHNITT = /^(Herren Haarschnitt|Fade Cut|Haarschnitt \+ Bart trimmen|Haarschnitt \+ Nassrasur|Maschinenhaarschnitt)/;
   function herrenOptionen() {
     var l = document.getElementById("leistung").value;
     var zeigen = HERREN_SCHNITT.test(l);
     document.getElementById("herrenOpt").hidden = !zeigen;
-    document.querySelector('label[for="waschen"]').parentNode.hidden = /mit Waschen/.test(l);
+    document.querySelector('label[for="waschen"]').parentNode.hidden = false;
     document.querySelector('label[for="neu"]').parentNode.hidden = /Maschinenhaarschnitt/.test(l);
   }
   document.getElementById("leistung").addEventListener("change", herrenOptionen);
@@ -579,11 +632,11 @@
     if (n.checked && !n.parentNode.hidden) t += ", Neuhaarschnitt (viel Länge ab)";
     return t;
   }
-  herrenOptionen();
+  waehleLeistung("Herren Haarschnitt");
 
   // Klick auf "Termin für Herren anfragen" wählt einen Herrenschnitt vor
   document.querySelectorAll("a[data-leistung]").forEach(function (a) {
-    a.addEventListener("click", function () { document.getElementById("leistung").value = a.getAttribute("data-leistung"); herrenOptionen(); });
+    a.addEventListener("click", function () { waehleLeistung(a.getAttribute("data-leistung")); });
   });
 
   // ---------- Mehrere Personen ----------
