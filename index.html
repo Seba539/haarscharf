@@ -355,8 +355,8 @@
       <p class="lead">Haarscharf ist ein Familiensalon. Bei der Termin-Anfrage kannst du dir aussuchen, zu wem du möchtest.</p>
       <div class="leute">
         <div class="person"><div class="kreis foto"><img src="hilda.jpg" alt="Hilda Parisi" width="160" height="160" loading="lazy"></div><b>Hilda Parisi</b><span>Inhaberin</span><p>Seit vielen Jahren mit Herz dabei. Farbe, Schere, Dauerwelle: Hier bist du in guten Händen.</p></div>
-        <div class="person"><div class="kreis">S</div><b>Sebastiano Parisi</b><span>Kurzhaar &amp; Fades</span><p>Spezialist für kurze Haare und moderne Fades, präzise mit der Schere. Auch Kurzhaarschnitte für Damen.</p></div>
-        <div class="person"><div class="kreis">G</div><b>Georgios</b><span>Herren &amp; Barber</span><p>Spezialist für Bart, Rasur und klassische Herrenschnitte. Auch Kurzhaarschnitte für Damen.</p></div>
+        <div class="person"><div class="kreis">S</div><b>Sebastiano Parisi</b><span>Barber · Kurzhaar &amp; Fades</span><p>Barber und Spezialist für kurze Haare und moderne Fades, präzise mit der Schere. Auch Kurzhaarschnitte für Damen.</p></div>
+        <div class="person"><div class="kreis">G</div><b>Georgios</b><span>Herren &amp; Barber</span><p>Barber und Spezialist für Fades, Bart, Rasur und klassische Herrenschnitte. Auch Kurzhaarschnitte für Damen.</p></div>
       </div>
     </div>
   </section>
@@ -401,7 +401,7 @@
       <form id="form" novalidate>
         <ol class="fortschritt" id="fortschritt">
           <li data-n="1" class="an"><span>1</span>Leistung</li>
-          <li data-n="2"><span>2</span>Tag &amp; Uhrzeit</li>
+          <li data-n="2"><span>2</span>Tag &amp; Zeitraum</li>
           <li data-n="3"><span>3</span>Abschicken</li>
         </ol>
         <div class="schritt" data-schritt="1">
@@ -479,7 +479,8 @@
         </div>
 
         <div id="zeitBlock" hidden>
-          <span class="label">Uhrzeit am <span id="zeitTag"></span></span>
+          <span class="label">Wann passt es dir am <span id="zeitTag"></span>?</span>
+          <p class="kal-hinweis" style="text-align:left;margin:-4px 0 8px">Wähl einen Zeitraum. Wir suchen die genaue Uhrzeit raus und schicken sie dir per WhatsApp.</p>
           <div class="chips" id="zeit"></div>
         </div>
 
@@ -650,10 +651,18 @@
     document.getElementById("zeitTag").textContent = TAGNAMEN[tag.getDay()] + ", " + tag.getDate() + ". " + MONATSNAMEN[tag.getMonth()];
     var box = document.getElementById("zeit");
     box.innerHTML = "";
-    freieZeiten(tag).forEach(function (m, i) {
-      box.insertAdjacentHTML("beforeend", '<input type="radio" name="zeit" id="z' + i + '" value="' + m + '"><label for="z' + i + '">' + zeitText(m) + '</label>');
+    // Zeitfenster statt genauer Uhrzeit: der Salon sucht die passende Zeit selbst aus
+    var frei = freieZeiten(tag), ende = OEFFNUNG[tag.getDay()][1] + 30;
+    function u(m) { return m % 60 ? zeitText(m) : String(m / 60); }
+    [["Vormittags", 0, 720], ["Mittags", 720, 900], ["Nachmittags", 900, 1440]].forEach(function (f, i) {
+      var von = Math.max(f[1], OEFFNUNG[tag.getDay()][0]), bis = Math.min(f[2], ende);
+      var drin = frei.filter(function (m) { return m >= f[1] && m < f[2]; });
+      if (von >= bis || !drin.length) return;
+      von = Math.max(von, drin[0]);
+      var text = f[0] + " (" + u(von) + "–" + u(bis) + " Uhr)";
+      box.insertAdjacentHTML("beforeend", '<input type="radio" name="zeit" id="z' + i + '" value="' + text + '"><label for="z' + i + '">' + text + '</label>');
     });
-    box.insertAdjacentHTML("beforeend", '<input type="radio" name="zeit" id="zEgal" value="egal"><label for="zEgal">Egal, schlagt mir was vor</label>');
+    box.insertAdjacentHTML("beforeend", '<input type="radio" name="zeit" id="zEgal" value="egal"><label for="zEgal">Egal, Hauptsache an dem Tag</label>');
     document.getElementById("zeitBlock").hidden = false;
   }
 
@@ -779,9 +788,9 @@
     var name = document.getElementById("name").value.trim();
     var zeitWert = gewaehlt("zeit");
     if (!gewaehlterTag) { fehler.textContent = "Bitte wähl im Kalender einen Wunschtag aus."; document.getElementById("kal").scrollIntoView({ block: "center" }); return; }
-    if (!zeitWert) { fehler.textContent = "Bitte wähl eine Uhrzeit aus."; document.getElementById("zeitBlock").scrollIntoView({ block: "center" }); return; }
+    if (!zeitWert) { fehler.textContent = "Bitte wähl einen Zeitraum aus."; document.getElementById("zeitBlock").scrollIntoView({ block: "center" }); return; }
     var tag = TAGNAMEN[gewaehlterTag.getDay()] + ", " + gewaehlterTag.getDate() + "." + (gewaehlterTag.getMonth() + 1) + "." + gewaehlterTag.getFullYear();
-    var zeit = zeitWert === "egal" ? "egal, bitte Uhrzeit vorschlagen" : zeitText(+zeitWert) + " Uhr";
+    var zeit = zeitWert === "egal" ? "egal, ganzer Tag möglich" : zeitWert + ", bitte genaue Uhrzeit vorschlagen";
     if (!document.getElementById("leistung").value) { fehler.textContent = "Bitte wähl aus, was du möchtest."; document.getElementById("reiter").scrollIntoView({ block: "center" }); return; }
     if (!name) { fehler.textContent = "Bitte schreib deinen Namen dazu."; document.getElementById("name").focus(); return; }
     var weitere = [].map.call(document.querySelectorAll("#weitere .person-zeile"), function (z, i) {
@@ -797,10 +806,10 @@
       "*Leistung:* " + leistungText() + "\n" +
       (weitere.length ? "*Weitere Personen:*\n" + weitere.join("\n") + "\n" : "") +
       "*Tag:* " + tag + "\n" +
-      "*Uhrzeit:* " + zeit + "\n" +
+      "*Zeitraum:* " + zeit + "\n" +
       "*Friseur:* " + (friseur && friseur !== "egal" ? friseur : "egal") + "\n" +
       (notiz ? "\n*Notiz:* " + notiz + "\n" : "") +
-      "\nBitte bestätigt mir den Termin oder schlagt eine andere Uhrzeit vor. Danke!\n\n" +
+      "\nBitte schickt mir eine passende Uhrzeit. Danke!\n\n" +
       "_Anfrage über die Website_";
     // Ohne Smileys und direkt an api.whatsapp.com, sonst kommen Sonderzeichen kaputt an
     var url = "https://api.whatsapp.com/send?phone=" + WA_NUMMER + "&text=" + encodeURIComponent(nachricht);
@@ -851,7 +860,7 @@
       document.getElementById("zusammen").innerHTML =
         "<b>" + leistungText() + "</b><br>" +
         TAGNAMEN[gewaehlterTag.getDay()] + ", " + gewaehlterTag.getDate() + "." + (gewaehlterTag.getMonth() + 1) + "., " +
-        (z === "egal" ? "Uhrzeit nach Absprache" : zeitText(+z) + " Uhr") +
+        (z === "egal" ? "ganzer Tag möglich" : z) +
         (f && f !== "egal" ? "<br>bei " + f : "");
     }
     document.getElementById("form").scrollIntoView({ block: "start", behavior: "smooth" });
@@ -860,7 +869,7 @@
     var fehler = document.getElementById("fehler");
     if (schritt === 1 && !document.getElementById("leistung").value) { fehler.textContent = "Bitte wähl aus, was du möchtest."; return; }
     if (schritt === 2 && !gewaehlterTag) { fehler.textContent = "Bitte wähl im Kalender einen Wunschtag aus."; return; }
-    if (schritt === 2 && !gewaehlt("zeit")) { fehler.textContent = "Bitte wähl eine Uhrzeit aus."; return; }
+    if (schritt === 2 && !gewaehlt("zeit")) { fehler.textContent = "Bitte wähl einen Zeitraum aus."; return; }
     zeigeSchritt(schritt + 1);
   });
   document.getElementById("zurueck").addEventListener("click", function () { zeigeSchritt(schritt - 1); });
