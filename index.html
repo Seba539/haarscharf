@@ -126,6 +126,25 @@
   .chips input:checked + label { background: var(--ink); color: var(--on-dark); border-color: var(--ink); }
   .chips input:focus-visible + label { outline: 2px solid var(--gold); outline-offset: 2px; }
   .fehler { color: #b3261e; font-size: 14px; min-height: 1em; }
+  .kal { background: #fff; border: 1px solid #cfc3b1; border-radius: 6px; padding: 12px; }
+  .kal-kopf { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+  .kal-kopf b { font: 500 20px var(--serif); }
+  .kal-nav { width: 44px; height: 44px; border: 1px solid #cfc3b1; background: #fff; border-radius: 50%; font-size: 22px; line-height: 1; cursor: pointer; color: var(--ink); }
+  .kal-nav:disabled { opacity: .3; cursor: default; }
+  .kal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .kal-wt span { text-align: center; font-size: 12px; color: var(--muted); padding: 4px 0; }
+  .kal-tag { aspect-ratio: 1; min-height: 40px; border: 0; border-radius: 50%; background: transparent; font: 500 15px var(--sans); color: var(--ink); cursor: pointer; }
+  .kal-tag:hover:not(:disabled) { background: var(--bg); }
+  .kal-tag:disabled { color: #c9c1b5; cursor: default; text-decoration: line-through; text-decoration-color: transparent; }
+  .kal-tag.heute { box-shadow: inset 0 0 0 1px var(--gold); }
+  .kal-tag.aktiv { background: var(--ink); color: var(--on-dark); }
+  .kal-hinweis { font-size: 13px; color: var(--muted); margin-top: 6px; text-align: center; }
+  #zeit label { padding: 8px 12px; min-height: 40px; font-size: 14px; }
+  .gesendet { border: 1px solid var(--wa); background: #eef7f1; border-radius: 6px; padding: 16px; display: grid; gap: 8px; }
+  .gesendet[hidden] { display: none; }
+  .gesendet p { font-size: 15px; }
+  .kal-knoepfe { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .kal-knoepfe .btn { flex: 1; min-width: 150px; min-height: 44px; font-size: 12px; padding: 0 12px; background: #fff; }
   form .btn { width: 100%; }
   .klein { text-align: center; color: var(--muted); font-size: 14px; }
 
@@ -329,17 +348,21 @@
 
         <div>
           <span class="label">Wunschtag</span>
-          <div class="chips" id="tage"></div>
+          <div class="kal" id="kal">
+            <div class="kal-kopf">
+              <button type="button" class="kal-nav" id="kalZurueck" aria-label="Vorheriger Monat">‹</button>
+              <b id="kalMonat"></b>
+              <button type="button" class="kal-nav" id="kalWeiter" aria-label="Nächster Monat">›</button>
+            </div>
+            <div class="kal-grid kal-wt"><span>Mo</span><span>Di</span><span>Mi</span><span>Do</span><span>Fr</span><span>Sa</span><span>So</span></div>
+            <div class="kal-grid" id="kalTage"></div>
+            <p class="kal-hinweis">Montag, Sonntag und an Feiertagen geschlossen.</p>
+          </div>
         </div>
 
-        <div>
-          <span class="label">Uhrzeit</span>
-          <div class="chips" id="zeit">
-            <input type="radio" name="zeit" id="z0" value="vormittags (bis 12 Uhr)"><label for="z0">Vormittags</label>
-            <input type="radio" name="zeit" id="z1" value="mittags (12–15 Uhr)"><label for="z1">Mittags</label>
-            <input type="radio" name="zeit" id="z2" value="nachmittags (ab 15 Uhr)"><label for="z2">Nachmittags</label>
-            <input type="radio" name="zeit" id="z3" value="egal, möglichst bald"><label for="z3">Egal, möglichst bald</label>
-          </div>
+        <div id="zeitBlock" hidden>
+          <span class="label">Uhrzeit am <span id="zeitTag"></span></span>
+          <div class="chips" id="zeit"></div>
         </div>
 
         <div>
@@ -354,6 +377,18 @@
 
         <p class="fehler" id="fehler" role="alert"></p>
         <button class="btn wa" type="submit"><svg><use href="#wa"/></svg>Anfrage per WhatsApp senden</button>
+        <div class="gesendet" id="gesendet" hidden>
+          <b>Fast geschafft!</b>
+          <p>Schick die Nachricht in WhatsApp ab. Wir prüfen dein Wunschdatum in unserem Terminbuch und bestätigen dir den Termin per WhatsApp.</p>
+          <p id="waErsatz"></p>
+          <div id="kalEintrag">
+            <p>Termin schon mal vormerken (wir bestätigen ihn noch):</p>
+            <div class="kal-knoepfe">
+              <a class="btn" id="googleKal" target="_blank" rel="noopener">Google Kalender</a>
+              <a class="btn" id="icsKal" download="haarscharf-termin.ics">iPhone / Outlook</a>
+            </div>
+          </div>
+        </div>
         <p class="klein"><b>Das ist eine Anfrage.</b> Dein Termin steht erst, wenn wir ihn dir per WhatsApp bestätigt haben.<br>Lieber anrufen? <a href="tel:+492122260684">0212 2260684</a></p>
       </form>
     </div>
@@ -431,24 +466,105 @@
   // WhatsApp-Nummer des Salons (0212 2260684, internationale Schreibweise ohne +)
   var WA_NUMMER = "492122260684";
 
-  // Die nächsten 8 Öffnungstage (Di–Sa) als Auswahl
-  var tageBox = document.getElementById("tage");
-  var namen = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
-  var heute = new Date();
-  var d = new Date(heute.getFullYear(), heute.getMonth(), heute.getDate());
-  var n = 0;
-  while (n < 8) {
-    var wt = d.getDay();
-    if (wt >= 2 && wt <= 6) {
-      var istHeute = d.getTime() === new Date(heute.getFullYear(), heute.getMonth(), heute.getDate()).getTime();
-      var text = (istHeute ? "Heute" : namen[wt]) + " " + d.getDate() + "." + (d.getMonth() + 1) + ".";
-      var wert = (istHeute ? "heute, " : "") + ["Sonntag","Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag"][wt] + ", " + d.getDate() + "." + (d.getMonth() + 1) + ".";
-      var id = "t" + n;
-      tageBox.insertAdjacentHTML("beforeend",
-        '<input type="radio" name="tag" id="' + id + '" value="' + wert + '"><label for="' + id + '">' + text + '</label>');
-      n++;
+  // ---------- Kalender ----------
+  // Öffnungszeiten: [Wochentag] = [erste Startzeit, letzte Startzeit] in Minuten. Mo/So geschlossen.
+  var OEFFNUNG = { 2: [540, 1080], 3: [540, 1080], 4: [540, 1080], 5: [540, 1080], 6: [480, 870] }; // Di–Fr 9:00–18:00, Sa 8:00–14:30
+  var MONATE_VORAUS = 3;
+  // Feiertage NRW (und weitere geschlossene Tage) als "JJJJ-MM-TT"
+  var GESCHLOSSEN = ["2026-12-25","2026-12-26","2027-01-01","2027-03-26","2027-03-29","2027-05-01","2027-05-06","2027-05-17","2027-05-27","2027-10-03","2027-11-01","2027-12-25","2027-12-26"];
+  var TAGNAMEN = ["Sonntag","Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag"];
+  var MONATSNAMEN = ["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"];
+  var jetzt = new Date();
+  var heute = new Date(jetzt.getFullYear(), jetzt.getMonth(), jetzt.getDate());
+  var bis = new Date(heute.getFullYear(), heute.getMonth() + MONATE_VORAUS, heute.getDate());
+  var ansicht = new Date(heute.getFullYear(), heute.getMonth(), 1);
+  var gewaehlterTag = null;
+  var gewaehlteZeit = "";
+
+  function zweistellig(n) { return (n < 10 ? "0" : "") + n; }
+  function zeitText(min) { return Math.floor(min / 60) + ":" + zweistellig(min % 60); }
+  function freieZeiten(tag) {
+    var o = OEFFNUNG[tag.getDay()];
+    if (!o || tag < heute || tag > bis) return [];
+    var schluessel = tag.getFullYear() + "-" + zweistellig(tag.getMonth() + 1) + "-" + zweistellig(tag.getDate());
+    if (GESCHLOSSEN.indexOf(schluessel) > -1) return [];
+    var liste = [];
+    var istHeute = tag.getTime() === heute.getTime();
+    var jetztMin = jetzt.getHours() * 60 + jetzt.getMinutes() + 30; // heute erst ab in 30 Minuten
+    for (var m = o[0]; m <= o[1]; m += 30) { if (!istHeute || m >= jetztMin) liste.push(m); }
+    return liste;
+  }
+
+  function zeigeMonat() {
+    var box = document.getElementById("kalTage");
+    box.innerHTML = "";
+    document.getElementById("kalMonat").textContent = MONATSNAMEN[ansicht.getMonth()] + " " + ansicht.getFullYear();
+    var leer = (ansicht.getDay() + 6) % 7; // Montag zuerst
+    for (var i = 0; i < leer; i++) box.insertAdjacentHTML("beforeend", "<span></span>");
+    var tageImMonat = new Date(ansicht.getFullYear(), ansicht.getMonth() + 1, 0).getDate();
+    for (var t = 1; t <= tageImMonat; t++) {
+      var tag = new Date(ansicht.getFullYear(), ansicht.getMonth(), t);
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "kal-tag";
+      b.textContent = t;
+      if (tag.getTime() === heute.getTime()) b.classList.add("heute");
+      if (gewaehlterTag && tag.getTime() === gewaehlterTag.getTime()) b.classList.add("aktiv");
+      if (freieZeiten(tag).length === 0) { b.disabled = true; b.setAttribute("aria-label", t + ". geschlossen"); }
+      else {
+        b.setAttribute("aria-label", TAGNAMEN[tag.getDay()] + ", " + t + ". " + MONATSNAMEN[tag.getMonth()]);
+        b.addEventListener("click", (function (tg) { return function () { waehleTag(tg); }; })(tag));
+      }
+      box.appendChild(b);
     }
-    d.setDate(d.getDate() + 1);
+    document.getElementById("kalZurueck").disabled = ansicht <= new Date(heute.getFullYear(), heute.getMonth(), 1);
+    document.getElementById("kalWeiter").disabled = new Date(ansicht.getFullYear(), ansicht.getMonth() + 1, 1) > bis;
+  }
+
+  function waehleTag(tag) {
+    gewaehlterTag = tag;
+    gewaehlteZeit = "";
+    zeigeMonat();
+    document.getElementById("zeitTag").textContent = TAGNAMEN[tag.getDay()] + ", " + tag.getDate() + ". " + MONATSNAMEN[tag.getMonth()];
+    var box = document.getElementById("zeit");
+    box.innerHTML = "";
+    freieZeiten(tag).forEach(function (m, i) {
+      box.insertAdjacentHTML("beforeend", '<input type="radio" name="zeit" id="z' + i + '" value="' + m + '"><label for="z' + i + '">' + zeitText(m) + '</label>');
+    });
+    box.insertAdjacentHTML("beforeend", '<input type="radio" name="zeit" id="zEgal" value="egal"><label for="zEgal">Egal, schlagt mir was vor</label>');
+    document.getElementById("zeitBlock").hidden = false;
+  }
+
+  document.getElementById("kalZurueck").addEventListener("click", function () { ansicht = new Date(ansicht.getFullYear(), ansicht.getMonth() - 1, 1); zeigeMonat(); });
+  document.getElementById("kalWeiter").addEventListener("click", function () { ansicht = new Date(ansicht.getFullYear(), ansicht.getMonth() + 1, 1); zeigeMonat(); });
+  zeigeMonat();
+
+  // ---------- Kalender-Eintrag für den Kunden ----------
+  function dauerMinuten(leistung) {
+    if (/Färben|Strähnen|Balayage/.test(leistung)) return 120;
+    if (/Damen|Föhnen/.test(leistung)) return 60;
+    return 30;
+  }
+  function icsDatum(d) {
+    return d.getFullYear() + zweistellig(d.getMonth() + 1) + zweistellig(d.getDate()) + "T" + zweistellig(d.getHours()) + zweistellig(d.getMinutes()) + "00";
+  }
+  function kalenderLinks(start, leistung) {
+    var ende = new Date(start.getTime() + dauerMinuten(leistung) * 60000);
+    var titel = "Friseur Haarscharf: " + leistung + " (angefragt)";
+    var info = "Terminanfrage über die Website. Der Termin gilt erst, wenn Haarscharf ihn per WhatsApp bestätigt hat. Absagen bitte per WhatsApp oder Telefon 0212 2260684.";
+    var ort = "Friseur Haarscharf, Ufergarten 9-11, 42651 Solingen";
+    document.getElementById("googleKal").href = "https://calendar.google.com/calendar/render?action=TEMPLATE" +
+      "&text=" + encodeURIComponent(titel) + "&dates=" + icsDatum(start) + "/" + icsDatum(ende) +
+      "&ctz=Europe/Berlin&details=" + encodeURIComponent(info) + "&location=" + encodeURIComponent(ort);
+    var ics = [
+      "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Haarscharf Solingen//Termin//DE", "BEGIN:VEVENT",
+      "UID:" + Date.now() + "@haarscharf-solingen", "DTSTAMP:" + new Date().toISOString().replace(/[-:]/g, "").slice(0, 15) + "Z",
+      "DTSTART;TZID=Europe/Berlin:" + icsDatum(start), "DTEND;TZID=Europe/Berlin:" + icsDatum(ende),
+      "SUMMARY:" + titel, "LOCATION:" + ort.replace(/,/g, "\\,"), "DESCRIPTION:" + info.replace(/,/g, "\\,"),
+      "BEGIN:VALARM", "TRIGGER:-PT2H", "ACTION:DISPLAY", "DESCRIPTION:Friseurtermin", "END:VALARM",
+      "END:VEVENT", "END:VCALENDAR"
+    ].join("\r\n");
+    document.getElementById("icsKal").href = "data:text/calendar;charset=utf-8," + encodeURIComponent(ics);
   }
 
   // Klick auf "Termin für Herren anfragen" wählt einen Herrenschnitt vor
@@ -465,10 +581,11 @@
     e.preventDefault();
     var fehler = document.getElementById("fehler");
     var name = document.getElementById("name").value.trim();
-    var tag = gewaehlt("tag");
-    var zeit = gewaehlt("zeit");
-    if (!tag) { fehler.textContent = "Bitte wähl einen Wunschtag aus."; return; }
-    if (!zeit) { fehler.textContent = "Bitte wähl eine Uhrzeit aus."; return; }
+    var zeitWert = gewaehlt("zeit");
+    if (!gewaehlterTag) { fehler.textContent = "Bitte wähl im Kalender einen Wunschtag aus."; document.getElementById("kal").scrollIntoView({ block: "center" }); return; }
+    if (!zeitWert) { fehler.textContent = "Bitte wähl eine Uhrzeit aus."; document.getElementById("zeitBlock").scrollIntoView({ block: "center" }); return; }
+    var tag = TAGNAMEN[gewaehlterTag.getDay()] + ", " + gewaehlterTag.getDate() + "." + (gewaehlterTag.getMonth() + 1) + "." + gewaehlterTag.getFullYear();
+    var zeit = zeitWert === "egal" ? "egal, bitte Uhrzeit vorschlagen" : zeitText(+zeitWert) + " Uhr";
     if (!name) { fehler.textContent = "Bitte schreib deinen Namen dazu."; document.getElementById("name").focus(); return; }
     fehler.textContent = "";
 
@@ -486,8 +603,16 @@
       "_Anfrage über die Website_";
     // Ohne Smileys und direkt an api.whatsapp.com, sonst kommen Sonderzeichen kaputt an
     var url = "https://api.whatsapp.com/send?phone=" + WA_NUMMER + "&text=" + encodeURIComponent(nachricht);
-    // Ersatz-Knopf zeigen, falls das automatische Öffnen blockiert wird (z. B. in einer Vorschau)
-    fehler.innerHTML = 'Falls WhatsApp nicht aufgeht: <a href="' + url + '" target="_blank" rel="noopener" style="color:#1f8f4e;font-weight:600">hier tippen, um WhatsApp zu öffnen</a>';
+    // Hinweis mit Ersatz-Link und Kalender-Knöpfen zeigen
+    document.getElementById("waErsatz").innerHTML = 'WhatsApp nicht aufgegangen? <a href="' + url + '" target="_blank" rel="noopener" style="color:#1f8f4e;font-weight:600">Hier tippen</a>';
+    if (zeitWert !== "egal") {
+      var start = new Date(gewaehlterTag.getFullYear(), gewaehlterTag.getMonth(), gewaehlterTag.getDate(), Math.floor(+zeitWert / 60), +zeitWert % 60);
+      kalenderLinks(start, document.getElementById("leistung").value);
+      document.getElementById("kalEintrag").hidden = false;
+    } else {
+      document.getElementById("kalEintrag").hidden = true;
+    }
+    document.getElementById("gesendet").hidden = false;
     var w = null;
     try { w = window.open(url, "_blank"); } catch (err) {}
     if (!w) { try { window.top.location.href = url; } catch (err) {} }
