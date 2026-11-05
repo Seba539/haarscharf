@@ -147,7 +147,12 @@
   .kal-tag.aktiv { background: var(--ink); color: var(--on-dark); }
   .kal-hinweis { font-size: 13px; color: var(--muted); margin-top: 6px; text-align: center; }
   #zeit label { padding: 8px 12px; min-height: 40px; font-size: 14px; }
-  .gruppe { font: 600 12px var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin: 14px 0 6px; }
+  .reiter { display: grid; grid-template-columns: repeat(3, 1fr); background: #ebe3d6; border-radius: 999px; padding: 4px; margin-bottom: 12px; }
+  .reiter button { border: 0; background: transparent; border-radius: 999px; min-height: 42px; font: 600 14px var(--sans); color: var(--ink); cursor: pointer; }
+  .reiter button[aria-selected="true"] { background: var(--ink); color: var(--on-dark); }
+  .gruppe { display: none; }
+  .karten[hidden] { display: none; }
+  .gruppe-alt { font: 600 12px var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin: 14px 0 6px; }
   .gruppe:first-child { margin-top: 0; }
   .karten { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .lk { text-align: left; background: #fff; border: 1px solid #cfc3b1; border-radius: 8px; padding: 12px; cursor: pointer; font: inherit; color: var(--ink); display: grid; gap: 4px; align-content: start; }
@@ -329,14 +334,13 @@
           <span class="label">Für wie viele Personen?</span>
           <div class="chips" id="personen">
             <input type="radio" name="personen" id="p1" value="1" checked><label for="p1">Nur für mich</label>
-            <input type="radio" name="personen" id="p2" value="2"><label for="p2">2 Personen</label>
-            <input type="radio" name="personen" id="p3" value="3"><label for="p3">3 Personen</label>
-            <input type="radio" name="personen" id="p4" value="4"><label for="p4">4 Personen</label>
+            <input type="radio" name="personen" id="p2" value="2"><label for="p2">Für 2 Personen</label>
           </div>
         </div>
 
         <div>
           <span class="label" id="leistungLabel">Was möchtest du?</span>
+          <div class="reiter" id="reiter" role="tablist"></div>
           <div id="karten"></div>
           <select id="leistung" aria-label="Leistung" hidden>
             <optgroup label="Herren">
@@ -572,18 +576,18 @@
 
   // ---------- Leistungs-Karten ----------
   var LEISTUNGEN = [
+    ["Damen", [
+      ["Damen Haarschnitt", "Haarschnitt", "ab 30 €", "Dauer je nach Länge", "Schnitt nach Beratung, passend zu deinem Typ. Preis je nach Länge (kurz, mittel, lang)."],
+      ["Waschen, Schneiden, Föhnen", "Waschen, Schneiden, Föhnen", "ab 37 €", "Dauer je nach Länge", "Haarwäsche, Schnitt und Föhnfrisur. Preis je nach Länge."],
+      ["Färben / Ansatz", "Färben / Ansatz", "ab 32 €", "Dauer je nach Länge", "Ansatz oder komplett färben. Wir beraten dich vorher zur Farbe."],
+      ["Strähnen / Balayage", "Strähnen / Balayage", "ab 40 €", "Dauer je nach Länge", "Strähnen oder Balayage für natürliche Übergänge. Genaue Zeit besprechen wir mit dir."]
+    ]],
     ["Herren", [
       ["Herren Haarschnitt", "Haarschnitt", "ab 20 €", "ca. 20 Min.", "Trockenhaarschnitt mit Schere und Maschine, saubere Konturen im Nacken und an den Ohren, Styling zum Schluss."],
       ["Fade Cut", "Fade Cut", "ab 23 €", "ca. 30 Min.", "Fade mit weichem Übergang, oben nach Wunsch geschnitten, scharfe Konturen."],
       ["Maschinenhaarschnitt", "Maschinenhaarschnitt", "ab 16 €", "ca. 15 Min.", "Ganzer Kopf mit der Maschine auf eine Länge, mit Konturen."],
       ["Haarschnitt + Bart trimmen", "Haarschnitt + Bart trimmen", "ab 23 €", "ca. 25 Min.", "Haarschnitt wie oben, dazu Bart auf Länge bringen und Konturen setzen."],
       ["Haarschnitt + Nassrasur", "Haarschnitt + Nassrasur", "ab 33 €", "ca. 40 Min.", "Haarschnitt, dazu Bart formen mit warmem Tuch und Rasiermesser."]
-    ]],
-    ["Damen", [
-      ["Damen Haarschnitt", "Haarschnitt", "ab 30 €", "Dauer je nach Länge", "Schnitt nach Beratung, passend zu deinem Typ. Preis je nach Länge (kurz, mittel, lang)."],
-      ["Waschen, Schneiden, Föhnen", "Waschen, Schneiden, Föhnen", "ab 37 €", "Dauer je nach Länge", "Haarwäsche, Schnitt und Föhnfrisur. Preis je nach Länge."],
-      ["Färben / Ansatz", "Färben / Ansatz", "ab 32 €", "Dauer je nach Länge", "Ansatz oder komplett färben. Wir beraten dich vorher zur Farbe."],
-      ["Strähnen / Balayage", "Strähnen / Balayage", "ab 40 €", "Dauer je nach Länge", "Strähnen oder Balayage für natürliche Übergänge. Genaue Zeit besprechen wir mit dir."]
     ]],
     ["Kinder & mehr", [
       ["Kinderhaarschnitt", "Kinderhaarschnitt", "ab 15 €", "ca. 20 Min.", "Für Kinder bis 14 Jahre, mit Ruhe und Geduld."],
@@ -594,8 +598,17 @@
   (function () {
     var box = document.getElementById("karten");
     LEISTUNGEN.forEach(function (g) {
-      box.insertAdjacentHTML("beforeend", '<div class="gruppe">' + g[0] + '</div><div class="karten"></div>');
+      box.insertAdjacentHTML("beforeend", '<div class="karten" data-gruppe="' + g[0] + '"></div>');
       var raster = box.lastElementChild;
+      var t = document.createElement("button");
+      t.type = "button"; t.setAttribute("role", "tab"); t.textContent = g[0]; t.dataset.gruppe = g[0];
+      t.addEventListener("click", function () {
+        var sel = document.getElementById("leistung");
+        var drin = g[1].some(function (l) { return l[0] === sel.value; });
+        zeigeGruppe(g[0]);
+        if (!drin) { sel.value = ""; document.querySelectorAll(".lk").forEach(function (k) { k.setAttribute("aria-pressed", "false"); }); herrenOptionen(); }
+      });
+      document.getElementById("reiter").appendChild(t);
       g[1].forEach(function (l) {
         var b = document.createElement("button");
         b.type = "button"; b.className = "lk"; b.setAttribute("aria-pressed", "false"); b.dataset.wert = l[0];
@@ -606,7 +619,12 @@
       });
     });
   })();
+  function zeigeGruppe(name) {
+    document.querySelectorAll("#reiter button").forEach(function (t) { t.setAttribute("aria-selected", t.dataset.gruppe === name ? "true" : "false"); });
+    document.querySelectorAll("#karten .karten").forEach(function (r) { r.hidden = r.dataset.gruppe !== name; });
+  }
   function waehleLeistung(wert) {
+    LEISTUNGEN.forEach(function (g) { g[1].forEach(function (l) { if (l[0] === wert) zeigeGruppe(g[0]); }); });
     var sel = document.getElementById("leistung");
     sel.value = wert;
     document.querySelectorAll(".lk").forEach(function (k) { k.setAttribute("aria-pressed", k.dataset.wert === wert ? "true" : "false"); });
@@ -632,7 +650,9 @@
     if (n.checked && !n.parentNode.hidden) t += ", Neuhaarschnitt (viel Länge ab)";
     return t;
   }
-  waehleLeistung("Herren Haarschnitt");
+  zeigeGruppe("Damen");
+  document.getElementById("leistung").value = "";
+  herrenOptionen();
 
   // Klick auf "Termin für Herren anfragen" wählt einen Herrenschnitt vor
   document.querySelectorAll("a[data-leistung]").forEach(function (a) {
@@ -676,6 +696,7 @@
     if (!zeitWert) { fehler.textContent = "Bitte wähl eine Uhrzeit aus."; document.getElementById("zeitBlock").scrollIntoView({ block: "center" }); return; }
     var tag = TAGNAMEN[gewaehlterTag.getDay()] + ", " + gewaehlterTag.getDate() + "." + (gewaehlterTag.getMonth() + 1) + "." + gewaehlterTag.getFullYear();
     var zeit = zeitWert === "egal" ? "egal, bitte Uhrzeit vorschlagen" : zeitText(+zeitWert) + " Uhr";
+    if (!document.getElementById("leistung").value) { fehler.textContent = "Bitte wähl aus, was du möchtest."; document.getElementById("reiter").scrollIntoView({ block: "center" }); return; }
     if (!name) { fehler.textContent = "Bitte schreib deinen Namen dazu."; document.getElementById("name").focus(); return; }
     var weitere = [].map.call(document.querySelectorAll("#weitere .person-zeile"), function (z, i) {
       return "Person " + (i + 2) + ": " + (z.querySelector("input").value.trim() || "ohne Namen") + ", " + z.querySelector("select").value;
