@@ -105,6 +105,11 @@
 
   /* Team */
   .team { padding-bottom: 0; }
+  .salonbilder { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 760px; margin: 48px auto 0; }
+  .salonbilder figure { margin: 0; }
+  .salonbilder img { width: 100%; height: auto; aspect-ratio: 3 / 4; object-fit: cover; display: block; border-radius: 4px; }
+  .salonbilder figcaption { font: italic 400 15px var(--serif); color: var(--muted); text-align: center; margin-top: 8px; }
+  @media (max-width: 560px) { .salonbilder { gap: 10px; margin-top: 36px; } }
   .leute { display: flex; flex-wrap: wrap; justify-content: center; gap: 28px 56px; margin-top: 40px; }
   .person { display: grid; justify-items: center; gap: 4px; text-align: center; min-width: 150px; }
   .kreis { width: 84px; height: 84px; border-radius: 50%; border: 1px solid var(--gold); display: grid; place-items: center; font: italic 400 36px var(--serif); color: var(--gold); margin-bottom: 8px; }
@@ -351,6 +356,10 @@
         <div class="person"><div class="kreis foto"><img src="hilda.jpg" alt="Hilda Parisi" width="160" height="160" loading="lazy"></div><b>Hilda Parisi</b><span>Inhaberin</span><p>Liebt ihren Job und probiert gern Neues aus. Ihr Herz schlägt für Scherenschnitte, Farbe und Dauerwelle.</p></div>
         <div class="person"><div class="kreis">S</div><b>Sebastiano Parisi</b><span>Kurzhaar &amp; Fades</span><p>Spezialist für Kurzhaarfrisuren mit der Schere und moderne Fades.</p></div>
         <div class="person"><div class="kreis">G</div><b>Georgios</b><span>Herren &amp; Barber</span><p>Spezialist für Herren: saubere Fades, Bart und klassische Schnitte mit der Schere.</p></div>
+      </div>
+      <div class="salonbilder">
+        <figure><img src="salon-empfang.jpg" alt="Hilda am Empfang von Friseur Haarscharf" width="675" height="900" loading="lazy"><figcaption>Hilda am Empfang</figcaption></figure>
+        <figure><img src="salon-plaetze.jpg" alt="Bedienplätze im Salon Haarscharf am Ufergarten" width="675" height="900" loading="lazy"><figcaption>Unsere Plätze am Ufergarten</figcaption></figure>
       </div>
     </div>
   </section>
