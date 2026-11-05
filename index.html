@@ -239,7 +239,6 @@
           <div class="row"><span>kurz</span><span class="p">ab 37 €</span></div>
           <div class="row"><span>mittel</span><span class="p">ab 50 €</span></div>
           <div class="row"><span>lang</span><span class="p">ab 60 €</span></div>
-          <div class="row"><span>Kurzhaarschnitt mit Maschine</span><span class="p">ab 25 €</span></div>
           <p class="spalte-knopf"><a class="btn fill" href="#termin" data-leistung="Damen Haarschnitt">Termin für Damen</a></p>
         </div>
         <div class="spalte">
@@ -253,7 +252,7 @@
           <div class="row"><span>Bart trimmen</span><span class="p">ab 8 €</span></div>
           <div class="row"><span>Nassrasur</span><span class="p">ab 15 €</span></div>
           <div class="row"><span>Haarschnitt + Nassrasur</span><span class="p">ab 33 €</span></div>
-          <p class="fussnote">* Auf Wunsch mit Waschen, zzgl. 3 €</p>
+          <p class="fussnote">* Auf Wunsch mit Waschen, zzgl. 3 € · Neuhaarschnitt (viel Länge ab): zzgl. 5 € ab 5 cm, zzgl. 10 € ab 8 cm</p>
           <div class="karte">
             <b>Neu: Herren-Karte</b>
             <p>4 Haarschnitte in 8 Wochen für 69 € statt 80 €. Auch als Fade-Karte und mit Bartrasur. Frag einfach bei uns im Salon.</p>
@@ -340,6 +339,19 @@
               <option>Etwas anderes (bitte unten schreiben)</option>
             </optgroup>
           </select>
+        </div>
+
+        <div id="herrenOpt">
+          <span class="label">Für deinen Herrenschnitt</span>
+          <div class="chips">
+            <input type="checkbox" id="waschen" value="ja"><label for="waschen">Haare waschen (+3 €)</label>
+          </div>
+          <div class="chips" style="margin-top:10px">
+            <input type="radio" name="neu" id="neu0" value="" checked><label for="neu0">Nur nachschneiden</label>
+            <input type="radio" name="neu" id="neu1" value="Neuhaarschnitt, 5–7 cm ab (+5 €)"><label for="neu1">Neuhaarschnitt 5–7 cm ab (+5 €)</label>
+            <input type="radio" name="neu" id="neu2" value="Neuhaarschnitt, 8 cm und mehr ab (+10 €)"><label for="neu2">Neuhaarschnitt ab 8 cm (+10 €)</label>
+          </div>
+          <p class="kal-hinweis" style="text-align:left">Neuhaarschnitt = es kommt viel Länge ab, das braucht mehr Zeit.</p>
         </div>
 
         <div>
@@ -545,11 +557,35 @@
   document.getElementById("kalWeiter").addEventListener("click", function () { ansicht = new Date(ansicht.getFullYear(), ansicht.getMonth() + 1, 1); zeigeMonat(); });
   zeigeMonat();
 
+  // ---------- Herren-Optionen ----------
+  var HERREN_SCHNITT = /^(Herren Haarschnitt|Fade Cut|Haarschnitt \+ Bart|Haarschnitt \+ Nassrasur|Maschinenhaarschnitt)/;
+  function herrenOptionen() {
+    var l = document.getElementById("leistung").value;
+    var zeigen = HERREN_SCHNITT.test(l);
+    document.getElementById("herrenOpt").hidden = !zeigen;
+    document.querySelector('label[for="waschen"]').parentNode.hidden = /mit Waschen/.test(l);
+    document.querySelector('label[for="neu0"]').parentNode.hidden = /Maschinenhaarschnitt/.test(l);
+  }
+  document.getElementById("leistung").addEventListener("change", herrenOptionen);
+  function leistungText() {
+    var t = document.getElementById("leistung").value;
+    if (document.getElementById("herrenOpt").hidden) return t;
+    var w = document.getElementById("waschen");
+    if (w.checked && !w.parentNode.hidden) t += ", mit Haare waschen (+3 €)";
+    var n = gewaehlt("neu");
+    if (n && !document.querySelector('label[for="neu0"]').parentNode.hidden) t += ", " + n;
+    return t;
+  }
+  herrenOptionen();
+
   // ---------- Kalender-Eintrag für den Kunden ----------
   function dauerMinuten(leistung) {
     if (/Färben|Strähnen|Balayage/.test(leistung)) return 120;
     if (/Damen|Föhnen/.test(leistung)) return 60;
-    return 30;
+    var m = 30;
+    if (/waschen/i.test(leistung)) m += 10;
+    if (/Neuhaarschnitt/.test(leistung)) m += 15;
+    return m;
   }
   function icsDatum(d) {
     return d.getFullYear() + zweistellig(d.getMonth() + 1) + zweistellig(d.getDate()) + "T" + zweistellig(d.getHours()) + zweistellig(d.getMinutes()) + "00";
@@ -575,7 +611,7 @@
 
   // Klick auf "Termin für Herren anfragen" wählt einen Herrenschnitt vor
   document.querySelectorAll("a[data-leistung]").forEach(function (a) {
-    a.addEventListener("click", function () { document.getElementById("leistung").value = a.getAttribute("data-leistung"); });
+    a.addEventListener("click", function () { document.getElementById("leistung").value = a.getAttribute("data-leistung"); herrenOptionen(); });
   });
 
   function gewaehlt(name) {
@@ -600,7 +636,7 @@
     var nachricht =
       "*TERMINANFRAGE*\n\n" +
       "*Name:* " + name + "\n" +
-      "*Leistung:* " + document.getElementById("leistung").value + "\n" +
+      "*Leistung:* " + leistungText() + "\n" +
       "*Tag:* " + tag + "\n" +
       "*Uhrzeit:* " + zeit + "\n" +
       "*Friseur:* " + (friseur && friseur !== "egal" ? friseur : "egal") + "\n" +
@@ -613,7 +649,7 @@
     document.getElementById("waErsatz").innerHTML = 'WhatsApp nicht aufgegangen? <a href="' + url + '" target="_blank" rel="noopener" style="color:#1f8f4e;font-weight:600">Hier tippen</a>';
     if (zeitWert !== "egal") {
       var start = new Date(gewaehlterTag.getFullYear(), gewaehlterTag.getMonth(), gewaehlterTag.getDate(), Math.floor(+zeitWert / 60), +zeitWert % 60);
-      kalenderLinks(start, document.getElementById("leistung").value);
+      kalenderLinks(start, leistungText());
       document.getElementById("kalEintrag").hidden = false;
     } else {
       document.getElementById("kalEintrag").hidden = true;
