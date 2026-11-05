@@ -147,6 +147,9 @@
   .kal-tag.aktiv { background: var(--ink); color: var(--on-dark); }
   .kal-hinweis { font-size: 13px; color: var(--muted); margin-top: 6px; text-align: center; }
   #zeit label { padding: 8px 12px; min-height: 40px; font-size: 14px; }
+  .person-zeile { border: 1px solid #cfc3b1; border-radius: 6px; background: #fff; padding: 12px; display: grid; gap: 8px; margin-bottom: 10px; }
+  .person-zeile b { font-size: 15px; }
+  .gesendet .btn { width: 100%; margin-top: 4px; }
   .gesendet { border: 1px solid var(--wa); background: #eef7f1; border-radius: 6px; padding: 16px; display: grid; gap: 8px; }
   .gesendet[hidden] { display: none; }
   .gesendet p { font-size: 15px; }
@@ -253,10 +256,6 @@
           <div class="row"><span>Nassrasur</span><span class="p">ab 15 €</span></div>
           <div class="row"><span>Haarschnitt + Nassrasur</span><span class="p">ab 33 €</span></div>
           <p class="fussnote">* Auf Wunsch mit Waschen, zzgl. 3 € · Neuhaarschnitt (viel Länge ab) mit kleinem Aufpreis</p>
-          <div class="karte">
-            <b>Neu: Herren-Karte</b>
-            <p>4 Haarschnitte in 8 Wochen für 69 € statt 80 €. Auch als Fade-Karte und mit Bartrasur. Frag einfach bei uns im Salon.</p>
-          </div>
           <p class="spalte-knopf"><a class="btn fill" href="#termin" data-leistung="Herren Haarschnitt">Termin für Herren</a></p>
         </div>
       </div>
@@ -316,7 +315,17 @@
 
       <form id="form" novalidate>
         <div>
-          <span class="label">Was möchtest du?</span>
+          <span class="label">Für wie viele Personen?</span>
+          <div class="chips" id="personen">
+            <input type="radio" name="personen" id="p1" value="1" checked><label for="p1">Nur für mich</label>
+            <input type="radio" name="personen" id="p2" value="2"><label for="p2">2 Personen</label>
+            <input type="radio" name="personen" id="p3" value="3"><label for="p3">3 Personen</label>
+            <input type="radio" name="personen" id="p4" value="4"><label for="p4">4 Personen</label>
+          </div>
+        </div>
+
+        <div>
+          <span class="label" id="leistungLabel">Was möchtest du?</span>
           <select id="leistung" aria-label="Leistung">
             <optgroup label="Herren">
               <option>Herren Haarschnitt</option>
@@ -386,6 +395,8 @@
           <input type="text" id="name" autocomplete="given-name" placeholder="z. B. Marco">
         </div>
 
+        <div id="weitere" hidden></div>
+
         <div>
           <label for="notiz">Noch etwas? <span class="opt">(freiwillig)</span></label>
           <textarea id="notiz" placeholder="z. B. Bart auch kürzen, genaue Uhrzeit, Haare sind sehr lang …"></textarea>
@@ -397,6 +408,7 @@
           <b>Fast geschafft!</b>
           <p>Schick die Nachricht in WhatsApp ab. Wir prüfen dein Wunschdatum in unserem Terminbuch und bestätigen dir den Termin per WhatsApp.</p>
           <p id="waErsatz"></p>
+          <button type="button" class="btn" id="nochEiner">Weiteren Termin anfragen</button>
         </div>
         <p class="klein"><b>Das ist eine Anfrage.</b> Dein Termin steht erst, wenn wir ihn dir per WhatsApp bestätigt haben.<br>Lieber anrufen? <a href="tel:+492122260684">0212 2260684</a></p>
       </form>
@@ -574,6 +586,29 @@
     a.addEventListener("click", function () { document.getElementById("leistung").value = a.getAttribute("data-leistung"); herrenOptionen(); });
   });
 
+  // ---------- Mehrere Personen ----------
+  var OPTIONEN = document.getElementById("leistung").innerHTML;
+  function personenAnzeigen() {
+    var n = +gewaehlt("personen");
+    var box = document.getElementById("weitere");
+    var alt = [].map.call(box.querySelectorAll(".person-zeile"), function (z) {
+      return { name: z.querySelector("input").value, leistung: z.querySelector("select").value };
+    });
+    box.innerHTML = "";
+    for (var i = 2; i <= n; i++) {
+      box.insertAdjacentHTML("beforeend",
+        '<div class="person-zeile"><b>Person ' + i + '</b>' +
+        '<input type="text" placeholder="Name, z. B. Luca" aria-label="Name Person ' + i + '">' +
+        '<select aria-label="Leistung Person ' + i + '">' + OPTIONEN + '</select></div>');
+      var z = box.lastElementChild, a = alt[i - 2];
+      if (a) { z.querySelector("input").value = a.name; z.querySelector("select").value = a.leistung; }
+    }
+    box.hidden = n < 2;
+    document.getElementById("leistungLabel").textContent = n < 2 ? "Was möchtest du?" : "Was möchtest du selbst?";
+    document.querySelector('label[for="name"]').textContent = n < 2 ? "Dein Name" : "Dein Name (Person 1)";
+  }
+  document.querySelectorAll('input[name="personen"]').forEach(function (r) { r.addEventListener("change", personenAnzeigen); });
+
   function gewaehlt(name) {
     var el = document.querySelector('input[name="' + name + '"]:checked');
     return el ? el.value : "";
@@ -589,6 +624,9 @@
     var tag = TAGNAMEN[gewaehlterTag.getDay()] + ", " + gewaehlterTag.getDate() + "." + (gewaehlterTag.getMonth() + 1) + "." + gewaehlterTag.getFullYear();
     var zeit = zeitWert === "egal" ? "egal, bitte Uhrzeit vorschlagen" : zeitText(+zeitWert) + " Uhr";
     if (!name) { fehler.textContent = "Bitte schreib deinen Namen dazu."; document.getElementById("name").focus(); return; }
+    var weitere = [].map.call(document.querySelectorAll("#weitere .person-zeile"), function (z, i) {
+      return "Person " + (i + 2) + ": " + (z.querySelector("input").value.trim() || "ohne Namen") + ", " + z.querySelector("select").value;
+    });
     fehler.textContent = "";
 
     var friseur = gewaehlt("friseur");
@@ -597,6 +635,7 @@
       "*TERMINANFRAGE*\n\n" +
       "*Name:* " + name + "\n" +
       "*Leistung:* " + leistungText() + "\n" +
+      (weitere.length ? "*Weitere Personen:*\n" + weitere.join("\n") + "\n" : "") +
       "*Tag:* " + tag + "\n" +
       "*Uhrzeit:* " + zeit + "\n" +
       "*Friseur:* " + (friseur && friseur !== "egal" ? friseur : "egal") + "\n" +
@@ -605,12 +644,22 @@
       "_Anfrage über die Website_";
     // Ohne Smileys und direkt an api.whatsapp.com, sonst kommen Sonderzeichen kaputt an
     var url = "https://api.whatsapp.com/send?phone=" + WA_NUMMER + "&text=" + encodeURIComponent(nachricht);
-    // Hinweis mit Ersatz-Link und Kalender-Knöpfen zeigen
+    // Hinweis mit Ersatz-Link zeigen
     document.getElementById("waErsatz").innerHTML = 'WhatsApp nicht aufgegangen? <a href="' + url + '" target="_blank" rel="noopener" style="color:#1f8f4e;font-weight:600">Hier tippen</a>';
     document.getElementById("gesendet").hidden = false;
     var w = null;
     try { w = window.open(url, "_blank"); } catch (err) {}
     if (!w) { try { window.top.location.href = url; } catch (err) {} }
+  });
+
+  // Weiteren Termin: Name, Personen und Leistung bleiben, Tag und Uhrzeit neu wählen
+  document.getElementById("nochEiner").addEventListener("click", function () {
+    document.getElementById("gesendet").hidden = true;
+    gewaehlterTag = null;
+    document.getElementById("zeitBlock").hidden = true;
+    document.getElementById("zeit").innerHTML = "";
+    zeigeMonat();
+    document.getElementById("kal").scrollIntoView({ block: "center", behavior: "smooth" });
   });
 </script>
 </body>
