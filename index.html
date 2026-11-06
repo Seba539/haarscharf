@@ -298,6 +298,9 @@
     .person span { font-size: 13px; }
   }
 
+  /* Nichts darf seitlich über den Rand ragen (sonst lässt sich die Seite am Handy hin und her ziehen) */
+  html, body { overflow-x: hidden; }
+  @supports (overflow: clip) { html, body { overflow-x: clip; } }
   /* ---------- Bewegung beim Scrollen ---------- */
   .bew .rv { opacity: 0; transform: translateY(26px); transition: opacity .9s ease, transform .9s cubic-bezier(.2,.7,.2,1); transition-delay: var(--d, 0s); }
   .bew .rv.zoom { transform: scale(.8); }
@@ -307,7 +310,7 @@
   .bew .hero > img { animation-name: logoRein; animation-duration: 1.4s; }
   .bew .hero > .gold { animation: linie 1.2s .5s cubic-bezier(.2,.7,.2,1) both; }
   .bew .hero > h1 { animation-delay: .35s; } .bew .hero > p { animation-delay: .55s; } .bew .hero > .btns { animation-delay: .75s; }
-  .bew .hero::before { transform: translateY(var(--hy, 0px)) scale(1.08); animation: atmen 2.4s ease-out both; will-change: transform; transform-origin: 50% 0; }
+  .bew .hero::before { transform: translateY(var(--hy, 0px)) scale(1, 1.08); animation: atmen 2.4s ease-out both; will-change: transform; transform-origin: 50% 0; }
   .bew .hero ~ .wrap, .bew .hero ~ section { position: relative; z-index: 1; }
   @keyframes rein { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
   @keyframes logoRein { from { opacity: 0; transform: scale(.92); filter: blur(4px); } to { opacity: 1; transform: none; filter: none; } }
