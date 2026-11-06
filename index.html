@@ -313,6 +313,49 @@
     .person span { font-size: 13px; }
   }
 
+
+  .p.anfrage { color: var(--muted); font-weight: 400; font-style: italic; }
+  .person.pause .kreis { border-style: dashed; color: #b9ab95; }
+  .person.pause b { color: var(--muted); }
+  .pause-hinweis { background: #efe7da; border-radius: 6px; padding: 8px 12px; color: var(--muted); }
+  /* Logo optisch mittig (der Schwung vom f zieht das Bild nach rechts) */
+  .hero > img { translate: 2.5% 0; }
+
+  /* ---------- Mehr Bewegung (06.11.2026) ---------- */
+  .bew section h2::after { content: ""; display: block; width: 0; height: 1px; background: var(--gold); margin: 18px auto 0; transition: width 1.1s .35s cubic-bezier(.2,.7,.2,1); }
+  .bew section h2.da::after { width: 56px; }
+  .bew .kicker.rv { letter-spacing: .7em; transition-property: opacity, transform, letter-spacing; transition-duration: 1.1s; }
+  .bew .kicker.rv.da { letter-spacing: .3em; }
+  .bew section h2.rv { filter: blur(6px); transition-property: opacity, transform, filter; }
+  .bew section h2.rv.da { filter: none; }
+  .bew .hero::before { animation: atmen 2.4s ease-out both, gleiten 24s ease-in-out 2.4s infinite alternate; }
+  @keyframes gleiten { from { scale: 1; } to { scale: 1.07; } }
+  .bew .bw-sterne > * , .bew .bw-sterne { display: inline-block; }
+  .bew .bewertung .stern { display: inline-block; opacity: 0; transform: scale(.3) rotate(-40deg); transition: opacity .4s ease, transform .5s cubic-bezier(.3,1.6,.5,1); transition-delay: var(--sd, 0s); }
+  .bew .bewertung.da .stern { opacity: 1; transform: none; }
+  .bew .float::after { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid var(--wa); animation: puls 3.2s ease-out 3s infinite; }
+  @keyframes puls { 0% { transform: scale(1); opacity: .7; } 70%, 100% { transform: scale(1.7); opacity: 0; } }
+  .bew .btn.wa { position: relative; overflow: hidden; }
+  .bew .btn.wa::after { content: ""; position: absolute; top: 0; bottom: 0; width: 40%; left: -60%; background: linear-gradient(100deg, transparent, rgba(255,255,255,.35), transparent); transform: skewX(-20deg); animation: glanz 5s ease-in-out 2s infinite; }
+  @keyframes glanz { 0%, 70% { left: -60%; } 100% { left: 130%; } }
+  .bew .top { transition: box-shadow .3s ease, background .3s ease; }
+  .bew .top.gescrollt { box-shadow: 0 6px 20px rgba(60,40,10,.08); }
+  .bew .top img { transition: height .3s ease; }
+  .bew .top.gescrollt img { height: 32px; }
+  @media (hover: hover) {
+    .bew .spalte, .bew .card, .bew .lk, .bew .person .kreis, .bew .stimme { transition: transform .35s ease, box-shadow .35s ease, border-color .2s ease; }
+    .bew .card:hover, .bew .lk:hover, .bew .stimme:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(60,40,10,.10); }
+    .bew .person:hover .kreis { transform: scale(1.06) rotate(-2deg); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bew section h2::after { width: 56px; transition: none; }
+    .bew .kicker.rv { letter-spacing: .3em; transition: none; }
+    .bew section h2.rv { filter: none; transition: none; }
+    .bew .bewertung .stern { opacity: 1; transform: none; transition: none; }
+    .bew .float::after, .bew .btn.wa::after { animation: none; display: none; }
+    .bew .hero::before { animation: none; scale: 1; transform: none; }
+    .bew .top img { transition: none; }
+  }
   /* Nichts darf seitlich über den Rand ragen (sonst lässt sich die Seite am Handy hin und her ziehen) */
   html, body { overflow-x: hidden; }
   @supports (overflow: clip) { html, body { overflow-x: clip; } }
@@ -388,7 +431,6 @@
 
   <section class="herren" id="herren">
     <div class="wrap">
-      <span class="kicker">Haarschnitte</span>
       <h2>Haarschnitte für Damen und Herren</h2>
       <p class="lead">Jeder Termin beginnt mit einer persönlichen Beratung. Wir nehmen uns Zeit, hören dir zu und schneiden so, dass dein Haarschnitt zu dir und deinem Alltag passt.</p>
       <div class="herren-grid">
@@ -396,13 +438,12 @@
           <h3>Damen</h3>
           <p class="spalte-text">Ob Spitzen nachschneiden, ein neuer Look oder ein mutiger Kurzhaarschnitt: Wir beraten dich in Ruhe und finden gemeinsam den Schnitt, der zu deinem Haar passt.</p>
           <h4>Haarschnitt</h4>
-          <div class="row"><span>kurz</span><span class="p">ab 30 €</span></div>
+          <div class="row"><span>kurz</span><span class="p">ab 28 €</span></div>
           <div class="row"><span>mittel</span><span class="p">ab 35 €</span></div>
           <div class="row"><span>lang</span><span class="p">ab 40 €</span></div>
           <h4>Waschen, Schneiden, Föhnen</h4>
-          <div class="row"><span>kurz</span><span class="p">ab 37 €</span></div>
-          <div class="row"><span>mittel</span><span class="p">ab 50 €</span></div>
-          <div class="row"><span>lang</span><span class="p">ab 60 €</span></div>
+          <!-- vorübergehend ohne Preis (06.11.2026), vorher: kurz ab 37 €, mittel ab 50 €, lang ab 60 € -->
+          <div class="row"><span>kurz, mittel, lang</span><span class="p anfrage">auf Anfrage</span></div>
         </div>
         <div class="spalte">
           <h3>Herren</h3>
@@ -428,16 +469,12 @@
       <div class="cards">
         <div class="card">
           <h3>Farbe</h3>
-          <h4>Komplett färben</h4>
-          <div class="row"><span>kurz</span><span class="p">ab 38 €</span></div>
-          <div class="row"><span>mittel</span><span class="p">ab 48 €</span></div>
-          <div class="row"><span>lang</span><span class="p">ab 58 €</span></div>
-          <h4>Strähnen</h4>
-          <div class="row"><span>kurz</span><span class="p">ab 40 €</span></div>
-          <div class="row"><span>mittel</span><span class="p">ab 50 €</span></div>
-          <div class="row"><span>lang</span><span class="p">ab 60 €</span></div>
-          <div class="row"><span>Ansatz färben</span><span class="p">ab 32 €</span></div>
-          <div class="row"><span>Balayage</span><span class="p">ab 150 €</span></div>
+          <!-- vorübergehend ohne Preise (06.11.2026), vorher: Komplett färben kurz 38 / mittel 48 / lang 58, Strähnen 40 / 50 / 60, Ansatz 32, Balayage 150 (alles ab) -->
+          <div class="row"><span>Komplett färben</span><span class="p anfrage">auf Anfrage</span></div>
+          <div class="row"><span>Strähnen</span><span class="p anfrage">auf Anfrage</span></div>
+          <div class="row"><span>Ansatz färben</span><span class="p anfrage">auf Anfrage</span></div>
+          <div class="row"><span>Balayage</span><span class="p anfrage">auf Anfrage</span></div>
+          <p class="fussnote">Den Preis sagen wir dir gern vorher, je nach Haarlänge und Aufwand.</p>
         </div>
         <div class="card">
           <h3>Kinder</h3>
@@ -461,6 +498,7 @@
         <div class="person"><div class="kreis foto"><img src="hilda.jpg" alt="Hilda" width="160" height="160" loading="lazy"></div><b>Hilda</b><span>Inhaberin</span><p>Friseurmeisterin und Chefin. Farbe, Scherenschnitt und Dauerwelle sind ihr Ding.</p></div>
         <div class="person"><div class="kreis foto"><img src="sebastiano.jpg" alt="Sebastiano" width="160" height="160" loading="lazy"></div><b>Sebastiano</b><span>Friseur für Herren &amp; Damen-Kurzhaar</span><p>Fades und Kurzhaarschnitte, bei Herren und Damen. Viel mit der Schere.</p></div>
         <div class="person"><div class="kreis">G</div><b>Georgios</b><span>Friseur für Herren &amp; Damen-Kurzhaar</span><p>Fades, Bart, Nassrasur und klassische Herrenschnitte.</p></div>
+        <div class="person pause"><div class="kreis">E</div><b>Elena</b><span>Friseurin</span><p class="pause-hinweis">Zurzeit in Mutterschutz / Elternzeit. Termin-Anfragen für Elena sind deshalb gerade nicht möglich.</p></div>
       </div>
     </div>
   </section>
@@ -765,10 +803,10 @@
   // ---------- Leistungs-Karten ----------
   var LEISTUNGEN = [
     ["Damen", [
-      ["Damen Haarschnitt", "Haarschnitt", "ab 30 €", "Dauer je nach Länge", "Erst reden wir kurz, was du dir wünschst, dann wird geschnitten. Der Preis richtet sich nach deiner Haarlänge."],
-      ["Waschen, Schneiden, Föhnen", "Waschen, Schneiden, Föhnen", "ab 37 €", "Dauer je nach Länge", "Waschen, schneiden, föhnen. Der Preis richtet sich nach der Haarlänge."],
-      ["Färben / Ansatz", "Färben / Ansatz", "ab 32 €", "Dauer je nach Länge", "Ganz neue Farbe oder nur der Ansatz. Den Ton suchen wir vorher zusammen aus."],
-      ["Strähnen / Balayage", "Strähnen / Balayage", "ab 40 €", "Dauer je nach Länge", "Strähnen oder Balayage. Wie lange es dauert, klären wir vorher mit dir."]
+      ["Damen Haarschnitt", "Haarschnitt", "ab 28 €", "Dauer je nach Länge", "Erst reden wir kurz, was du dir wünschst, dann wird geschnitten. Der Preis richtet sich nach deiner Haarlänge."],
+      ["Waschen, Schneiden, Föhnen", "Waschen, Schneiden, Föhnen", "auf Anfrage", "Dauer je nach Länge", "Waschen, schneiden, föhnen. Der Preis richtet sich nach der Haarlänge."],
+      ["Färben / Ansatz", "Färben / Ansatz", "auf Anfrage", "Dauer je nach Länge", "Ganz neue Farbe oder nur der Ansatz. Den Ton suchen wir vorher zusammen aus."],
+      ["Strähnen / Balayage", "Strähnen / Balayage", "auf Anfrage", "Dauer je nach Länge", "Strähnen oder Balayage. Wie lange es dauert, klären wir vorher mit dir."]
     ]],
     ["Herren", [
       ["Herren Haarschnitt", "Haarschnitt", "ab 20 €", "ca. 20 Min.", "Schere und Maschine, saubere Konturen, zum Schluss etwas Styling."],
@@ -1019,7 +1057,35 @@
       if (stufe) { var i = [].indexOf.call(el.parentNode.children, el); el.style.setProperty("--d", Math.min(i * stufe, 1) + "s"); }
     });
   }
-  markiere("section .kicker, section h2, section .lead, .bewertung, .stimmen, .spontan, .hinweis, .kontakt-karte, #form");
+  markiere("section .kicker, section h2, section .lead, .bewertung, .spontan, .hinweis, .kontakt-karte, #form");
+  markiere(".stimmen");
+  markiere(".spalte > h3, .spalte > .spalte-text, .card > h3", "links", 0);
+  markiere(".kontakt-liste > *", "", .1);
+  markiere(".fortschritt", "zoom");
+  // Sterne der Google-Bewertung einzeln aufleuchten lassen, Zahl hochzählen
+  (function () {
+    var st = document.querySelector(".bw-sterne"); if (!st) return;
+    var i = 0;
+    [].slice.call(st.childNodes).forEach(function (n) {
+      if (n.nodeType === 3) {
+        var f = document.createDocumentFragment();
+        n.textContent.split("").forEach(function (z) { if (!z.trim()) return; var e = document.createElement("span"); e.className = "stern"; e.textContent = z; e.style.setProperty("--sd", (.35 + i++ * .12) + "s"); f.appendChild(e); });
+        st.replaceChild(f, n);
+      } else { n.classList.add("stern"); n.style.setProperty("--sd", (.35 + i++ * .12) + "s"); }
+    });
+    var zahl = document.querySelector(".bw-zahl"), ziel = parseFloat(zahl.textContent.replace(",", "."));
+    if (ruhig || !ziel) return;
+    zahl.textContent = "0,0";
+    new IntersectionObserver(function (e, o) {
+      if (!e[0].isIntersecting) return; o.disconnect();
+      var t0 = null;
+      (function tick(t) { t0 = t0 || t; var k = Math.min((t - t0) / 1200, 1); k = 1 - Math.pow(1 - k, 3);
+        zahl.textContent = (ziel * k).toFixed(1).replace(".", ","); if (k < 1) requestAnimationFrame(tick); })(performance.now());
+    }).observe(zahl);
+  })();
+  // Kopfzeile bekommt beim Scrollen einen Schatten
+  var kopf = document.querySelector(".top");
+  window.addEventListener("scroll", function () { kopf.classList.toggle("gescrollt", window.scrollY > 30); }, { passive: true });
   markiere(".herren-grid > .spalte, .cards > .card", "", .15);
   markiere(".spalte .row, .card .row", "links", .04);
   markiere(".leute .person", "", .18);
