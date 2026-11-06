@@ -297,6 +297,29 @@
     .person b { font-size: 19px; }
     .person span { font-size: 13px; }
   }
+
+  /* ---------- Bewegung beim Scrollen ---------- */
+  .bew .rv { opacity: 0; transform: translateY(26px); transition: opacity .9s ease, transform .9s cubic-bezier(.2,.7,.2,1); transition-delay: var(--d, 0s); }
+  .bew .rv.zoom { transform: scale(.8); }
+  .bew .rv.links { transform: translateX(-18px); transition-duration: .6s; }
+  .bew .rv.da { opacity: 1; transform: none; }
+  .bew .hero > * { animation: rein 1s cubic-bezier(.2,.7,.2,1) both; }
+  .bew .hero > img { animation-name: logoRein; animation-duration: 1.4s; }
+  .bew .hero > .gold { animation: linie 1.2s .5s cubic-bezier(.2,.7,.2,1) both; }
+  .bew .hero > h1 { animation-delay: .35s; } .bew .hero > p { animation-delay: .55s; } .bew .hero > .btns { animation-delay: .75s; }
+  .bew .hero::before { transform: translateY(var(--hy, 0px)) scale(1.08); animation: atmen 2.4s ease-out both; will-change: transform; transform-origin: 50% 0; }
+  .bew .hero ~ .wrap, .bew .hero ~ section { position: relative; z-index: 1; }
+  @keyframes rein { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+  @keyframes logoRein { from { opacity: 0; transform: scale(.92); filter: blur(4px); } to { opacity: 1; transform: none; filter: none; } }
+  @keyframes linie { from { width: 0; } to { width: 56px; } }
+  @keyframes atmen { from { opacity: .4; } to { opacity: 1; } }
+  .bew .lk, .bew .btn, .bew .social a { transition: transform .2s ease, border-color .2s ease, background .2s ease; }
+  .bew .lk:active, .bew .btn:active { transform: scale(.97); }
+  @media (prefers-reduced-motion: reduce) {
+    .bew .rv { opacity: 1; transform: none; transition: none; }
+    .bew .hero > *, .bew .hero::before { animation: none; }
+    .bew .hero::before { transform: none; }
+  }
 </style>
 </head>
 <body>
@@ -962,6 +985,36 @@
     });
     m.addEventListener("click", function (e) { if (e.target.tagName === "A") zu(); });
   })();
+</script>
+<script>
+// Bewegung: Teile gleiten beim Scrollen sanft herein (ohne Programm bleibt alles einfach sichtbar)
+(function () {
+  if (!("IntersectionObserver" in window)) return;
+  var ruhig = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.documentElement.classList.add("bew");
+  function markiere(sel, art, stufe) {
+    document.querySelectorAll(sel).forEach(function (el) {
+      el.classList.add("rv"); if (art) el.classList.add(art);
+      if (stufe) { var i = [].indexOf.call(el.parentNode.children, el); el.style.setProperty("--d", Math.min(i * stufe, 1) + "s"); }
+    });
+  }
+  markiere("section .kicker, section h2, section .lead, .bewertung, .stimmen, .spontan, .hinweis, .kontakt-karte, #form");
+  markiere(".herren-grid > .spalte, .cards > .card", "", .15);
+  markiere(".spalte .row, .card .row", "links", .04);
+  markiere(".leute .person", "", .18);
+  markiere(".leute .kreis", "zoom");
+  var beob = new IntersectionObserver(function (eintraege) {
+    eintraege.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("da"); beob.unobserve(e.target); } });
+  }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
+  document.querySelectorAll(".rv").forEach(function (el) { beob.observe(el); });
+  // Startbild bewegt sich beim Scrollen langsamer als die Seite
+  if (ruhig) return;
+  var hero = document.querySelector(".hero"), läuft = false;
+  window.addEventListener("scroll", function () {
+    if (läuft) return; läuft = true;
+    requestAnimationFrame(function () { var y = Math.min(window.scrollY, 600); hero.style.setProperty("--hy", (y * 0.25) + "px"); läuft = false; });
+  }, { passive: true });
+})();
 </script>
 </body>
 </html>
