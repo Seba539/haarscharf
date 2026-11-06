@@ -748,7 +748,7 @@
         var sel = document.getElementById("leistung");
         var drin = g[1].some(function (l) { return l[0] === sel.value; });
         zeigeGruppe(g[0]);
-        if (!drin) { sel.value = ""; document.querySelectorAll(".lk").forEach(function (k) { k.setAttribute("aria-pressed", "false"); }); herrenOptionen(); }
+        if (!drin) { sel.value = ""; damenFarbe = ""; document.querySelectorAll(".lk").forEach(function (k) { k.setAttribute("aria-pressed", "false"); }); herrenOptionen(); }
       });
       document.getElementById("reiter").appendChild(t);
       g[1].forEach(function (l) {
@@ -759,17 +759,29 @@
         b.addEventListener("click", function () { waehleLeistung(l[0]); });
         raster.appendChild(b);
       });
+      if (g[0] === "Damen") raster.insertAdjacentHTML("beforeend", '<p class="kal-hinweis" style="text-align:left;grid-column:1/-1;margin:2px 0 0">Du kannst einen Haarschnitt und eine Farbe zusammen auswählen.</p>');
     });
   })();
   function zeigeGruppe(name) {
     document.querySelectorAll("#reiter button").forEach(function (t) { t.setAttribute("aria-selected", t.dataset.gruppe === name ? "true" : "false"); });
     document.querySelectorAll("#karten .karten").forEach(function (r) { r.hidden = r.dataset.gruppe !== name; });
   }
+  // Damen: ein Haarschnitt und eine Farbe dürfen zusammen gewählt werden, aber nie zwei aus derselben Sorte
+  var DAMEN_SCHNITT = ["Damen Haarschnitt", "Waschen, Schneiden, Föhnen"];
+  var DAMEN_FARBE = ["Färben / Ansatz", "Strähnen / Balayage"];
+  var damenFarbe = "";
   function waehleLeistung(wert) {
     LEISTUNGEN.forEach(function (g) { g[1].forEach(function (l) { if (l[0] === wert) zeigeGruppe(g[0]); }); });
     var sel = document.getElementById("leistung");
-    sel.value = wert;
-    document.querySelectorAll(".lk").forEach(function (k) { k.setAttribute("aria-pressed", k.dataset.wert === wert ? "true" : "false"); });
+    var jetzt = sel.value;
+    if (DAMEN_FARBE.indexOf(wert) >= 0) {
+      if (DAMEN_SCHNITT.indexOf(jetzt) >= 0) damenFarbe = damenFarbe === wert ? "" : wert;
+      else { sel.value = jetzt === wert ? "" : wert; damenFarbe = ""; }
+    } else if (DAMEN_SCHNITT.indexOf(wert) >= 0) {
+      if (jetzt === wert) { sel.value = damenFarbe; damenFarbe = ""; }
+      else { if (DAMEN_FARBE.indexOf(jetzt) >= 0) damenFarbe = jetzt; else if (DAMEN_SCHNITT.indexOf(jetzt) < 0) damenFarbe = ""; sel.value = wert; }
+    } else { sel.value = wert; damenFarbe = ""; }
+    document.querySelectorAll(".lk").forEach(function (k) { k.setAttribute("aria-pressed", (k.dataset.wert === sel.value || k.dataset.wert === damenFarbe) && k.dataset.wert ? "true" : "false"); });
     sel.dispatchEvent(new Event("change"));
   }
 
@@ -785,7 +797,7 @@
   }
   document.getElementById("leistung").addEventListener("change", herrenOptionen);
   function leistungText() {
-    var t = document.getElementById("leistung").value;
+    var t = document.getElementById("leistung").value + (damenFarbe ? " + " + damenFarbe : "");
     var k = [];
     if (!document.getElementById("kosmetikOpt").hidden) {
       if (document.getElementById("zupfen").checked) k.push("Augenbrauen zupfen");
