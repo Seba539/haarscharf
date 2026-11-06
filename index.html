@@ -210,7 +210,7 @@
   #kontakt { background: linear-gradient(rgba(250,246,240,.82), rgba(250,246,240,.82)), url("salon.jpg") center/cover no-repeat; }
   .kontakt-karte { display: grid; grid-template-columns: 1fr 1fr; max-width: 920px; margin: 40px auto 0; background: #fff; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; text-align: left; }
   .kontakt-liste { padding: 34px 36px; display: grid; gap: 24px; align-content: start; }
-  .zeile .label { display: block; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+  .zeile .label { display: block; font: 600 19px var(--serif); color: var(--ink); margin-bottom: 4px; }
   .zeile p { margin: 0; line-height: 1.65; }
   .kontakt-karte .zeiten { display: grid; grid-template-columns: auto auto; gap: 2px 20px; line-height: 1.65; justify-content: start; }
   .kontakt-karte .karte { margin: 0; max-width: none; width: 100%; height: auto; min-height: 400px; border: 0; border-left: 1px solid var(--line); border-radius: 0; background: #f9f6f1; }
@@ -310,8 +310,8 @@
     <a href="#start" aria-label="Haarscharf Startseite"><img src="logo.svg" alt="Haarscharf"></a>
     <nav id="hauptmenue">
       <a href="#herren">Haarschnitte</a>
-      <a href="#team">Team</a>
       <a href="#preise">Preise</a>
+      <a href="#team">Team</a>
       <a href="#termin">Termin</a>
       <a href="#kontakt">Kontakt</a>
     </nav>
@@ -380,19 +380,6 @@
     </div>
   </section>
 
-  <section id="team" class="team">
-    <div class="wrap">
-      <span class="kicker">Team</span>
-      <h2>Wer bei uns schneidet</h2>
-      <p class="lead">Haarscharf ist ein Familiensalon. Bei der Termin-Anfrage kannst du dir aussuchen, zu wem du möchtest.</p>
-      <div class="leute">
-        <div class="person"><div class="kreis foto"><img src="hilda.jpg" alt="Hilda Parisi" width="160" height="160" loading="lazy"></div><b>Hilda Parisi</b><span>Inhaberin</span><p>Friseurmeisterin und Chefin. Farbe, Scherenschnitt und Dauerwelle sind ihr Ding.</p></div>
-        <div class="person"><div class="kreis foto"><img src="sebastiano.jpg" alt="Sebastiano Parisi" width="160" height="160" loading="lazy"></div><b>Sebastiano Parisi</b><span>Friseur für Herren &amp; Damen-Kurzhaar</span><p>Fades und Kurzhaarschnitte, bei Herren und Damen. Viel mit der Schere.</p></div>
-        <div class="person"><div class="kreis">G</div><b>Georgios</b><span>Friseur für Herren &amp; Damen-Kurzhaar</span><p>Fades, Bart, Nassrasur und klassische Herrenschnitte.</p></div>
-      </div>
-    </div>
-  </section>
-
   <section id="preise">
     <div class="wrap">
       <span class="kicker">Preise</span>
@@ -421,6 +408,19 @@
         </div>
       </div>
       <p class="hinweis">Alle Preise sind Ab-Preise inklusive MwSt. Der genaue Preis hängt von Haarlänge, Aufwand und Material ab, wir sagen ihn dir vorher. · Stand November 2026 · Getränke gehen aufs Haus.</p>
+    </div>
+  </section>
+
+  <section id="team" class="team">
+    <div class="wrap">
+      <span class="kicker">Team</span>
+      <h2>Wer bei uns schneidet</h2>
+      <p class="lead">Haarscharf ist ein Familiensalon. Bei der Termin-Anfrage kannst du dir aussuchen, zu wem du möchtest.</p>
+      <div class="leute">
+        <div class="person"><div class="kreis foto"><img src="hilda.jpg" alt="Hilda" width="160" height="160" loading="lazy"></div><b>Hilda</b><span>Inhaberin</span><p>Friseurmeisterin und Chefin. Farbe, Scherenschnitt und Dauerwelle sind ihr Ding.</p></div>
+        <div class="person"><div class="kreis foto"><img src="sebastiano.jpg" alt="Sebastiano" width="160" height="160" loading="lazy"></div><b>Sebastiano</b><span>Friseur für Herren &amp; Damen-Kurzhaar</span><p>Fades und Kurzhaarschnitte, bei Herren und Damen. Viel mit der Schere.</p></div>
+        <div class="person"><div class="kreis">G</div><b>Georgios</b><span>Friseur für Herren &amp; Damen-Kurzhaar</span><p>Fades, Bart, Nassrasur und klassische Herrenschnitte.</p></div>
+      </div>
     </div>
   </section>
 
