@@ -416,6 +416,16 @@
     box-shadow: inset 0 1px 0 #fff, 0 6px 16px rgba(0,0,0,.3); }
   .btn.wa, .float { background: linear-gradient(180deg, #2aa862 0%, #1f8f4e 60%, #1a7f45 100%) !important; color: #fff !important;
     border: 1px solid #1a7f45 !important; box-shadow: inset 0 1px 0 rgba(255,255,255,.4), 0 8px 20px rgba(31,143,78,.28); }
+  /* Startbereich: Willkommen und „Mit und ohne Termin“ (09.11.2026) */
+  .hero .willkommen { font: 600 12px var(--sans); letter-spacing: .22em; text-transform: uppercase; color: var(--gold); margin: 0 0 10px; }
+  .hero .hero-info { line-height: 1.7; }
+  .hero .ohne-termin { display: inline-flex; align-items: center; gap: 10px; margin-top: 22px; padding: 10px 22px; border-radius: 999px;
+    font: 600 18px var(--sans); color: var(--ink); background: rgba(255,255,255,.82); border: 1px solid rgba(156,122,69,.45);
+    -webkit-backdrop-filter: blur(18px) saturate(160%); backdrop-filter: blur(18px) saturate(160%);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.95), 0 8px 24px rgba(60,40,10,.10); }
+  .hero .ohne-termin span { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--gold); color: #fff; font-size: 13px; }
+  .hero .btns { margin-top: 22px; }
+  #start { scroll-margin-top: 200px; } /* „Startseite“ springt ganz nach oben */
 </style>
 </head>
 <body>
@@ -428,8 +438,8 @@
   <div class="wrap">
     <a href="#start" aria-label="Haarscharf Startseite"><img src="logo.svg" alt="Haarscharf"></a>
     <nav id="hauptmenue">
-      <a href="#herren">Haarschnitte</a>
-      <a href="#preise">Preise</a>
+      <a href="#start">Startseite</a>
+      <a href="#herren">Preise</a>
       <a href="#team">Team</a>
       <a href="#termin">Termin</a>
       <a href="#kontakt">Kontakt</a>
@@ -442,8 +452,10 @@
   <div class="wrap hero">
     <img src="logo.svg" alt="Haarscharf – Friseur in Solingen">
     <div class="gold"></div>
+    <p class="willkommen">Willkommen bei Haarscharf</p>
     <h1>Dein Friseur in der Solinger Innenstadt</h1>
-    <p>Damen, Herren und Kinder · mit und ohne Termin · <span style="white-space:nowrap">Ufergarten 9–11, 42651 Solingen</span></p>
+    <p class="hero-info">Damen, Herren und Kinder<br>Ufergarten 9–11, 42651 Solingen</p>
+    <p class="ohne-termin"><span aria-hidden="true">✓</span>Mit und ohne Termin</p>
     <div class="btns">
       <a class="btn wa" href="#termin"><svg><use href="#wa"/></svg>Termin anfragen</a>
       <a class="btn" href="tel:+492122260684">0212 2260684</a>
