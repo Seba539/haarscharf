@@ -447,16 +447,20 @@
           <h4>Waschen, Schneiden, Föhnen</h4>
           <!-- vorübergehend ohne Preis (06.11.2026), vorher: kurz ab 37 €, mittel ab 50 €, lang ab 60 € -->
           <div class="row"><span>kurz, mittel, lang</span><span class="p anfrage">auf Anfrage</span></div>
+          <h4>Dauerwelle</h4>
+          <div class="row"><span>Dauerwelle</span><span class="p anfrage">auf Anfrage</span></div>
         </div>
         <div class="spalte">
           <h3>Herren</h3>
-          <p class="spalte-text">Fade, Scherenschnitt oder einfach kurz. Den Bart machen wir auf Wunsch gleich mit, die Konturen mit dem Rasiermesser.</p>
+          <p class="spalte-text">Scherenschnitt, Fade oder einfach kurz. Den Bart bringen wir auf Wunsch gleich mit in Form.</p>
           <h4>Haarschnitt</h4>
           <div class="row"><span>Haarschnitt (trocken)*</span><span class="p">ab 20 €</span></div>
           <div class="row"><span>Fade Cut (trocken)*</span><span class="p">ab 23 €</span></div>
           <div class="row"><span>Kranzhaarschnitt</span><span class="p">ab 18 €</span></div>
           <h4>Bart</h4>
           <div class="row"><span>Full Service: Haarschnitt + Bart</span><span class="p">ab 33 €</span></div>
+          <h4>Dauerwelle</h4>
+          <div class="row"><span>Dauerwelle</span><span class="p anfrage">auf Anfrage</span></div>
           <p class="fussnote">* Auf Wunsch mit Waschen, zzgl. 3 € · Neuhaarschnitt (viel Länge ab) mit kleinem Aufpreis</p>
         </div>
       </div>
@@ -474,10 +478,10 @@
           <h3>Farbe</h3>
           <!-- vorübergehend ohne Preise (06.11.2026), vorher: Komplett färben kurz 38 / mittel 48 / lang 58, Strähnen 40 / 50 / 60, Ansatz 32, Balayage 150 (alles ab) -->
           <div class="row"><span>Komplett färben</span><span class="p anfrage">auf Anfrage</span></div>
-          <div class="row"><span>Strähnen</span><span class="p anfrage">auf Anfrage</span></div>
+          <div class="row"><span>Strähnen</span><span class="p anfrage">nach Beratung</span></div>
           <div class="row"><span>Ansatz färben</span><span class="p anfrage">auf Anfrage</span></div>
-          <div class="row"><span>Balayage</span><span class="p anfrage">auf Anfrage</span></div>
-          <p class="fussnote">Den Preis sagen wir dir gern vorher, je nach Haarlänge und Aufwand.</p>
+          <div class="row"><span>Balayage</span><span class="p anfrage">nach Beratung</span></div>
+          <p class="fussnote">Den Preis sagen wir dir gern vorher, je nach Haarlänge und Aufwand. Bei Strähnen und Balayage machen wir zuerst ein Beratungsgespräch: Wir schauen uns dein Haar an und sagen dir, was möglich ist und was es kostet.</p>
         </div>
         <div class="card">
           <h3>Kinder</h3>
@@ -542,7 +546,7 @@
               <option>Damen Haarschnitt</option>
               <option>Waschen, Schneiden, Föhnen</option>
               <option>Färben / Ansatz</option>
-              <option>Strähnen / Balayage</option>
+              <option>Beratung für Strähnen / Balayage</option>
             </optgroup>
             <optgroup label="Kinder">
               <option>Kinderhaarschnitt</option>
@@ -809,7 +813,7 @@
       ["Damen Haarschnitt", "Haarschnitt", "ab 28 €", "Dauer je nach Länge", "Erst reden wir kurz, was du dir wünschst, dann wird geschnitten. Der Preis richtet sich nach deiner Haarlänge."],
       ["Waschen, Schneiden, Föhnen", "Waschen, Schneiden, Föhnen", "auf Anfrage", "Dauer je nach Länge", "Waschen, schneiden, föhnen. Der Preis richtet sich nach der Haarlänge."],
       ["Färben / Ansatz", "Färben / Ansatz", "auf Anfrage", "Dauer je nach Länge", "Ganz neue Farbe oder nur der Ansatz. Den Ton suchen wir vorher zusammen aus."],
-      ["Strähnen / Balayage", "Strähnen / Balayage", "auf Anfrage", "Dauer je nach Länge", "Strähnen oder Balayage. Wie lange es dauert, klären wir vorher mit dir."]
+      ["Beratung für Strähnen / Balayage", "Strähnen / Balayage: Beratung", "", "", "Zuerst ein Beratungsgespräch: Wir schauen uns dein Haar an und sagen dir, was möglich ist und was es kostet. Den Färbetermin machen wir danach zusammen aus."]
     ]],
     ["Herren", [
       ["Herren Haarschnitt", "Haarschnitt", "ab 20 €", "ca. 20 Min.", "Schere und Maschine, saubere Konturen, zum Schluss etwas Styling."],
@@ -853,7 +857,7 @@
   }
   // Damen: ein Haarschnitt und eine Farbe dürfen zusammen gewählt werden, aber nie zwei aus derselben Sorte
   var DAMEN_SCHNITT = ["Damen Haarschnitt", "Waschen, Schneiden, Föhnen"];
-  var DAMEN_FARBE = ["Färben / Ansatz", "Strähnen / Balayage"];
+  var DAMEN_FARBE = ["Färben / Ansatz", "Beratung für Strähnen / Balayage"];
   var damenFarbe = "";
   function waehleLeistung(wert) {
     LEISTUNGEN.forEach(function (g) { g[1].forEach(function (l) { if (l[0] === wert) zeigeGruppe(g[0]); }); });
