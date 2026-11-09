@@ -386,6 +386,36 @@
     .bew .hero > *, .bew .hero::before { animation: none; }
     .bew .hero::before { transform: none; }
   }
+  /* ===== Glas-Optik mit den heutigen Farben (seit 09.11.2026, Wahl Sebastiano: Variante 2) ===== */
+  :root { --glanz: inset 0 1px 0 rgba(255,255,255,.95), inset 0 -1px 0 rgba(255,255,255,.35);
+          --schatten: 0 8px 28px rgba(60,40,10,.09), 0 1px 2px rgba(60,40,10,.06);
+          --blur: blur(18px) saturate(160%); }
+  /* Grund bleibt cremeweiss, nur ein ganz leichter Schimmer */
+  body { background: var(--bg) radial-gradient(60% 40% at 80% 10%, rgba(201,166,107,.10), transparent 70%) fixed; }
+  .top { background: rgba(246,241,234,.72) !important; -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur); }
+  /* helle Flaechen: weiss bleibt weiss, dazu Glanzkante, weicher Schatten, runde Ecken */
+  .bewertung, .stimme, .card, form, .lk, .kal, .kontakt-karte, .person-zeile {
+    background: rgba(255,255,255,.82) !important; -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur);
+    border: 1px solid rgba(228,217,201,.85) !important; box-shadow: var(--glanz), var(--schatten) !important; }
+  .bewertung, form, .kontakt-karte { border-radius: 24px !important; }
+  .stimme, .card, .kal, .person-zeile { border-radius: 18px !important; }
+  .card { padding: 26px; }
+  .lk { border-radius: 14px !important; }
+  .lk[aria-pressed="true"] { border: 2px solid var(--ink) !important; background: #fff !important; }
+  /* Preisliste bleibt schwarz: Tafeln aus schwarzem Glas */
+  .herren-grid .spalte { background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+    border: 1px solid rgba(255,255,255,.12); border-radius: 24px; padding: 26px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.16), 0 18px 40px rgba(0,0,0,.35); }
+  /* Knoepfe: runde Pillen mit Glanz, Farben wie heute */
+  .btn, .chips label, .kal-nav { border-radius: 999px !important; }
+  .btn:not(.fill):not(.wa), .chips label, .kal-nav { background: rgba(255,255,255,.7) !important;
+    -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur); box-shadow: var(--glanz), 0 2px 8px rgba(60,40,10,.06); }
+  .btn.fill, .chips input:checked + label { background: linear-gradient(180deg, #333 0%, #1a1a1a 55%, #111 100%) !important;
+    color: var(--on-dark) !important; border-color: #111 !important; box-shadow: inset 0 1px 0 rgba(255,255,255,.22), 0 6px 16px rgba(0,0,0,.18); }
+  .herren .btn.fill { background: linear-gradient(180deg, #fffdf9, #efe7db) !important; color: var(--ink) !important;
+    box-shadow: inset 0 1px 0 #fff, 0 6px 16px rgba(0,0,0,.3); }
+  .btn.wa, .float { background: linear-gradient(180deg, #2aa862 0%, #1f8f4e 60%, #1a7f45 100%) !important; color: #fff !important;
+    border: 1px solid #1a7f45 !important; box-shadow: inset 0 1px 0 rgba(255,255,255,.4), 0 8px 20px rgba(31,143,78,.28); }
 </style>
 </head>
 <body>
