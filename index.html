@@ -546,7 +546,6 @@
               <option>Damen Haarschnitt</option>
               <option>Waschen, Schneiden, Föhnen</option>
               <option>Färben / Ansatz</option>
-              <option>Beratung für Strähnen / Balayage</option>
             </optgroup>
             <optgroup label="Kinder">
               <option>Kinderhaarschnitt</option>
@@ -812,8 +811,8 @@
     ["Damen", [
       ["Damen Haarschnitt", "Haarschnitt", "ab 28 €", "Dauer je nach Länge", "Erst reden wir kurz, was du dir wünschst, dann wird geschnitten. Der Preis richtet sich nach deiner Haarlänge."],
       ["Waschen, Schneiden, Föhnen", "Waschen, Schneiden, Föhnen", "auf Anfrage", "Dauer je nach Länge", "Waschen, schneiden, föhnen. Der Preis richtet sich nach der Haarlänge."],
-      ["Färben / Ansatz", "Färben / Ansatz", "auf Anfrage", "Dauer je nach Länge", "Ganz neue Farbe oder nur der Ansatz. Den Ton suchen wir vorher zusammen aus."],
-      ["Beratung für Strähnen / Balayage", "Strähnen / Balayage: Beratung", "", "", "Zuerst ein Beratungsgespräch: Wir schauen uns dein Haar an und sagen dir, was möglich ist und was es kostet. Den Färbetermin machen wir danach zusammen aus."]
+      ["Färben / Ansatz", "Färben / Ansatz", "auf Anfrage", "Dauer je nach Länge", "Ganz neue Farbe oder nur der Ansatz. Den Ton suchen wir vorher zusammen aus."]
+      // Strähnen / Balayage vorerst nicht anfragbar (09.11.2026): erst Beratungsgespräch
     ]],
     ["Herren", [
       ["Herren Haarschnitt", "Haarschnitt", "ab 20 €", "ca. 20 Min.", "Schere und Maschine, saubere Konturen, zum Schluss etwas Styling."],
@@ -857,7 +856,7 @@
   }
   // Damen: ein Haarschnitt und eine Farbe dürfen zusammen gewählt werden, aber nie zwei aus derselben Sorte
   var DAMEN_SCHNITT = ["Damen Haarschnitt", "Waschen, Schneiden, Föhnen"];
-  var DAMEN_FARBE = ["Färben / Ansatz", "Beratung für Strähnen / Balayage"];
+  var DAMEN_FARBE = ["Färben / Ansatz"];
   var damenFarbe = "";
   function waehleLeistung(wert) {
     LEISTUNGEN.forEach(function (g) { g[1].forEach(function (l) { if (l[0] === wert) zeigeGruppe(g[0]); }); });
