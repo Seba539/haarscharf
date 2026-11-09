@@ -146,6 +146,7 @@
 
   /* Preislisten */
   .row { display: flex; justify-content: space-between; gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--line); font-size: 16px; }
+  .row .inkl { display: block; font-size: 13px; color: #a89c8a; margin-top: 2px; }
   .row .p { color: var(--gold); white-space: nowrap; font-variant-numeric: tabular-nums; }
   .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 36px; margin-top: 44px; }
   .card h3 { font: 500 26px var(--serif); padding-bottom: 8px; margin-bottom: 4px; border-bottom: 1px solid var(--ink); }
@@ -273,6 +274,10 @@
   /* Termin in Schritten */
   .termin { background: rgba(251,248,243,.92); }
   form { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 26px; box-shadow: 0 10px 30px rgba(60,40,10,.08); }
+  .ablauf { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 620px; margin: 22px auto 0; padding: 0; }
+  .ablauf li { display: grid; justify-items: center; gap: 8px; text-align: center; font-size: 14px; line-height: 1.35; color: var(--ink); }
+  .ablauf li span { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--gold); color: #fff; font-weight: 600; font-size: 14px; }
+  .ablauf-satz { margin-top: 12px; font-weight: 600; color: var(--ink); }
   .fortschritt { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; counter-reset: s; }
   .fortschritt li { display: grid; justify-items: center; gap: 6px; font-size: 12px; color: var(--muted); text-align: center; position: relative; }
   .fortschritt li span { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; border: 1px solid #cfc3b1; background: #fff; font-weight: 600; color: var(--muted); position: relative; z-index: 1; }
@@ -441,6 +446,7 @@
           <h3>Damen</h3>
           <p class="spalte-text">Ob Spitzen nachschneiden, ein neuer Look oder ein mutiger Kurzhaarschnitt: Wir beraten dich in Ruhe und finden gemeinsam den Schnitt, der zu deinem Haar passt.</p>
           <h4>Haarschnitt</h4>
+          <p class="fussnote" style="margin:2px 0 0">inkl. Waschen, ohne Föhnen</p>
           <div class="row"><span>kurz</span><span class="p">ab 28 €</span></div>
           <div class="row"><span>mittel</span><span class="p">ab 35 €</span></div>
           <div class="row"><span>lang</span><span class="p">ab 40 €</span></div>
@@ -454,14 +460,15 @@
           <h3>Herren</h3>
           <p class="spalte-text">Scherenschnitt, Fade oder einfach kurz. Den Bart bringen wir auf Wunsch gleich mit in Form.</p>
           <h4>Haarschnitt</h4>
-          <div class="row"><span>Haarschnitt (trocken)*</span><span class="p">ab 20 €</span></div>
-          <div class="row"><span>Fade Cut (trocken)*</span><span class="p">ab 23 €</span></div>
+          <div class="row"><span>Haarschnitt<small class="inkl">ohne Waschen</small></span><span class="p">ab 20 €</span></div>
+          <div class="row"><span>Fade Cut<small class="inkl">ohne Waschen</small></span><span class="p">ab 23 €</span></div>
+          <div class="row"><span>Waschen, Schneiden, Stylen<small class="inkl">Haarschnitt oder Fade Cut inkl. Waschen &amp; Styling</small></span><span class="p">+ 3 €</span></div>
           <div class="row"><span>Kranzhaarschnitt</span><span class="p">ab 18 €</span></div>
           <h4>Bart</h4>
           <div class="row"><span>Full Service: Haarschnitt + Bart</span><span class="p">ab 33 €</span></div>
           <h4>Dauerwelle</h4>
           <div class="row"><span>Dauerwelle</span><span class="p anfrage">auf Anfrage</span></div>
-          <p class="fussnote">* Auf Wunsch mit Waschen, zzgl. 3 € · Neuhaarschnitt (viel Länge ab) mit kleinem Aufpreis</p>
+          <p class="fussnote">Neuhaarschnitt (viel Länge ab) mit kleinem Aufpreis</p>
         </div>
       </div>
       <p class="spontan" style="margin-top:30px">Alle Preise sind Ab-Preise. Der genaue Preis hängt von Haarlänge, Aufwand und Material ab. Wir sagen ihn dir vorher.</p>
@@ -513,13 +520,18 @@
   <section class="termin" id="termin">
     <div class="wrap">
       <span class="kicker">Termin</span>
-      <h2>Termin anfragen</h2>
-      <p class="lead">Wähl aus, was du möchtest. Wir schauen in unser Terminbuch und bestätigen dir den Termin per WhatsApp, oder schlagen dir eine andere Uhrzeit vor.</p>
+      <h2>Wunschtermin anfragen</h2>
+      <ol class="ablauf">
+        <li><span>1</span>Du schickst deinen Wunsch</li>
+        <li><span>2</span>Wir schauen ins Terminbuch</li>
+        <li><span>3</span>Du bekommst per WhatsApp deine genaue Uhrzeit</li>
+      </ol>
+      <p class="lead ablauf-satz">Erst dann steht dein Termin.</p>
 
       <form id="form" novalidate>
         <ol class="fortschritt" id="fortschritt">
           <li data-n="1" class="an"><span>1</span>Leistung</li>
-          <li data-n="2"><span>2</span>Tag &amp; Zeitraum</li>
+          <li data-n="2"><span>2</span>Wann passt es dir?</li>
           <li data-n="3"><span>3</span>Abschicken</li>
         </ol>
         <div class="schritt" data-schritt="1">
@@ -623,7 +635,7 @@
           <textarea id="notiz" placeholder="z. B. Bart auch kürzen, genaue Uhrzeit, Haare sind sehr lang …"></textarea>
         </div>
 
-        <button class="btn wa" type="submit"><svg><use href="#wa"/></svg>Anfrage per WhatsApp senden</button>
+        <button class="btn wa" type="submit"><svg><use href="#wa"/></svg>Wunschtermin per WhatsApp schicken</button>
         <div class="gesendet" id="gesendet" hidden>
           <b>Fast geschafft!</b>
           <p>Schick die Nachricht in WhatsApp ab. Wir prüfen dein Wunschdatum in unserem Terminbuch und bestätigen dir den Termin per WhatsApp.</p>
@@ -795,7 +807,7 @@
     fenster.forEach(function (f, i) {
       var drin = frei.filter(function (m) { return m >= f[0] && m < f[1]; });
       if (!drin.length) return;
-      var text = u(drin[0]) + "–" + u(f[1]) + " Uhr";
+      var text = "zwischen " + u(drin[0]) + " und " + u(f[1]) + " Uhr";
       box.insertAdjacentHTML("beforeend", '<input type="radio" name="zeit" id="z' + i + '" value="' + text + '"><label for="z' + i + '">' + text + '</label>');
     });
     box.insertAdjacentHTML("beforeend", '<input type="radio" name="zeit" id="zEgal" value="egal"><label for="zEgal">Egal, Hauptsache an dem Tag</label>');
@@ -809,13 +821,13 @@
   // ---------- Leistungs-Karten ----------
   var LEISTUNGEN = [
     ["Damen", [
-      ["Damen Haarschnitt", "Haarschnitt", "ab 28 €", "Dauer je nach Länge", "Erst reden wir kurz, was du dir wünschst, dann wird geschnitten. Der Preis richtet sich nach deiner Haarlänge."],
+      ["Damen Haarschnitt", "Haarschnitt", "ab 28 €", "Dauer je nach Länge", "Erst reden wir kurz, was du dir wünschst, dann wird geschnitten. Mit Waschen, ohne Föhnen. Der Preis richtet sich nach deiner Haarlänge."],
       ["Waschen, Schneiden, Föhnen", "Waschen, Schneiden, Föhnen", "auf Anfrage", "Dauer je nach Länge", "Waschen, schneiden, föhnen. Der Preis richtet sich nach der Haarlänge."],
       ["Färben / Ansatz", "Färben / Ansatz", "auf Anfrage", "Dauer je nach Länge", "Ganz neue Farbe oder nur der Ansatz. Den Ton suchen wir vorher zusammen aus."]
       // Strähnen / Balayage vorerst nicht anfragbar (09.11.2026): erst Beratungsgespräch
     ]],
     ["Herren", [
-      ["Herren Haarschnitt", "Haarschnitt", "ab 20 €", "ca. 20 Min.", "Schere und Maschine, saubere Konturen, zum Schluss etwas Styling."],
+      ["Herren Haarschnitt", "Haarschnitt", "ab 20 €", "ca. 20 Min.", "Schere und Maschine, saubere Konturen."],
       ["Fade Cut", "Fade Cut", "ab 23 €", "ca. 30 Min.", "Unten kurz, nach oben länger, oben so, wie du es willst."],
       ["Kranzhaarschnitt", "Kranzhaarschnitt", "ab 18 €", "ca. 15 Min.", "Für alle mit Haarkranz: Seiten und Nacken ordentlich nachschneiden, in einer Viertelstunde."],
       ["Full Service: Haarschnitt + Bart", "Full Service", "ab 33 €", "ca. 40 Min.", "Haarschnitt + Bart: Bart trimmen, in Form bringen und die Konturen mit dem Rasiermesser sauber ziehen."],
@@ -955,7 +967,7 @@
     var friseur = gewaehlt("friseur");
     var notiz = document.getElementById("notiz").value.trim();
     var nachricht =
-      "*TERMINANFRAGE*\n\n" +
+      "*WUNSCHTERMIN (noch nicht bestätigt)*\n\n" +
       "*Name:* " + name + "\n" +
       "*Leistung:* " + leistungText() + "\n" +
       (weitere.length ? "*Weitere Personen:*\n" + weitere.join("\n") + "\n" : "") +
