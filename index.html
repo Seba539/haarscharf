@@ -417,7 +417,8 @@
   .btn.wa, .float { background: linear-gradient(180deg, #2aa862 0%, #1f8f4e 60%, #1a7f45 100%) !important; color: #fff !important;
     border: 1px solid #1a7f45 !important; box-shadow: inset 0 1px 0 rgba(255,255,255,.4), 0 8px 20px rgba(31,143,78,.28); }
   /* Startbereich: Willkommen und „Mit und ohne Termin“ (09.11.2026) */
-  .hero .willkommen { font: 600 12px var(--sans); letter-spacing: .22em; text-transform: uppercase; color: var(--gold); margin: 0 0 10px; }
+  .hero .willkommen { font: italic 400 46px/1.1 var(--serif); color: var(--gold); margin: 0 0 14px; }
+  @media (max-width: 560px) { .hero .willkommen { font-size: 36px; } }
   .hero .hero-info { line-height: 1.7; }
   .hero .ohne-termin { display: inline-flex; align-items: center; gap: 10px; margin-top: 22px; padding: 10px 22px; border-radius: 999px;
     font: 600 18px var(--sans); color: var(--ink); background: rgba(255,255,255,.82); border: 1px solid rgba(156,122,69,.45);
@@ -450,9 +451,9 @@
 
 <main id="start">
   <div class="wrap hero">
+    <p class="willkommen">Willkommen bei</p>
     <img src="logo.svg" alt="Haarscharf – Friseur in Solingen">
     <div class="gold"></div>
-    <p class="willkommen">Willkommen bei Haarscharf</p>
     <h1>Dein Friseur in der Solinger Innenstadt</h1>
     <p class="hero-info">Damen, Herren und Kinder<br>Ufergarten 9–11, 42651 Solingen</p>
     <p class="ohne-termin"><span aria-hidden="true">✓</span>Mit und ohne Termin</p>
@@ -516,7 +517,6 @@
           <p class="fussnote">Die Herrenpreise gelten fürs Nachschneiden. Neuhaarschnitt (viel Länge ab, neue Form) kostet je nach Aufwand mehr.</p>
         </div>
       </div>
-      <p class="fussnote" style="text-align:center;margin-top:28px">Wo „ab“ steht, hängt der genaue Preis von Haarlänge, Aufwand und Material ab. Wir sagen ihn dir vorher.</p>
     </div>
   </section>
 
@@ -536,14 +536,15 @@
         </div>
         <div class="card">
           <h3>Kinder</h3>
-          <div class="row"><span>bis 8 Jahre</span><span class="p">ab 15 €</span></div>
-          <div class="row"><span>9 bis 14 Jahre</span><span class="p">ab 18 €</span></div>
+          <div class="row"><span>bis 8 Jahre</span><span class="p">15 €</span></div>
+          <div class="row"><span>9 bis 14 Jahre</span><span class="p">18 €</span></div>
+          <p class="fussnote">Die Kinderpreise gelten fürs Nachschneiden. Neuhaarschnitt (viel Länge ab, neue Form) kostet je nach Aufwand mehr.</p>
           <h3 style="margin-top:34px">Kosmetik</h3>
-          <div class="row"><span>Augenbrauen zupfen</span><span class="p">ab 10 €</span></div>
-          <div class="row"><span>Brauen / Wimpern färben</span><span class="p">ab 10 €</span></div>
+          <div class="row"><span>Augenbrauen zupfen</span><span class="p">10 €</span></div>
+          <div class="row"><span>Brauen / Wimpern färben</span><span class="p">10 €</span></div>
         </div>
       </div>
-      <p class="hinweis">Alle Preise inklusive MwSt. Wo „ab“ steht, hängt der genaue Preis von Haarlänge, Aufwand und Material ab, wir sagen ihn dir vorher. · Stand November 2026 · Getränke gehen aufs Haus.</p>
+      <p class="hinweis">Alle Preise inklusive MwSt. · Stand November 2026 · Getränke gehen aufs Haus.</p>
     </div>
   </section>
 
@@ -624,8 +625,8 @@
         <div id="kosmetikOpt" hidden>
           <span class="label">Kosmetik dazu</span>
           <div class="chips">
-            <input type="checkbox" id="zupfen" value="ja"><label for="zupfen">Augenbrauen zupfen (ab 10 €)</label>
-            <input type="checkbox" id="faerben" value="ja"><label for="faerben">Brauen / Wimpern färben (ab 10 €)</label>
+            <input type="checkbox" id="zupfen" value="ja"><label for="zupfen">Augenbrauen zupfen (10 €)</label>
+            <input type="checkbox" id="faerben" value="ja"><label for="faerben">Brauen / Wimpern färben (10 €)</label>
           </div>
           <p class="kal-hinweis" style="text-align:left">Kosmetik machen wir nur zusammen mit einem Haarschnitt.</p>
         </div>
@@ -693,7 +694,7 @@
           <button type="button" class="btn" id="zurueck" hidden>Zurück</button>
           <button type="button" class="btn fill" id="weiter">Weiter</button>
         </div>
-        <p class="klein"><b>Das ist eine Anfrage.</b> Dein Termin steht erst, wenn wir ihn dir per WhatsApp bestätigt haben. Wo „ab“ steht, sagen wir dir den genauen Preis vorher.<br>Lieber anrufen? <a href="tel:+492122260684">0212 2260684</a></p>
+        <p class="klein"><b>Das ist eine Anfrage.</b> Dein Termin steht erst, wenn wir ihn dir per WhatsApp bestätigt haben.<br>Lieber anrufen? <a href="tel:+492122260684">0212 2260684</a></p>
       </form>
     </div>
   </section>
@@ -877,7 +878,7 @@
       ["Full Service: Haarschnitt + Bart", "Full Service", "33 €", "ca. 40 Min.", "Schneiden, Waschen, Stylen und Rasur."],
     ]],
     ["Kinder", [
-      ["Kinderhaarschnitt", "Kinderhaarschnitt", "ab 15 €", "ca. 20 Min.", "Für Kinder bis 14. Wir haben Geduld, auch wenn mal jemand nicht stillsitzen mag."],
+      ["Kinderhaarschnitt", "Kinderhaarschnitt", "15 / 18 €", "ca. 20 Min.", "Für Kinder bis 14 (bis 8 Jahre 15 €, 9 bis 14 Jahre 18 €). Wir haben Geduld, auch wenn mal jemand nicht stillsitzen mag. Preis fürs Nachschneiden, ein Neuhaarschnitt kostet je nach Aufwand mehr."],
       ["Etwas anderes (bitte unten schreiben)", "Etwas anderes", "", "", "Du suchst etwas, das hier nicht steht? Schreib es uns einfach unten rein."]
     ]]
   ];
