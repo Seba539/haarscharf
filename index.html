@@ -429,6 +429,9 @@
     box-shadow: inset 0 1px 0 rgba(255,255,255,.95), 0 8px 24px rgba(60,40,10,.10); }
   .hero .ohne-termin span { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--gold); color: #fff; font-size: 13px; }
   .hero .btns { margin-top: 22px; }
+  #laenge .lp { color: var(--gold); font-weight: 600; margin-left: 6px; }
+  #laenge .lp:empty { display: none; }
+  .chips input:checked + label .lp { color: #e6c98f; }
   #start { scroll-margin-top: 200px; } /* „Startseite“ springt ganz nach oben */
 </style>
 </head>
@@ -623,6 +626,17 @@
             <input type="checkbox" id="neu" value="ja"><label for="neu">Neuhaarschnitt</label>
           </div>
           <p class="kal-hinweis" style="text-align:left">Neuhaarschnitt = es kommt viel Länge ab. Das braucht mehr Zeit und kostet je nach Aufwand mehr.</p>
+        </div>
+
+        <div id="damenOpt" hidden>
+          <span class="label">Wie lang sind deine Haare?</span>
+          <div class="chips" id="laenge">
+            <input type="radio" name="laenge" id="l1" value="kurz"><label for="l1">kurz<span class="lp"></span></label>
+            <input type="radio" name="laenge" id="l2" value="mittel"><label for="l2">mittel<span class="lp"></span></label>
+            <input type="radio" name="laenge" id="l3" value="lang"><label for="l3">lang<span class="lp"></span></label>
+            <input type="radio" name="laenge" id="l4" value="unsicher"><label for="l4">weiß ich nicht genau</label>
+          </div>
+          <p class="kal-hinweis" style="text-align:left">kurz = bis zum Kinn · mittel = bis zur Schulter · lang = über die Schulter</p>
         </div>
 
         <div id="kosmetikOpt" hidden>
@@ -942,6 +956,20 @@
     document.querySelector('label[for="waschen"]').parentNode.hidden = /Full Service/.test(l);
     document.querySelector('label[for="neu"]').parentNode.hidden = /Kranzhaarschnitt/.test(l);
     document.getElementById("kosmetikOpt").hidden = !l || /^Etwas anderes/.test(l);
+    // Damen: Haarlänge abfragen, Preise passend zur gewählten Leistung
+    var damen = DAMEN_SCHNITT.indexOf(l) >= 0 || DAMEN_FARBE.indexOf(l) >= 0;
+    document.getElementById("damenOpt").hidden = !damen;
+    var preise = DAMEN_PREISE[l] || null;
+    document.querySelectorAll("#laenge .lp").forEach(function (sp, i) { sp.textContent = preise ? "· " + preise[i] + " €" : ""; });
+  }
+  var DAMEN_PREISE = { "Damen Haarschnitt": [28, 35, 40], "Waschen, Schneiden, Föhnen": [38, 49, 59] };
+  function laengeText() {
+    if (document.getElementById("damenOpt").hidden) return "";
+    var w = gewaehlt("laenge");
+    if (!w) return "";
+    if (w === "unsicher") return ", Länge: weiß ich nicht genau";
+    var p = DAMEN_PREISE[document.getElementById("leistung").value];
+    return ", Länge: " + w + (p ? " (" + p[["kurz", "mittel", "lang"].indexOf(w)] + " €)" : "");
   }
   document.getElementById("leistung").addEventListener("change", herrenOptionen);
   function leistungText() {
@@ -952,7 +980,7 @@
       if (document.getElementById("faerben").checked) k.push("Brauen / Wimpern färben");
     }
     var kos = k.length ? ", dazu: " + k.join(" und ") : "";
-    if (document.getElementById("herrenOpt").hidden) return t + kos;
+    if (document.getElementById("herrenOpt").hidden) return t + laengeText() + kos;
     var w = document.getElementById("waschen");
     if (w.checked && !w.parentNode.hidden) t += ", mit Haare waschen";
     var n = document.getElementById("neu");
@@ -1082,6 +1110,7 @@
   document.getElementById("weiter").addEventListener("click", function () {
     var fehler = document.getElementById("fehler");
     if (schritt === 1 && !document.getElementById("leistung").value) { fehler.textContent = "Bitte wähl aus, was du möchtest."; return; }
+    if (schritt === 1 && !document.getElementById("damenOpt").hidden && !gewaehlt("laenge")) { fehler.textContent = "Bitte wähl aus, wie lang deine Haare sind."; document.getElementById("damenOpt").scrollIntoView({ block: "center" }); return; }
     if (schritt === 2 && !gewaehlterTag) { fehler.textContent = "Bitte wähl im Kalender einen Wunschtag aus."; return; }
     if (schritt === 2 && !gewaehlt("zeit")) { fehler.textContent = "Bitte wähl einen Zeitraum aus."; return; }
     zeigeSchritt(schritt + 1);
