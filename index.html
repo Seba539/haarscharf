@@ -433,6 +433,18 @@
   #laenge .lp:empty { display: none; }
   .chips input:checked + label .lp { color: #e6c98f; }
   #start { scroll-margin-top: 200px; } /* „Startseite“ springt ganz nach oben */
+
+  /* Seit 10.11.2026: Auswahl untereinander mit Erklärung (Länge, Ansatz) */
+  .wahl { display: grid; gap: 8px; max-width: 420px; }
+  .wahl input { position: absolute; opacity: 0; pointer-events: none; }
+  .wahl label { margin: 0; display: grid; gap: 2px; padding: 11px 16px; min-height: 48px; align-content: center; border: 1px solid #cfc3b1; border-radius: 16px; background: rgba(255,255,255,.7); cursor: pointer; font-weight: 500; }
+  .wahl label b { font-size: 15px; font-weight: 600; }
+  .wahl label small { font-size: 13px; color: var(--muted); }
+  .wahl input:checked + label { background: linear-gradient(180deg, #333 0%, #1a1a1a 55%, #111 100%); color: var(--on-dark); border-color: #111; }
+  .wahl input:checked + label small { color: #d9d2c7; }
+  .wahl input:checked + label .lp { color: #e6c98f; }
+  .wahl input:focus-visible + label { outline: 2px solid var(--gold); outline-offset: 2px; }
+  #ansatzBox { margin-top: 16px; }
 </style>
 </head>
 <body>
@@ -609,7 +621,8 @@
             <optgroup label="Damen">
               <option>Damen Haarschnitt</option>
               <option>Waschen, Schneiden, Föhnen</option>
-              <option>Färben / Ansatz</option>
+              <option>Komplett färben</option>
+              <option>Ansatz färben</option>
             </optgroup>
             <optgroup label="Kinder">
               <option>Kinderhaarschnitt</option>
@@ -630,14 +643,22 @@
         </div>
 
         <div id="damenOpt" hidden>
+          <div id="laengeBox">
           <span class="label">Wie lang sind deine Haare?</span>
-          <div class="chips" id="laenge">
-            <input type="radio" name="laenge" id="l1" value="kurz"><label for="l1">kurz<span class="lp"></span></label>
-            <input type="radio" name="laenge" id="l2" value="mittel"><label for="l2">mittel<span class="lp"></span></label>
-            <input type="radio" name="laenge" id="l3" value="lang"><label for="l3">lang<span class="lp"></span></label>
-            <input type="radio" name="laenge" id="l4" value="unsicher"><label for="l4">weiß ich nicht genau</label>
+          <div class="wahl" id="laenge">
+            <input type="radio" name="laenge" id="l1" value="kurz"><label for="l1"><b>kurz<span class="lp"></span></b><small>bis zum Ohr</small></label>
+            <input type="radio" name="laenge" id="l2" value="mittel"><label for="l2"><b>mittel<span class="lp"></span></b><small>bis zur Schulter</small></label>
+            <input type="radio" name="laenge" id="l3" value="lang"><label for="l3"><b>lang<span class="lp"></span></b><small>über die Schulter</small></label>
           </div>
-          <p class="kal-hinweis" style="text-align:left">kurz = bis zum Ohr · mittel = bis zur Schulter · lang = über die Schulter</p>
+          </div>
+          <div id="ansatzBox" hidden>
+          <span class="label">Wie lang ist dein Ansatz?</span>
+          <div class="wahl" id="ansatz">
+            <input type="radio" name="ansatz" id="a1" value="bis 2 cm"><label for="a1"><b>bis 2 cm</b></label>
+            <input type="radio" name="ansatz" id="a2" value="mehr als 2 cm"><label for="a2"><b>mehr als 2 cm</b></label>
+          </div>
+          <p class="kal-hinweis" style="text-align:left">Ansatz = das nachgewachsene Stück Haar ohne Farbe.</p>
+          </div>
         </div>
 
         <div id="kosmetikOpt" hidden>
@@ -886,7 +907,8 @@
     ["Damen", [
       ["Damen Haarschnitt", "Haarschnitt", "28 / 35 / 40 €", "Dauer je nach Länge", "Beratung, Waschen und Schnitt, ohne Föhnen. Preis nach Länge: kurz / mittel / lang."],
       ["Waschen, Schneiden, Föhnen", "Waschen, Schneiden, Föhnen", "38 / 49 / 59 €", "Dauer je nach Länge", "Beratung, Waschen, Schnitt und Föhnen. Preis nach Länge: kurz / mittel / lang."],
-      ["Färben / Ansatz", "Färben / Ansatz", "auf Anfrage", "Dauer je nach Länge", "Ganz neue Farbe oder nur der Ansatz. Den Ton suchen wir vorher zusammen aus."]
+      ["Komplett färben", "Komplett färben", "auf Anfrage", "Dauer je nach Länge", "Neue Farbe für das ganze Haar. Den Ton suchen wir vorher zusammen aus."],
+      ["Ansatz färben", "Ansatz färben", "auf Anfrage", "", "Nur der nachgewachsene Ansatz. Den Ton suchen wir vorher zusammen aus."]
       // Strähnen / Balayage vorerst nicht anfragbar (09.11.2026): erst Beratungsgespräch
     ]],
     ["Herren", [
@@ -931,7 +953,7 @@
   }
   // Damen: ein Haarschnitt und eine Farbe dürfen zusammen gewählt werden, aber nie zwei aus derselben Sorte
   var DAMEN_SCHNITT = ["Damen Haarschnitt", "Waschen, Schneiden, Föhnen"];
-  var DAMEN_FARBE = ["Färben / Ansatz"];
+  var DAMEN_FARBE = ["Komplett färben", "Ansatz färben"];
   var damenFarbe = "";
   function waehleLeistung(wert) {
     LEISTUNGEN.forEach(function (g) { g[1].forEach(function (l) { if (l[0] === wert) zeigeGruppe(g[0]); }); });
@@ -958,19 +980,27 @@
     document.querySelector('label[for="neu"]').parentNode.hidden = /Kranzhaarschnitt/.test(l);
     document.getElementById("kosmetikOpt").hidden = !l || /^Etwas anderes/.test(l);
     // Damen: Haarlänge abfragen, Preise passend zur gewählten Leistung
-    var damen = DAMEN_SCHNITT.indexOf(l) >= 0 || DAMEN_FARBE.indexOf(l) >= 0;
-    document.getElementById("damenOpt").hidden = !damen;
+    var alle = [l, damenFarbe];
+    var mitLaenge = alle.some(function (x) { return DAMEN_SCHNITT.indexOf(x) >= 0 || x === "Komplett färben"; });
+    var mitAnsatz = alle.indexOf("Ansatz färben") >= 0;
+    document.getElementById("damenOpt").hidden = !(mitLaenge || mitAnsatz);
+    document.getElementById("laengeBox").hidden = !mitLaenge;
+    document.getElementById("ansatzBox").hidden = !mitAnsatz;
     var preise = DAMEN_PREISE[l] || null;
     document.querySelectorAll("#laenge .lp").forEach(function (sp, i) { sp.textContent = preise ? "· " + preise[i] + " €" : ""; });
   }
   var DAMEN_PREISE = { "Damen Haarschnitt": [28, 35, 40], "Waschen, Schneiden, Föhnen": [38, 49, 59] };
   function laengeText() {
     if (document.getElementById("damenOpt").hidden) return "";
+    var t = "";
     var w = gewaehlt("laenge");
-    if (!w) return "";
-    if (w === "unsicher") return ", Länge: weiß ich nicht genau";
-    var p = DAMEN_PREISE[document.getElementById("leistung").value];
-    return ", Länge: " + w + (p ? " (" + p[["kurz", "mittel", "lang"].indexOf(w)] + " €)" : "");
+    if (w && !document.getElementById("laengeBox").hidden) {
+      if (w === "unsicher") t += ", Länge: weiß ich nicht genau";
+      else { var p = DAMEN_PREISE[document.getElementById("leistung").value]; t += ", Länge: " + w + (p ? " (" + p[["kurz", "mittel", "lang"].indexOf(w)] + " €)" : ""); }
+    }
+    var a = gewaehlt("ansatz");
+    if (a && !document.getElementById("ansatzBox").hidden) t += ", Ansatz: " + a;
+    return t;
   }
   document.getElementById("leistung").addEventListener("change", herrenOptionen);
   function leistungText() {
@@ -1111,7 +1141,8 @@
   document.getElementById("weiter").addEventListener("click", function () {
     var fehler = document.getElementById("fehler");
     if (schritt === 1 && !document.getElementById("leistung").value) { fehler.textContent = "Bitte wähl aus, was du möchtest."; return; }
-    if (schritt === 1 && !document.getElementById("damenOpt").hidden && !gewaehlt("laenge")) { fehler.textContent = "Bitte wähl aus, wie lang deine Haare sind."; document.getElementById("damenOpt").scrollIntoView({ block: "center" }); return; }
+    if (schritt === 1 && !document.getElementById("damenOpt").hidden && !document.getElementById("laengeBox").hidden && !gewaehlt("laenge")) { fehler.textContent = "Bitte wähl aus, wie lang deine Haare sind."; document.getElementById("laengeBox").scrollIntoView({ block: "center" }); return; }
+    if (schritt === 1 && !document.getElementById("damenOpt").hidden && !document.getElementById("ansatzBox").hidden && !gewaehlt("ansatz")) { fehler.textContent = "Bitte wähl aus, wie lang dein Ansatz ist."; document.getElementById("ansatzBox").scrollIntoView({ block: "center" }); return; }
     if (schritt === 2 && !gewaehlterTag) { fehler.textContent = "Bitte wähl im Kalender einen Wunschtag aus."; return; }
     if (schritt === 2 && !gewaehlt("zeit")) { fehler.textContent = "Bitte wähl einen Zeitraum aus."; return; }
     zeigeSchritt(schritt + 1);
