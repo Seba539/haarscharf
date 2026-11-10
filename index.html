@@ -445,6 +445,18 @@
   .wahl input:checked + label .lp { color: #e6c98f; }
   .wahl input:focus-visible + label { outline: 2px solid var(--gold); outline-offset: 2px; }
   #ansatzBox { margin-top: 16px; }
+
+  /* Reihe Dauerwelle, Farbe, Strähnen nebeneinander */
+  .cards.chemie { grid-template-columns: repeat(2, 1fr); gap: 28px; }
+  @media (max-width: 760px) { .cards.chemie { grid-template-columns: 1fr; } }
+  .cards.einzeln { grid-template-columns: minmax(0, 480px); justify-content: center; }
+  .offen { background: #ffe27a; color: #1a1a1a; border-radius: 4px; padding: 0 4px; }
+
+  /* Unterkategorien (Haarschnitt, Bart, Damen, Herren …) deutlicher */
+  .spalte h4, .card h4 { display: flex; align-items: center; gap: 12px; font: 600 14px var(--sans); letter-spacing: .14em; color: var(--gold); margin: 28px 0 6px; }
+  .spalte h4::after, .card h4::after { content: ""; flex: 1; height: 1px; background: currentColor; opacity: .35; }
+  /* Telefonnummer im Startbereich größer */
+  .hero .btn.tel { font-size: 18px; letter-spacing: .1em; font-weight: 600; }
 </style>
 </head>
 <body>
@@ -477,7 +489,7 @@
     <p class="ohne-termin"><span aria-hidden="true">✓</span>Mit und ohne Termin</p>
     <div class="btns">
       <a class="btn wa" href="#termin"><svg><use href="#wa"/></svg>Termin anfragen</a>
-      <a class="btn" href="tel:+492122260684">0212 2260684</a>
+      <a class="btn tel" href="tel:+492122260684">0212 2260684</a>
     </div>
   </div>
   <div class="wrap">
@@ -511,14 +523,12 @@
           <p class="fussnote" style="margin:2px 0 0">Beratung, Waschen und Schnitt, ohne Föhnen</p>
           <div class="row"><span>kurz</span><span class="p">28 €</span></div>
           <div class="row"><span>mittel</span><span class="p">35 €</span></div>
-          <div class="row"><span>lang</span><span class="p">40 €</span></div>
+          <div class="row"><span>lang</span><span class="p">39 €</span></div>
           <h4>Waschen, Schneiden, Föhnen</h4>
           <p class="fussnote" style="margin:2px 0 0">Beratung, Waschen, Schnitt und Föhnen</p>
           <div class="row"><span>kurz</span><span class="p">38 €</span></div>
           <div class="row"><span>mittel</span><span class="p">49 €</span></div>
           <div class="row"><span>lang</span><span class="p">59 €</span></div>
-          <h4>Dauerwelle</h4>
-          <div class="row"><span>Dauerwelle</span><span class="p anfrage">auf Anfrage</span></div>
           <p class="fussnote">Die Damenpreise gelten fürs Nachschneiden. Neuhaarschnitt (viel Länge ab, neue Form) kostet je nach Aufwand mehr.</p>
         </div>
         <div class="spalte">
@@ -532,7 +542,7 @@
           <h4>Bart</h4>
           <div class="row"><span>Full Service: Haarschnitt + Bart<small class="inkl">Schneiden, Waschen, Stylen und Rasur</small></span><span class="p">33 €</span></div>
           <h4>Dauerwelle</h4>
-          <div class="row"><span>Dauerwelle<small class="inkl">Oberkopf, inkl. Waschen, Schneiden und Stylen</small></span><span class="p">65 €</span></div>
+          <div class="row"><span>Dauerwelle Oberkopf<small class="inkl">inkl. Waschen und Schneiden</small></span><span class="p">65 €</span></div>
           <p class="fussnote">Die Herrenpreise gelten fürs Nachschneiden. Neuhaarschnitt (viel Länge ab, neue Form) kostet je nach Aufwand mehr.</p>
         </div>
       </div>
@@ -542,17 +552,46 @@
   <section id="preise">
     <div class="wrap">
       <span class="kicker">Preise</span>
-      <h2>Farbe, Kinder &amp; Kosmetik</h2>
-      <div class="cards">
+      <h2>Föhnen, Dauerwelle, Farbe &amp; Strähnen</h2>
+      <!-- Preise vorerst „auf Anfrage“ (Sebastiano, 10.11.2026). Später: Strähnen und Farbe mit „ab“, Dauerwelle und Föhnen ohne „ab“. Herren-Dauerwelle ganzer Kopf 75 € vorgemerkt, nicht angezeigt -->
+      <div class="cards chemie">
         <div class="card">
-          <h3>Farbe</h3>
-          <!-- vorübergehend ohne Preise (06.11.2026), vorher: Komplett färben kurz 38 / mittel 48 / lang 58, Strähnen 40 / 50 / 60, Ansatz 32, Balayage 150 (alles ab) -->
-          <div class="row"><span>Komplett färben</span><span class="p anfrage">auf Anfrage</span></div>
-          <div class="row"><span>Strähnen</span><span class="p anfrage">nach Beratung</span></div>
-          <div class="row"><span>Ansatz färben</span><span class="p anfrage">auf Anfrage</span></div>
-          <div class="row"><span>Balayage</span><span class="p anfrage">nach Beratung</span></div>
-          <p class="fussnote">Den Preis sagen wir dir gern vorher, je nach Haarlänge und Aufwand. Bei Strähnen und Balayage machen wir zuerst ein Beratungsgespräch: Wir schauen uns dein Haar an und sagen dir, was möglich ist und was es kostet.</p>
+          <h3>Föhnen / Stylen</h3>
+          <div class="row"><span>kurz</span><span class="p anfrage">auf Anfrage</span></div>
+          <div class="row"><span>mittellang</span><span class="p anfrage">auf Anfrage</span></div>
+          <div class="row"><span>lang</span><span class="p anfrage">auf Anfrage</span></div>
         </div>
+        <div class="card">
+          <h3>Dauerwelle</h3>
+          <p class="fussnote" style="margin:2px 0 6px">inkl. Haarpflege</p>
+          <div class="row"><span>kurz</span><span class="p anfrage">auf Anfrage</span></div>
+          <div class="row"><span>mittellang</span><span class="p anfrage">auf Anfrage</span></div>
+          <div class="row"><span>lang</span><span class="p anfrage">auf Anfrage</span></div>
+        </div>
+        <div class="card">
+          <h3>Haarfarbe / Tönung</h3>
+          <p class="fussnote" style="margin:2px 0 6px">Je nach Produkt, Materialverbrauch und Haarlänge</p>
+          <div class="row"><span>Ansatzfarbe (2 cm)</span><span class="p anfrage">auf Anfrage</span></div>
+          <div class="row"><span>+ Längenfärbung kurz</span><span class="p anfrage">auf Anfrage</span></div>
+          <div class="row"><span>+ Längenfärbung mittel / Bob</span><span class="p anfrage">auf Anfrage</span></div>
+          <div class="row"><span>+ Längenfärbung lang</span><span class="p anfrage">auf Anfrage</span></div>
+          <div class="row"><span>+ Farbnachbehandlung / Haarpflege</span><span class="p">+ 10 €</span></div>
+        </div>
+        <div class="card">
+          <h3>Strähnen</h3>
+          <p class="fussnote" style="margin:2px 0 6px">Je nach Technik, Material und Haarlänge</p>
+          <div class="row"><span>kurz</span><span class="p anfrage">auf Anfrage</span></div>
+          <div class="row"><span>mittel / Bob</span><span class="p anfrage">auf Anfrage</span></div>
+          <div class="row"><span>lang</span><span class="p anfrage">auf Anfrage</span></div>
+          <div class="row"><span>Kammsträhnen</span><span class="p anfrage">auf Anfrage</span></div>
+          <div class="row"><span>Haubensträhnen</span><span class="p anfrage">auf Anfrage</span></div>
+          <div class="row"><span>Balayage</span><span class="p anfrage">nach Beratung</span></div>
+          <p class="fussnote">Bei Strähnen und Balayage machen wir zuerst ein Beratungsgespräch: Wir schauen uns dein Haar an und sagen dir, was möglich ist und was es kostet.</p>
+        </div>
+      </div>
+
+      <h2 style="margin-top:64px">Kinder &amp; Kosmetik</h2>
+      <div class="cards einzeln">
         <div class="card">
           <h3>Kinder</h3>
           <div class="row"><span>bis 8 Jahre</span><span class="p">15 €</span></div>
@@ -617,12 +656,14 @@
               <option>Fade Cut</option>
               <option>Kranzhaarschnitt</option>
               <option>Full Service: Haarschnitt + Bart</option>
+              <option>Dauerwelle Oberkopf (Herren)</option>
             </optgroup>
             <optgroup label="Damen">
               <option>Damen Haarschnitt</option>
               <option>Waschen, Schneiden, Föhnen</option>
               <option>Komplett färben</option>
               <option>Ansatz färben</option>
+              <option>Dauerwelle (Damen)</option>
             </optgroup>
             <optgroup label="Kinder">
               <option>Kinderhaarschnitt</option>
@@ -905,10 +946,11 @@
   // ---------- Leistungs-Karten ----------
   var LEISTUNGEN = [
     ["Damen", [
-      ["Damen Haarschnitt", "Haarschnitt", "28 / 35 / 40 €", "Dauer je nach Länge", "Beratung, Waschen und Schnitt, ohne Föhnen. Preis nach Länge: kurz / mittel / lang."],
-      ["Waschen, Schneiden, Föhnen", "Waschen, Schneiden, Föhnen", "38 / 49 / 59 €", "Dauer je nach Länge", "Beratung, Waschen, Schnitt und Föhnen. Preis nach Länge: kurz / mittel / lang."],
-      ["Komplett färben", "Komplett färben", "auf Anfrage", "Dauer je nach Länge", "Neue Farbe für das ganze Haar. Den Ton suchen wir vorher zusammen aus."],
-      ["Ansatz färben", "Ansatz färben", "auf Anfrage", "", "Nur der nachgewachsene Ansatz. Den Ton suchen wir vorher zusammen aus."]
+      ["Damen Haarschnitt", "Haarschnitt", "28 / 35 / 39 €", "Dauer je nach Länge", "Beratung, Waschen und Schnitt, ohne Föhnen."],
+      ["Waschen, Schneiden, Föhnen", "Waschen, Schneiden, Föhnen", "38 / 49 / 59 €", "Dauer je nach Länge", "Beratung, Waschen, Schnitt und Föhnen."],
+      ["Komplett färben", "Komplett färben", "auf Anfrage", "Dauer je nach Länge", "Je nach Produkt, Materialverbrauch und Haarlänge."],
+      ["Ansatz färben", "Ansatz färben", "auf Anfrage", "", "Je nach Produkt, Materialverbrauch und Haarlänge."],
+      ["Dauerwelle (Damen)", "Dauerwelle", "auf Anfrage", "Dauer je nach Länge", "Inkl. Haarpflege."]
       // Strähnen / Balayage vorerst nicht anfragbar (09.11.2026): erst Beratungsgespräch
     ]],
     ["Herren", [
@@ -916,6 +958,7 @@
       ["Fade Cut", "Fade Cut", "23 €", "ca. 30 Min.", "Fließende Übergänge, scharfe Konturen, ohne Waschen."],
       ["Kranzhaarschnitt", "Kranzhaarschnitt", "18 €", "ca. 15 Min.", "Seiten und Nacken sauber nachschneiden."],
       ["Full Service: Haarschnitt + Bart", "Full Service", "33 €", "ca. 40 Min.", "Schneiden, Waschen, Stylen und Rasur."],
+      ["Dauerwelle Oberkopf (Herren)", "Dauerwelle Oberkopf", "65 €", "", "Inkl. Waschen und Schneiden."],
     ]],
     ["Kinder", [
       ["Kinderhaarschnitt", "Kinderhaarschnitt", "15 / 18 €", "ca. 20 Min.", "Für Kinder bis 14 (bis 8 Jahre 15 €, 9 bis 14 Jahre 18 €). Wir haben Geduld, auch wenn mal jemand nicht stillsitzen mag. Preis fürs Nachschneiden, ein Neuhaarschnitt kostet je nach Aufwand mehr."],
@@ -981,7 +1024,7 @@
     document.getElementById("kosmetikOpt").hidden = !l || /^Etwas anderes/.test(l);
     // Damen: Haarlänge abfragen, Preise passend zur gewählten Leistung
     var alle = [l, damenFarbe];
-    var mitLaenge = alle.some(function (x) { return DAMEN_SCHNITT.indexOf(x) >= 0 || x === "Komplett färben"; });
+    var mitLaenge = alle.some(function (x) { return DAMEN_SCHNITT.indexOf(x) >= 0 || x === "Komplett färben" || x === "Dauerwelle (Damen)"; });
     var mitAnsatz = alle.indexOf("Ansatz färben") >= 0;
     document.getElementById("damenOpt").hidden = !(mitLaenge || mitAnsatz);
     document.getElementById("laengeBox").hidden = !mitLaenge;
@@ -989,7 +1032,7 @@
     var preise = DAMEN_PREISE[l] || null;
     document.querySelectorAll("#laenge .lp").forEach(function (sp, i) { sp.textContent = preise ? "· " + preise[i] + " €" : ""; });
   }
-  var DAMEN_PREISE = { "Damen Haarschnitt": [28, 35, 40], "Waschen, Schneiden, Föhnen": [38, 49, 59] };
+  var DAMEN_PREISE = { "Damen Haarschnitt": [28, 35, 39], "Waschen, Schneiden, Föhnen": [38, 49, 59] };
   function laengeText() {
     if (document.getElementById("damenOpt").hidden) return "";
     var t = "";
