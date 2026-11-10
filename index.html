@@ -459,6 +459,14 @@
   .spalte h4::after, .card h4::after { content: ""; flex: 1; height: 1px; background: currentColor; opacity: .35; }
   /* Telefonnummer im Startbereich größer */
   .hero .btn.tel { font-size: 18px; letter-spacing: .1em; font-weight: 600; }
+
+  /* Foto-Laufband Salon (10.11.2026) */
+  .salon-fotos { text-align: center; }
+  .fotos { display: flex; gap: 16px; max-width: 1000px; margin: 34px auto 0; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding: 4px 2px 8px; }
+  .fotos::-webkit-scrollbar { display: none; }
+  .foto { flex: 0 0 calc((100% - 16px) / 2); margin: 0; scroll-snap-align: start; aspect-ratio: 4 / 3; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(60,40,10,.12); }
+  .foto img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  @media (max-width: 760px) { .foto { flex-basis: 88%; } }
 </style>
 </head>
 <body>
@@ -614,6 +622,19 @@
         </div>
       </div>
       <p class="hinweis">Alle Preise inklusive MwSt. · Stand November 2026 · Getränke gehen aufs Haus.</p>
+    </div>
+  </section>
+
+  <section id="salon" class="salon-fotos">
+    <div class="wrap">
+      <span class="kicker">Salon</span>
+      <h2>So sieht es bei uns aus</h2>
+      <div class="fotos">
+        <figure class="foto"><img src="foto-plaetze.jpg" alt="Bedienplätze im Salon Haarscharf" loading="lazy" width="1400" height="1050"></figure>
+        <figure class="foto"><img src="foto-waschplaetze.jpg" alt="Waschplätze im Salon Haarscharf" loading="lazy" width="1400" height="1050"></figure>
+        <figure class="foto"><img src="foto-plaetze-hoch.jpg" alt="Friseurstühle vor den Spiegeln" loading="lazy" width="1050" height="1400"></figure>
+      </div>
+      <div class="stimmen-punkte" id="fotoPunkte" aria-hidden="true"></div>
     </div>
   </section>
 
@@ -1153,6 +1174,29 @@
     var box = document.querySelector(".stimmen"), punkte = document.getElementById("stimmenPunkte");
     if (!box) return;
     var karten = box.querySelectorAll(".stimme"), pause = false, i = 0;
+    function proSeite() { return Math.max(1, Math.round(box.clientWidth / karten[0].offsetWidth)); }
+    function seiten() { return Math.max(1, karten.length - proSeite() + 1); }
+    function zeichnen() {
+      punkte.innerHTML = "";
+      for (var k = 0; k < seiten(); k++) { var b = document.createElement("button"); b.className = k === i ? "an" : ""; (function (k) { b.onclick = function () { gehe(k); }; })(k); punkte.appendChild(b); }
+    }
+    function gehe(k) { i = k; box.scrollLeft = karten[k].offsetLeft - karten[0].offsetLeft; zeichnen(); }
+    box.addEventListener("scroll", function () {
+      var w = karten[0].offsetWidth + 16, k = Math.round(box.scrollLeft / w);
+      if (k !== i) { i = Math.min(k, seiten() - 1); zeichnen(); }
+    }, { passive: true });
+    ["mouseenter", "touchstart", "focusin"].forEach(function (e) { box.addEventListener(e, function () { pause = true; }, { passive: true }); });
+    ["mouseleave", "touchend"].forEach(function (e) { box.addEventListener(e, function () { setTimeout(function () { pause = false; }, 4000); }, { passive: true }); });
+    window.addEventListener("resize", zeichnen);
+    zeichnen();
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) setInterval(function () { if (!pause && seiten() > 1) gehe((i + 1) % seiten()); }, 5000);
+  })();
+
+  // Foto-Laufband: wie die Kundenstimmen
+  (function () {
+    var box = document.querySelector(".fotos"), punkte = document.getElementById("fotoPunkte");
+    if (!box) return;
+    var karten = box.querySelectorAll(".foto"), pause = false, i = 0;
     function proSeite() { return Math.max(1, Math.round(box.clientWidth / karten[0].offsetWidth)); }
     function seiten() { return Math.max(1, karten.length - proSeite() + 1); }
     function zeichnen() {
