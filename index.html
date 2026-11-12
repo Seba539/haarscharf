@@ -534,7 +534,7 @@
           <p class="spalte-text">Ob Spitzen nachschneiden, ein neuer Look oder ein mutiger Kurzhaarschnitt: Wir beraten dich in Ruhe und finden gemeinsam den Schnitt, der zu deinem Haar passt.</p>
           <h4>Haarschnitt</h4>
           <p class="fussnote" style="margin:2px 0 0">Beratung, Waschen und Schnitt, ohne Föhnen</p>
-          <div class="row"><span>kurz</span><span class="p">28 €</span></div>
+          <div class="row"><span>kurz<small class="inkl">je nach Haarfülle</small></span><span class="p">28 / 30 €</span></div>
           <div class="row"><span>mittel</span><span class="p">35 €</span></div>
           <div class="row"><span>lang</span><span class="p">39 €</span></div>
           <h4>Waschen, Schneiden, Föhnen</h4>
@@ -978,7 +978,7 @@
   // ---------- Leistungs-Karten ----------
   var LEISTUNGEN = [
     ["Damen", [
-      ["Damen Haarschnitt", "Haarschnitt", "28 / 35 / 39 €", "Dauer je nach Länge", "Beratung, Waschen und Schnitt, ohne Föhnen."],
+      ["Damen Haarschnitt", "Haarschnitt", "28–30 / 35 / 39 €", "Dauer je nach Länge", "Beratung, Waschen und Schnitt, ohne Föhnen."],
       ["Waschen, Schneiden, Föhnen", "Waschen, Schneiden, Föhnen", "38 / 48 / 58 €", "Dauer je nach Länge", "Beratung, Waschen, Schnitt und Föhnen."],
       ["Komplett färben", "Komplett färben", "auf Anfrage", "Dauer je nach Länge", "Je nach Produkt, Materialverbrauch und Haarlänge."],
       ["Ansatz färben", "Ansatz färben", "ab 39 €", "", "Je nach Produkt, Materialverbrauch und Haarlänge."],
@@ -1065,7 +1065,7 @@
     var preise = DAMEN_PREISE[l] || null;
     document.querySelectorAll("#laenge .lp").forEach(function (sp, i) { sp.textContent = preise ? "· " + preise[i] + " €" : ""; });
   }
-  var DAMEN_PREISE = { "Damen Haarschnitt": [28, 35, 39], "Waschen, Schneiden, Föhnen": [38, 48, 58], "Dauerwelle (Damen)": [70, 85, 105] };
+  var DAMEN_PREISE = { "Damen Haarschnitt": ["28 / 30", 35, 39], "Waschen, Schneiden, Föhnen": [38, 48, 58], "Dauerwelle (Damen)": [70, 85, 105] };
   function laengeText() {
     if (document.getElementById("damenOpt").hidden) return "";
     var t = "";
