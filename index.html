@@ -1106,32 +1106,32 @@
   }
   function leistungText() {
     var l = document.getElementById("leistung").value;
-    var t = l + (damenFarbe ? " + " + damenFarbe : "");
-    // Seit 18.11.2026: bei Herren und Kindern Preise und Gesamtbetrag in der Nachricht (Wunsch Sebastiano)
-    var basis = festpreis(l), summe = basis;
-    if (basis !== null) t += " (" + basis + " €)";
-    var k = [];
-    if (!document.getElementById("kosmetikOpt").hidden) {
-      [["zupfen", "Augenbrauen zupfen", 10], ["faerben", "Brauen färben", 10], ["wimpern", "Wimpern färben", 15]].forEach(function (x) {
-        if (!document.getElementById(x[0]).checked) return;
-        if (basis !== null) { k.push(x[1] + " (+" + x[2] + " €)"); summe += x[2]; } else k.push(x[1]);
-      });
+    var basis = festpreis(l);
+    var kosm = [["zupfen", "Augenbrauen zupfen", "Augenbrauen", 10], ["faerben", "Brauen färben", "Brauen färben", 10], ["wimpern", "Wimpern färben", "Wimpern färben", 15]];
+    var kosmAn = !document.getElementById("kosmetikOpt").hidden;
+    var herrenAn = !document.getElementById("herrenOpt").hidden;
+    if (basis === null) {
+      // Damen und Leistungen ohne Festpreis: wie bisher
+      var t = l + (damenFarbe ? " + " + damenFarbe : "");
+      var k = [];
+      if (kosmAn) kosm.forEach(function (x) { if (document.getElementById(x[0]).checked) k.push(x[1]); });
+      return t + laengeText() + (k.length ? ", dazu: " + k.join(" und ") : "");
     }
-    var kos = k.length ? ", dazu: " + k.join(" und ") : "";
-    var neuText = "";
-    if (document.getElementById("herrenOpt").hidden) {
-      t += laengeText();
-    } else {
+    // Herren und Kinder (seit 18.11.2026): kurz als Rechnung, z. B. "Haarschnitt Plus / Fade Cut 23 € + Waschen 3 € + Bartrasur 10 € = 36 €"
+    var teile = [], summe = basis, nachAufwand = false;
+    if (herrenAn) {
       var w = document.getElementById("waschen");
-      if (w.checked && !w.parentNode.hidden) { t += ", mit Haare waschen" + (basis !== null ? " (+3 €)" : ""); summe += 3; }
-      var b = document.getElementById("bart");
-      if (b.checked && !b.hidden) { t += ", mit Bartrasur" + (basis !== null ? " (+10 €)" : ""); summe += 10; }
-      var n = document.getElementById("neu");
-      if (n.checked && !n.parentNode.hidden) { t += ", Neuhaarschnitt (viel Länge ab)"; neuText = ", Neuhaarschnitt kostet je nach Aufwand mehr"; }
+      if (w.checked && !w.parentNode.hidden) { teile.push("Waschen 3 €"); summe += 3; }
+      if (document.getElementById("bart").checked) { teile.push("Bartrasur 10 €"); summe += 10; }
     }
-    t += kos;
-    if (basis !== null && summe !== basis) t += ", zusammen " + summe + " €";
-    return t + neuText;
+    if (kosmAn) kosm.forEach(function (x) { if (document.getElementById(x[0]).checked) { teile.push(x[2] + " " + x[3] + " €"); summe += x[3]; } });
+    if (herrenAn) {
+      var n = document.getElementById("neu");
+      if (n.checked && !n.parentNode.hidden) { teile.push("Neuhaarschnitt (nach Aufwand)"); nachAufwand = true; }
+    }
+    var t2 = l + " " + basis + " €";
+    if (teile.length) t2 += " + " + teile.join(" + ") + " = " + (nachAufwand ? "ab " : "") + summe + " €";
+    return t2;
   }
   zeigeGruppe("Damen");
   document.getElementById("leistung").value = "";
