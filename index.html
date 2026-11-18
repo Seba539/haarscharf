@@ -1189,11 +1189,11 @@
     var friseur = gewaehlt("friseur");
     var notiz = document.getElementById("notiz").value.trim();
     var nachricht =
-      "*WUNSCHTERMIN (noch nicht bestätigt)*\n\n" +
+      "*WUNSCHTERMIN*\n\n" +
       "*Name:* " + name + "\n" +
       "*Leistung:* " + leistungText() + "\n" +
       (weitere.length ? "*Weitere Personen:*\n" + weitere.join("\n") + "\n" : "") +
-      "*Tag:* " + tag + "\n" +
+      "\n*Tag:* " + tag + "\n" +
       "*Zeitraum:* " + zeit + "\n" +
       "*Friseur:* " + (friseur && friseur !== "egal" ? friseur : "egal") + "\n" +
       (notiz ? "\n*Notiz:* " + notiz + "\n" : "") +
