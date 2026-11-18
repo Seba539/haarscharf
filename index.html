@@ -1095,23 +1095,43 @@
     return t;
   }
   document.getElementById("leistung").addEventListener("change", herrenOptionen);
+  // Festpreis einer Herren- oder Kinderleistung (z. B. "23 €" -> 23), sonst null
+  function festpreis(wert) {
+    var p = null;
+    LEISTUNGEN.forEach(function (g) {
+      if (g[0] !== "Herren" && g[0] !== "Kinder") return;
+      g[1].forEach(function (l) { var m = l[0] === wert && /^(\d+) €$/.exec(l[2]); if (m) p = +m[1]; });
+    });
+    return p;
+  }
   function leistungText() {
-    var t = document.getElementById("leistung").value + (damenFarbe ? " + " + damenFarbe : "");
+    var l = document.getElementById("leistung").value;
+    var t = l + (damenFarbe ? " + " + damenFarbe : "");
+    // Seit 18.11.2026: bei Herren und Kindern Preise und Gesamtbetrag in der Nachricht (Wunsch Sebastiano)
+    var basis = festpreis(l), summe = basis;
+    if (basis !== null) t += " (" + basis + " €)";
     var k = [];
     if (!document.getElementById("kosmetikOpt").hidden) {
-      if (document.getElementById("zupfen").checked) k.push("Augenbrauen zupfen");
-      if (document.getElementById("faerben").checked) k.push("Brauen färben");
-      if (document.getElementById("wimpern").checked) k.push("Wimpern färben");
+      [["zupfen", "Augenbrauen zupfen", 10], ["faerben", "Brauen färben", 10], ["wimpern", "Wimpern färben", 15]].forEach(function (x) {
+        if (!document.getElementById(x[0]).checked) return;
+        if (basis !== null) { k.push(x[1] + " (+" + x[2] + " €)"); summe += x[2]; } else k.push(x[1]);
+      });
     }
     var kos = k.length ? ", dazu: " + k.join(" und ") : "";
-    if (document.getElementById("herrenOpt").hidden) return t + laengeText() + kos;
-    var w = document.getElementById("waschen");
-    if (w.checked && !w.parentNode.hidden) t += ", mit Haare waschen";
-    var b = document.getElementById("bart");
-    if (b.checked && !b.hidden) t += ", mit Bartrasur";
-    var n = document.getElementById("neu");
-    if (n.checked && !n.parentNode.hidden) t += ", Neuhaarschnitt (viel Länge ab)";
-    return t + kos;
+    var neuText = "";
+    if (document.getElementById("herrenOpt").hidden) {
+      t += laengeText();
+    } else {
+      var w = document.getElementById("waschen");
+      if (w.checked && !w.parentNode.hidden) { t += ", mit Haare waschen" + (basis !== null ? " (+3 €)" : ""); summe += 3; }
+      var b = document.getElementById("bart");
+      if (b.checked && !b.hidden) { t += ", mit Bartrasur" + (basis !== null ? " (+10 €)" : ""); summe += 10; }
+      var n = document.getElementById("neu");
+      if (n.checked && !n.parentNode.hidden) { t += ", Neuhaarschnitt (viel Länge ab)"; neuText = ", Neuhaarschnitt kostet je nach Aufwand mehr"; }
+    }
+    t += kos;
+    if (basis !== null && summe !== basis) t += ", zusammen " + summe + " €";
+    return t + neuText;
   }
   zeigeGruppe("Damen");
   document.getElementById("leistung").value = "";
