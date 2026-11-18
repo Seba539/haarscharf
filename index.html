@@ -613,8 +613,7 @@
           <div class="row"><span>Waschen, Schneiden, Stylen<small class="inkl">Haarschnitt oder Fade Cut inkl. Waschen &amp; Styling</small></span><span class="p">+ 3 €</span></div>
           <div class="row"><span>Kranzhaarschnitt<small class="inkl">Seiten und Nacken sauber nachschneiden</small></span><span class="p">18 €</span></div>
           <h4>Bart</h4>
-          <div class="row"><span>Full Service: Haarschnitt + Bart<small class="inkl">Schneiden, Waschen, Stylen und Rasur</small></span><span class="p">33 €</span></div>
-          <div class="row"><span>Full Service: Fade Cut + Bart<small class="inkl">Fade Cut, Waschen, Stylen und Rasur</small></span><span class="p">36 €</span></div>
+          <div class="row"><span>Bartrasur<small class="inkl">Zum Haarschnitt dazu: Bart formen mit Nassrasur</small></span><span class="p">+ 10 €</span></div>
           <h4>Dauerwelle</h4>
           <div class="row"><span>Dauerwelle Oberkopf<small class="inkl">inkl. Waschen und Schneiden</small></span><span class="p">65 €</span></div>
           <p class="fussnote">Die Herrenpreise gelten fürs Nachschneiden. Neuhaarschnitt (viel Länge ab, neue Form) kostet je nach Aufwand mehr.</p>
@@ -742,8 +741,6 @@
               <option>Herren Haarschnitt</option>
               <option>Haarschnitt Plus / Fade Cut</option>
               <option>Kranzhaarschnitt</option>
-              <option>Full Service: Haarschnitt + Bart</option>
-              <option>Full Service: Fade Cut + Bart</option>
               <option>Dauerwelle Oberkopf (Herren)</option>
             </optgroup>
             <optgroup label="Damen">
@@ -764,6 +761,7 @@
           <span class="label">Für deinen Herrenschnitt</span>
           <div class="chips">
             <input type="checkbox" id="waschen" value="ja"><label for="waschen">Haare waschen (+3 €)</label>
+            <input type="checkbox" id="bart" value="ja"><label for="bart">Bartrasur (+10 €)</label>
           </div>
           <div class="chips" style="margin-top:10px">
             <input type="checkbox" id="neu" value="ja"><label for="neu">Neuhaarschnitt</label>
@@ -1010,8 +1008,6 @@
       ["Herren Haarschnitt", "Haarschnitt", "20 €", "ca. 20 Min.", "Klassischer Kurzhaarschnitt: Seiten mit der Maschine, oben mit der Schere. Ohne Waschen."],
       ["Haarschnitt Plus / Fade Cut", "Haarschnitt Plus / Fade Cut", "23 €", "ca. 30 Min.", "Für Schnitte, die mehr Zeit brauchen: Fade, nur mit der Schere, längeres oder sehr dichtes Haar. Ohne Waschen."],
       ["Kranzhaarschnitt", "Kranzhaarschnitt", "18 €", "ca. 15 Min.", "Seiten und Nacken sauber nachschneiden."],
-      ["Full Service: Haarschnitt + Bart", "Full Service", "33 €", "ca. 40 Min.", "Schneiden, Waschen, Stylen und Rasur."],
-      ["Full Service: Fade Cut + Bart", "Full Service mit Fade Cut", "36 €", "", "Fade Cut, Waschen, Stylen und Rasur."],
       ["Dauerwelle Oberkopf (Herren)", "Dauerwelle Oberkopf", "65 €", "", "Inkl. Waschen und Schneiden."],
     ]],
     ["Kinder", [
@@ -1068,12 +1064,11 @@
   }
 
   // ---------- Herren-Optionen ----------
-  var HERREN_SCHNITT = /^(Herren Haarschnitt|Haarschnitt Plus|Fade Cut|Full Service|Kranzhaarschnitt)/;
+  var HERREN_SCHNITT = /^(Herren Haarschnitt|Haarschnitt Plus|Fade Cut|Kranzhaarschnitt)/;
   function herrenOptionen() {
     var l = document.getElementById("leistung").value;
     var zeigen = HERREN_SCHNITT.test(l);
     document.getElementById("herrenOpt").hidden = !zeigen;
-    document.querySelector('label[for="waschen"]').parentNode.hidden = /Full Service/.test(l);
     document.querySelector('label[for="neu"]').parentNode.hidden = /Kranzhaarschnitt/.test(l);
     document.getElementById("kosmetikOpt").hidden = !l || /^Etwas anderes/.test(l);
     // Damen: Haarlänge abfragen, Preise passend zur gewählten Leistung
@@ -1112,6 +1107,8 @@
     if (document.getElementById("herrenOpt").hidden) return t + laengeText() + kos;
     var w = document.getElementById("waschen");
     if (w.checked && !w.parentNode.hidden) t += ", mit Haare waschen";
+    var b = document.getElementById("bart");
+    if (b.checked && !b.hidden) t += ", mit Bartrasur";
     var n = document.getElementById("neu");
     if (n.checked && !n.parentNode.hidden) t += ", Neuhaarschnitt (viel Länge ab)";
     return t + kos;
