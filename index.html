@@ -399,10 +399,10 @@
      Vorher deckend, weil Safari die randlose Leiste halb verdeckte (10.11.2026); der Abstand oben soll das vermeiden. */
   .top { top: 10px; margin: 10px 12px 0; border-radius: 0; background: rgba(255,255,255,.55) !important;
          -webkit-backdrop-filter: blur(20px) saturate(170%); backdrop-filter: blur(20px) saturate(170%);
-         border: 1px solid rgba(255,255,255,.8); box-shadow: inset 0 1px 0 rgba(255,255,255,.95), 0 10px 30px rgba(60,40,10,.10); }
+         border: 0 !important; box-shadow: none !important; } /* ohne Rand und Schatten (Sebastiano, 18.11.2026) */
   .top .wrap { padding: 0 24px; }
   @media (max-width: 760px) {
-    .top nav { top: 68px; border-radius: 0; overflow: hidden; border: 1px solid rgba(255,255,255,.8);
+    .top nav { top: 68px; border-radius: 0; overflow: hidden; border: 0;
                background: #faf6f0 !important; box-shadow: 0 14px 30px rgba(60,40,10,.15); }
     .top nav a:first-child { border-top: 0; }
   }
