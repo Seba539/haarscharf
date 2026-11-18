@@ -395,14 +395,14 @@
           --blur: blur(18px) saturate(160%); }
   /* Grund bleibt cremeweiss, nur ein ganz leichter Schimmer */
   body { background: var(--bg) radial-gradient(60% 40% at 80% 10%, rgba(201,166,107,.10), transparent 70%) fixed; }
-  /* Kopfzeile als schwebende Glas-Leiste mit Abstand zum Rand (18.11.2026, Wahl Sebastiano: Variante B).
+  /* Kopfzeile als schwebende Glas-Leiste mit Abstand zum Rand (18.11.2026, Wahl Sebastiano: Variante B, eckig).
      Vorher deckend, weil Safari die randlose Leiste halb verdeckte (10.11.2026); der Abstand oben soll das vermeiden. */
-  .top { top: 10px; margin: 10px 12px 0; border-radius: 999px; background: rgba(255,255,255,.55) !important;
+  .top { top: 10px; margin: 10px 12px 0; border-radius: 0; background: rgba(255,255,255,.55) !important;
          -webkit-backdrop-filter: blur(20px) saturate(170%); backdrop-filter: blur(20px) saturate(170%);
          border: 1px solid rgba(255,255,255,.8); box-shadow: inset 0 1px 0 rgba(255,255,255,.95), 0 10px 30px rgba(60,40,10,.10); }
   .top .wrap { padding: 0 24px; }
   @media (max-width: 760px) {
-    .top nav { top: 68px; border-radius: 22px; overflow: hidden; border: 1px solid rgba(255,255,255,.8);
+    .top nav { top: 68px; border-radius: 0; overflow: hidden; border: 1px solid rgba(255,255,255,.8);
                background: #faf6f0 !important; box-shadow: 0 14px 30px rgba(60,40,10,.15); }
     .top nav a:first-child { border-top: 0; }
   }
@@ -560,7 +560,7 @@
           <p class="spalte-text">Scherenschnitt, Fade oder einfach kurz. Den Bart bringen wir auf Wunsch gleich mit in Form.</p>
           <h4>Haarschnitt</h4>
           <div class="row"><span>Haarschnitt<small class="inkl">Schere und Maschine, saubere Konturen, ohne Waschen</small></span><span class="p">20 €</span></div>
-          <div class="row"><span>Fade Cut<small class="inkl">Fließende Übergänge, scharfe Konturen, ohne Waschen</small></span><span class="p">23 €</span></div>
+          <div class="row"><span>Haarschnitt Plus / Fade Cut<small class="inkl">Für Schnitte, die mehr Zeit brauchen: Fade, nur mit der Schere, längeres oder sehr dichtes Haar. Ohne Waschen</small></span><span class="p">23 €</span></div>
           <div class="row"><span>Waschen, Schneiden, Stylen<small class="inkl">Haarschnitt oder Fade Cut inkl. Waschen &amp; Styling</small></span><span class="p">+ 3 €</span></div>
           <div class="row"><span>Kranzhaarschnitt<small class="inkl">Seiten und Nacken sauber nachschneiden</small></span><span class="p">18 €</span></div>
           <h4>Bart</h4>
@@ -691,7 +691,7 @@
           <select id="leistung" aria-label="Leistung" hidden>
             <optgroup label="Herren">
               <option>Herren Haarschnitt</option>
-              <option>Fade Cut</option>
+              <option>Haarschnitt Plus / Fade Cut</option>
               <option>Kranzhaarschnitt</option>
               <option>Full Service: Haarschnitt + Bart</option>
               <option>Full Service: Fade Cut + Bart</option>
@@ -995,7 +995,7 @@
     ]],
     ["Herren", [
       ["Herren Haarschnitt", "Haarschnitt", "20 €", "ca. 20 Min.", "Schere und Maschine, saubere Konturen, ohne Waschen."],
-      ["Fade Cut", "Fade Cut", "23 €", "ca. 30 Min.", "Fließende Übergänge, scharfe Konturen, ohne Waschen."],
+      ["Haarschnitt Plus / Fade Cut", "Haarschnitt Plus / Fade Cut", "23 €", "ca. 30 Min.", "Für Schnitte, die mehr Zeit brauchen: Fade, nur mit der Schere, längeres oder sehr dichtes Haar. Ohne Waschen."],
       ["Kranzhaarschnitt", "Kranzhaarschnitt", "18 €", "ca. 15 Min.", "Seiten und Nacken sauber nachschneiden."],
       ["Full Service: Haarschnitt + Bart", "Full Service", "33 €", "ca. 40 Min.", "Schneiden, Waschen, Stylen und Rasur."],
       ["Full Service: Fade Cut + Bart", "Full Service mit Fade Cut", "36 €", "", "Fade Cut, Waschen, Stylen und Rasur."],
@@ -1055,7 +1055,7 @@
   }
 
   // ---------- Herren-Optionen ----------
-  var HERREN_SCHNITT = /^(Herren Haarschnitt|Fade Cut|Full Service|Kranzhaarschnitt)/;
+  var HERREN_SCHNITT = /^(Herren Haarschnitt|Haarschnitt Plus|Fade Cut|Full Service|Kranzhaarschnitt)/;
   function herrenOptionen() {
     var l = document.getElementById("leistung").value;
     var zeigen = HERREN_SCHNITT.test(l);
