@@ -477,6 +477,56 @@
   .foto { flex: 0 0 calc((100% - 16px) / 2); margin: 0; scroll-snap-align: start; aspect-ratio: 4 / 3; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(60,40,10,.12); }
   .foto img { width: 100%; height: 100%; object-fit: cover; display: block; }
   @media (max-width: 760px) { .foto { flex-basis: 88%; } }
+  /* ===== Terminbereich dunkel wie die Preisliste (18.11.2026, Wahl Sebastiano: Variante A) ===== */
+  .termin { background: var(--dark) !important; color: var(--on-dark); border: 0; }
+  .termin .kicker { color: #c9a66b; }
+  .termin h2, .termin .ablauf li, .termin .ablauf-satz { color: var(--on-dark); }
+  .termin .lead, .termin .klein, .termin .hinweis { color: #cfc6b8; }
+  .termin .ablauf li span { color: #111; background: #c9a66b; }
+  .termin .zusammen { background: rgba(201,166,107,.12); border: 1px solid rgba(201,166,107,.45); color: var(--on-dark); }
+  .termin .gesendet { background: rgba(31,143,78,.14); border-color: #2fa864; color: var(--on-dark); }
+  .termin .fehler { color: #ff9a8a; }
+  /* Kalender passte auf schmalen Handys nicht ganz ins Formular (18.11.2026) */
+  @media (max-width: 400px) { .kal { padding: 8px; } .kal-tag { min-height: 34px; } .kal-grid { gap: 3px; } }
+
+  /* Formular auch dunkel: schwarzes Glas wie die Preistafeln */
+  .termin form { background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)) !important;
+    border: 1px solid rgba(255,255,255,.12) !important; box-shadow: inset 0 1px 0 rgba(255,255,255,.16), 0 18px 40px rgba(0,0,0,.35) !important;
+    -webkit-backdrop-filter: none; backdrop-filter: none; color: var(--on-dark); }
+  .termin label, .termin .label { color: var(--on-dark); }
+  .termin .opt, .termin .gruppe-alt, .termin .kal-wt span, .termin .kal-hinweis { color: #a99f90; }
+  .termin input[type=text], .termin select, .termin textarea { background: #242220; color: var(--on-dark); border-color: #4a443b; }
+  .termin ::placeholder { color: #8d8477; }
+  .termin .fortschritt li { color: #a99f90; }
+  .termin .fortschritt li span { background: #242220; border-color: #4a443b; color: #a99f90; }
+  .termin .fortschritt li + li::before { background: #4a443b; }
+  .termin .fortschritt li.an { color: var(--on-dark); }
+  .termin .fortschritt li.an span { background: var(--on-dark); color: #111; border-color: var(--on-dark); }
+  .termin .fortschritt li.fertig span { background: #c9a66b; border-color: #c9a66b; color: #111; }
+  .termin .fortschritt li.fertig + li::before, .termin .fortschritt li.an::before { background: #c9a66b; }
+  .termin .reiter { background: #2a2724; }
+  .termin .reiter button { color: #cfc6b8; }
+  .termin .reiter button[aria-selected="true"] { background: var(--on-dark); color: #111; }
+  .termin .lk { background: rgba(255,255,255,.05) !important; border: 1px solid #3a352e !important; color: var(--on-dark); box-shadow: none !important; }
+  .termin .lk:hover { border-color: #c9a66b !important; }
+  .termin .lk[aria-pressed="true"] { background: rgba(201,166,107,.14) !important; border: 2px solid #c9a66b !important; }
+  .termin .lk-preis { color: #c9a66b; }
+  .termin .lk-dauer, .termin .lk-text { color: #a99f90; }
+  .termin .chips label, .termin .wahl label { background: rgba(255,255,255,.05) !important; border-color: #4a443b !important; color: var(--on-dark); box-shadow: none !important; }
+  .termin .wahl label small { color: #a99f90; }
+  .termin .chips input:checked + label, .termin .wahl input:checked + label { background: var(--on-dark) !important; color: #111 !important; border-color: var(--on-dark) !important; }
+  .termin .chips input:checked + label .lp, .termin .wahl input:checked + label .lp { color: var(--gold); }
+  .termin .wahl input:checked + label small { color: #6b645b; }
+  .termin .kal { background: rgba(255,255,255,.04) !important; border: 1px solid #3a352e !important; box-shadow: none !important; }
+  .termin .kal-kopf b { color: var(--on-dark); }
+  .termin .kal-nav { background: rgba(255,255,255,.06) !important; border-color: #4a443b; color: var(--on-dark); box-shadow: none !important; }
+  .termin .kal-tag { color: var(--on-dark); }
+  .termin .kal-tag:hover:not(:disabled) { background: #2a2724; }
+  .termin .kal-tag:disabled { color: #5a544b; }
+  .termin .kal-tag.aktiv { background: var(--on-dark); color: #111; }
+  .termin .btn:not(.fill):not(.wa) { background: rgba(255,255,255,.06) !important; color: var(--on-dark); border-color: #4a443b; box-shadow: none !important; }
+  .termin .btn.fill { background: linear-gradient(180deg, #fffdf9, #efe7db) !important; color: var(--ink) !important; border-color: var(--on-dark) !important; }
+
 </style>
 </head>
 <body>
